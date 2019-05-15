@@ -14,5 +14,4 @@ public interface ActivityComponent {
     void inject(SplashActivity splashActivity);
 
     void inject(HomeActivity homeActivity);
-
 }

@@ -73,4 +73,5 @@
     <string name="admob_app_id">ca-app-pub-8282213133667534~7381112751</string>
 
     <string name="username">Username</string>
+    <string name="restaurant_image">Restaurant image</string>
 </resources>
