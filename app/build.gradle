@@ -13,14 +13,16 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"\"")
+            buildConfigField("String", "BASE_URL", "\"https://developers.zomato.com/api/v2.1\"")
             buildConfigField("String", "API_KEY", "\"7698b3b6e2b3807f7d9def7701f9e978\"")
+            buildConfigField("String", "CACHETIME", "\"10000\"")
         }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "BASE_URL", "\"\"")
+            buildConfigField("String", "BASE_URL", "\"https://developers.zomato.com/api/v2.1\"")
             buildConfigField("String", "API_KEY", "\"7698b3b6e2b3807f7d9def7701f9e978\"")
+            buildConfigField("String", "CACHETIME", "\"10000\"")
         }
     }
     compileOptions {
@@ -68,9 +70,6 @@ dependencies {
     // image
     implementation 'com.github.bumptech.glide:glide:4.9.0'
 
-    // parser
-    implementation 'com.google.code.gson:gson:2.8.5'
-
     // database
     implementation 'org.greenrobot:greendao:3.2.0'
 
@@ -90,4 +89,12 @@ dependencies {
 
     //Shimmer
     implementation 'com.facebook.shimmer:shimmer:0.4.0'
+
+    //Retrofit
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.7'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
 }

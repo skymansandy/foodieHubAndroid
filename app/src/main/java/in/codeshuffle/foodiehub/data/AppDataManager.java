@@ -9,9 +9,16 @@ import javax.inject.Singleton;
 import in.codeshuffle.foodiehub.data.db.DbHelper;
 import in.codeshuffle.foodiehub.data.network.ApiHeader;
 import in.codeshuffle.foodiehub.data.network.ApiHelper;
+import in.codeshuffle.foodiehub.data.network.model.LocationRequest;
+import in.codeshuffle.foodiehub.data.network.model.LocationResponse;
+import in.codeshuffle.foodiehub.data.network.model.RestaurantDetailRequest;
+import in.codeshuffle.foodiehub.data.network.model.RestaurantDetailResponse;
+import in.codeshuffle.foodiehub.data.network.model.RestaurantsRequest;
+import in.codeshuffle.foodiehub.data.network.model.RestaurantsResponse;
 import in.codeshuffle.foodiehub.data.prefs.PreferencesHelper;
 import in.codeshuffle.foodiehub.di.ApplicationContext;
-
+import io.reactivex.Observable;
+import io.reactivex.Single;
 
 
 @Singleton
@@ -43,5 +50,20 @@ public class AppDataManager implements DataManager {
     @Override
     public ApiHeader getApiHeader() {
         return mApiHelper.getApiHeader();
+    }
+
+    @Override
+    public Observable<RestaurantsResponse> getRestaurants(RestaurantsRequest restaurantsRequest) {
+        return mApiHelper.getRestaurants(restaurantsRequest);
+    }
+
+    @Override
+    public Observable<RestaurantDetailResponse> getRestaurantDetail(RestaurantDetailRequest restaurantDetailRequest) {
+        return mApiHelper.getRestaurantDetail(restaurantDetailRequest);
+    }
+
+    @Override
+    public Observable<LocationResponse> getLocations(LocationRequest locationRequest) {
+        return mApiHelper.getLocations(locationRequest);
     }
 }

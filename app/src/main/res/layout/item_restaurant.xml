@@ -33,7 +33,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/restaurantTitle"
+                android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -43,7 +43,7 @@
                 tools:text="Al-bek" />
 
             <TextView
-                android:id="@+id/restaurantRating"
+                android:id="@+id/rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/light_green"
@@ -55,7 +55,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/restaurantDescription"
+            android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -66,7 +66,7 @@
         <include layout="@layout/component_divider" />
 
         <TextView
-            android:id="@+id/restaurantPriceForTwo"
+            android:id="@+id/priceForTwo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_rupees"
@@ -84,7 +84,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/restaurantFeatures"
+                android:id="@+id/features"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -96,7 +96,7 @@
                 tools:text="Live tracking" />
 
             <TextView
-                android:id="@+id/restaurantDeliveryTime"
+                android:id="@+id/deliveryTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_scooter"

@@ -7,6 +7,9 @@ import in.codeshuffle.foodiehub.di.PerActivity;
 import in.codeshuffle.foodiehub.ui.home.HomeMvpPresenter;
 import in.codeshuffle.foodiehub.ui.home.HomeMvpView;
 import in.codeshuffle.foodiehub.ui.home.HomePresenter;
+import in.codeshuffle.foodiehub.ui.location.LocationMvpPresenter;
+import in.codeshuffle.foodiehub.ui.location.LocationMvpView;
+import in.codeshuffle.foodiehub.ui.location.LocationPresenter;
 import in.codeshuffle.foodiehub.ui.splash.SplashMvpPresenter;
 import in.codeshuffle.foodiehub.ui.splash.SplashMvpView;
 import in.codeshuffle.foodiehub.ui.splash.SplashPresenter;
@@ -31,6 +34,13 @@ public class ActivityModule {
     @PerActivity
     HomeMvpPresenter<HomeMvpView> provideHomePresenter(
             HomePresenter<HomeMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    LocationMvpPresenter<LocationMvpView> provideLocationPresenter(
+            LocationPresenter<LocationMvpView> presenter) {
         return presenter;
     }
 }

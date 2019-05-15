@@ -27,6 +27,8 @@
 
         <activity android:name=".ui.home.HomeActivity" />
 
+        <activity android:name=".ui.location.LocationActivity" />
+
     </application>
 
 </manifest>
