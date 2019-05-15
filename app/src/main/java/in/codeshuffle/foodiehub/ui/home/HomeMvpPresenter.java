@@ -7,4 +7,5 @@ import in.codeshuffle.foodiehub.ui.base.MvpPresenter;
 @PerActivity
 public interface HomeMvpPresenter<V extends HomeMvpView> extends MvpPresenter<V> {
 
+    void fetchRestaurantsNearMe();
 }

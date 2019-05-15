@@ -17,6 +17,12 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
     @Override
     public void onAttach(V mvpView) {
         super.onAttach(mvpView);
+
+        checkLocationPermissionsStatus();
+    }
+
+    private void checkLocationPermissionsStatus() {
+        getMvpView().checkLocationPermissions();
     }
 
     @Override
@@ -28,5 +34,10 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
     @Override
     public void handleApiError() {
         super.handleApiError();
+    }
+
+    @Override
+    public void fetchRestaurantsNearMe() {
+
     }
 }
