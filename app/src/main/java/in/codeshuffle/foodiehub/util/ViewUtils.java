@@ -9,9 +9,7 @@ import androidx.core.content.ContextCompat;
 import in.codeshuffle.foodiehub.R;
 
 
-/**
- * Created by skymansandy on 27/01/17.
- */
+
 
 public final class ViewUtils {
 

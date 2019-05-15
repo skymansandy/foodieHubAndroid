@@ -9,9 +9,7 @@ import javax.inject.Singleton;
 import in.codeshuffle.foodiehub.di.ApiInfo;
 
 
-/**
- * Created by skymansandy on 27/01/17.
- */
+
 
 @Singleton
 public class ApiHeader {

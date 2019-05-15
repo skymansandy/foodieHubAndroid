@@ -2,9 +2,7 @@ package in.codeshuffle.foodiehub.util;
 
 import android.util.Log;
 
-/**
- * Created by skymansandy on 15/02/17.
- */
+
 
 public class AppLogger {
 

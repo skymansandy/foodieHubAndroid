@@ -1,8 +1,6 @@
 package in.codeshuffle.foodiehub.util;
 
-/**
- * Created by skymansandy on 08/01/17.
- */
+
 
 public final class AppConstants {
 

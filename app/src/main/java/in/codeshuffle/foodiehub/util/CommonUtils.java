@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -19,9 +20,7 @@ import java.util.regex.Pattern;
 
 import in.codeshuffle.foodiehub.R;
 
-/**
- * Created by skymansandy on 27/01/17.
- */
+
 
 public final class CommonUtils {
 
@@ -71,7 +70,7 @@ public final class CommonUtils {
         is.read(buffer);
         is.close();
 
-        return new String(buffer, "UTF-8");
+        return new String(buffer, StandardCharsets.UTF_8);
     }
 
     public static String getTimeStamp() {

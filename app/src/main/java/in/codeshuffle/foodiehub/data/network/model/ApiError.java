@@ -3,9 +3,7 @@ package in.codeshuffle.foodiehub.data.network.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by skymansandy on 28/03/19.
- */
+
 
 public class ApiError {
 
