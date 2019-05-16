@@ -1,14 +1,10 @@
 package in.codeshuffle.foodiehub.data.network;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import in.codeshuffle.foodiehub.di.ApiInfo;
-
-
 
 
 @Singleton
@@ -31,43 +27,44 @@ public class ApiHeader {
         return mPublicApiHeader;
     }
 
+    public Map<String, String> getAllHeaders() {
+        Map<String, String> allHeaders = new HashMap<>();
+        allHeaders.putAll(getPublicApiHeader().getHeaders());
+        allHeaders.putAll(getProtectedApiHeader().getHeaders());
+        return allHeaders;
+    }
+
     public static final class PublicApiHeader {
 
-        @Expose
-        @SerializedName("api_key")
-        private String mApiKey;
+        Map<String, String> headers;
 
-        @Inject
-        public PublicApiHeader(@ApiInfo String apiKey) {
-            mApiKey = apiKey;
+        public PublicApiHeader(Map<String, String> headers) {
+            this.headers = headers;
         }
 
-        public String getApiKey() {
-            return mApiKey;
+        public Map<String, String> getHeaders() {
+            return headers;
         }
 
-        public void setApiKey(String apiKey) {
-            mApiKey = apiKey;
+        public void setHeaders(Map<String, String> headers) {
+            this.headers = headers;
         }
     }
 
     public static final class ProtectedApiHeader {
 
-        @Expose
-        @SerializedName("api_key")
-        private String mApiKey;
+        Map<String, String> protectedheaders;
 
-        public ProtectedApiHeader(String mApiKey) {
-            this.mApiKey = mApiKey;
+        public ProtectedApiHeader(Map<String, String> headers) {
+            this.protectedheaders = headers;
         }
 
-        public String getApiKey() {
-            return mApiKey;
+        public Map<String, String> getHeaders() {
+            return protectedheaders;
         }
 
-        public void setApiKey(String apiKey) {
-            mApiKey = apiKey;
+        public void setProtectedheaders(Map<String, String> protectedheaders) {
+            this.protectedheaders = protectedheaders;
         }
-
     }
 }

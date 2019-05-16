@@ -1,4 +1,4 @@
-package in.codeshuffle.foodiehub.ui.location;
+package in.codeshuffle.foodiehub.ui.restaurantpage;
 
 import android.util.Log;
 
@@ -7,15 +7,16 @@ import javax.inject.Inject;
 import in.codeshuffle.foodiehub.data.network.ApiClient;
 import in.codeshuffle.foodiehub.data.network.ApiHeader;
 import in.codeshuffle.foodiehub.data.network.model.LocationResponse;
+import in.codeshuffle.foodiehub.data.network.model.RestaurantDetailResponse;
 import in.codeshuffle.foodiehub.ui.base.BasePresenter;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
-public class LocationPresenter<V extends LocationMvpView> extends BasePresenter<V>
-        implements LocationMvpPresenter<V> {
+public class RestaurantDetailPresenter<V extends RestaurantDetailMvpView> extends BasePresenter<V>
+        implements RestaurantDetailMvpPresenter<V> {
 
     @Inject
-    LocationPresenter(ApiClient apiClient, ApiHeader apiHeader) {
+    RestaurantDetailPresenter(ApiClient apiClient, ApiHeader apiHeader) {
         super(apiClient, apiHeader);
     }
 
@@ -27,7 +28,6 @@ public class LocationPresenter<V extends LocationMvpView> extends BasePresenter<
     @Override
     public void onDetach() {
         super.onDetach();
-
     }
 
     @Override
@@ -36,25 +36,24 @@ public class LocationPresenter<V extends LocationMvpView> extends BasePresenter<
     }
 
     @Override
-    public void fetchLocations(String query) {
-        Log.d("Location", "fetchLocations: " + query);
+    public void fetchRestaurantDetails(Long restaurantId) {
+        Log.d("Location", "Fetching Restaurant detail: " + restaurantId);
 
         getMvpView().showLoading();
 
-        getApiClient().getLocations(getApiHeaders(),
-                query, 12.814301500000001, 77.6798622)
-                .subscribe(new Observer<LocationResponse>() {
+        getApiClient().getRestaurantDetail(getApiHeaders(), restaurantId)
+                .subscribe(new Observer<RestaurantDetailResponse>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(LocationResponse locationResponse) {
+                    public void onNext(RestaurantDetailResponse restaurantDetailResponse) {
                         if (!isViewAttached())
                             return;
 
-                        getMvpView().onLocationList(locationResponse);
+                        getMvpView().onRestaurantDetail(restaurantDetailResponse);
                         getMvpView().hideLoading();
                     }
 

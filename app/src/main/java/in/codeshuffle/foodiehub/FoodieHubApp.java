@@ -7,7 +7,6 @@ import java.io.File;
 import in.codeshuffle.foodiehub.di.component.ApplicationComponent;
 import in.codeshuffle.foodiehub.di.component.DaggerApplicationComponent;
 import in.codeshuffle.foodiehub.di.module.ApplicationModule;
-import in.codeshuffle.foodiehub.di.module.NetworkModule;
 import in.codeshuffle.foodiehub.util.AppLogger;
 
 public class FoodieHubApp extends Application {
@@ -23,7 +22,6 @@ public class FoodieHubApp extends Application {
         mApplicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();
-
         mApplicationComponent.inject(this);
 
         //Logger

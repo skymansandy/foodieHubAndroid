@@ -29,6 +29,8 @@
 
         <activity android:name=".ui.location.LocationActivity" />
 
+        <activity android:name=".ui.restaurantpage.RestaurantDetailActivity" />
+
     </application>
 
 </manifest>

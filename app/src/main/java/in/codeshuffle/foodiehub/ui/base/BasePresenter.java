@@ -4,15 +4,28 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import in.codeshuffle.foodiehub.data.network.ApiClient;
+import in.codeshuffle.foodiehub.data.network.ApiHeader;
+
 public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
 
     private V mMvpView;
 
-    @Inject
-    Map<String, String> apiHeaders;
+    private ApiClient apiClient;
+    private ApiHeader apiHeader;
 
     @Inject
-    public BasePresenter() {
+    public BasePresenter(ApiClient apiClient, ApiHeader apiHeader) {
+        this.apiClient = apiClient;
+        this.apiHeader = apiHeader;
+    }
+
+    public ApiHeader getApiHeader() {
+        return apiHeader;
+    }
+
+    public ApiClient getApiClient() {
+        return apiClient;
     }
 
     @Override
@@ -34,7 +47,7 @@ public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
     }
 
     public Map<String, String> getApiHeaders() {
-        return apiHeaders;
+        return apiHeader.getAllHeaders();
     }
 
     @Override

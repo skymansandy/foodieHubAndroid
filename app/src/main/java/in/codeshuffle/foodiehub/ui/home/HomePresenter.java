@@ -5,7 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import in.codeshuffle.foodiehub.data.db.model.Restaurant;
-import in.codeshuffle.foodiehub.data.network.ApiHelper;
+import in.codeshuffle.foodiehub.data.network.ApiClient;
+import in.codeshuffle.foodiehub.data.network.ApiHeader;
 import in.codeshuffle.foodiehub.data.network.model.LocationResponse;
 import in.codeshuffle.foodiehub.ui.base.BasePresenter;
 import io.reactivex.Observer;
@@ -14,43 +15,10 @@ import io.reactivex.disposables.Disposable;
 public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
         implements HomeMvpPresenter<V> {
 
-    @Inject
-    ApiHelper apiHelper;
 
     @Inject
-    HomePresenter() {
-        super();
-/*
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .addInterceptor(chain -> {
-                    Request original = chain.request();
-
-                    // Customize the request
-                    Request request = original.newBuilder()
-                            .header("Content-Type", "application/json")
-                            .removeHeader("Pragma")
-                            .header("Cache-Control", String.format("max-age=%s", BuildConfig.CACHETIME))
-                            .build();
-
-                    Response response = chain.proceed(request);
-                    response.cacheResponse();
-                    // Customize or return the response
-                    Log.d("API", "HomePresenter: " + response.toString());
-                    return response;
-                })
-                .build();
-
-
-        apiHelper = new Retrofit.Builder()
-                .baseUrl(BuildConfig.BASE_URL)
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
-                .build().create(ApiHelper.class);*/
+    HomePresenter(ApiClient apiClient, ApiHeader apiHeader) {
+        super(apiClient, apiHeader);
     }
 
     @Override
@@ -70,15 +38,10 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
     }
 
     @Override
-    public void handleApiError() {
-        super.handleApiError();
-    }
-
-    @Override
     public void fetchRestaurantsNearMe() {
         getMvpView().showLoading();
 
-        apiHelper.getLocations(getApiHeaders(),
+        getApiClient().getLocations(getApiHeaders(), "",
                 12.814301500000001, 77.6798622)
                 .subscribe(new Observer<LocationResponse>() {
                     @Override
@@ -108,6 +71,11 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
                     public void onComplete() {
                     }
                 });
+    }
+
+    @Override
+    public void handleApiError() {
+        super.handleApiError();
     }
 
     @Override

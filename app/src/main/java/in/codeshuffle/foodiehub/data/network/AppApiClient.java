@@ -14,15 +14,15 @@ import io.reactivex.Observable;
 
 
 @Singleton
-public class AppApiHelper implements ApiHelper {
+public class AppApiClient implements ApiClient {
 
     private ApiHeader mApiHeader;
-    private ApiHelper apiHelper;
+    private ApiClient apiClient;
 
     @Inject
-    public AppApiHelper(ApiHeader apiHeader, ApiHelper apiHelper) {
+    AppApiClient(ApiHeader apiHeader, ApiClient apiClient) {
         this.mApiHeader = apiHeader;
-        this.apiHelper = apiHelper;
+        this.apiClient = apiClient;
     }
 
     @Override
@@ -32,17 +32,18 @@ public class AppApiHelper implements ApiHelper {
 
     @Override
     public Observable<RestaurantsResponse> getRestaurants(RestaurantsRequest restaurantsRequest) {
-        return apiHelper.getRestaurants(restaurantsRequest);
+        return apiClient.getRestaurants(restaurantsRequest);
     }
 
     @Override
-    public Observable<RestaurantDetailResponse> getRestaurantDetail(RestaurantDetailRequest restaurantDetailRequest) {
-        return apiHelper.getRestaurantDetail(restaurantDetailRequest);
+    public Observable<RestaurantDetailResponse> getRestaurantDetail(
+            Map<String, String> apiKey, Long restaurantId) {
+        return apiClient.getRestaurantDetail(apiKey, restaurantId);
     }
 
     @Override
-    public Observable<LocationResponse> getLocations(Map<String, String> apiKey, Double lat, Double lon) {
-        return apiHelper.getLocations(apiKey, lat, lon);
+    public Observable<LocationResponse> getLocations(Map<String, String> apiKey, String query, Double lat, Double lon) {
+        return apiClient.getLocations(apiKey, query, lat, lon);
     }
 }
 

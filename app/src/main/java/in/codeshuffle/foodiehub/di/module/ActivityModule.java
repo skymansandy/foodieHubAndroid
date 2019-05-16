@@ -14,6 +14,9 @@ import in.codeshuffle.foodiehub.ui.home.HomePresenter;
 import in.codeshuffle.foodiehub.ui.location.LocationMvpPresenter;
 import in.codeshuffle.foodiehub.ui.location.LocationMvpView;
 import in.codeshuffle.foodiehub.ui.location.LocationPresenter;
+import in.codeshuffle.foodiehub.ui.restaurantpage.RestaurantDetailMvpPresenter;
+import in.codeshuffle.foodiehub.ui.restaurantpage.RestaurantDetailMvpView;
+import in.codeshuffle.foodiehub.ui.restaurantpage.RestaurantDetailPresenter;
 import in.codeshuffle.foodiehub.ui.splash.SplashMvpPresenter;
 import in.codeshuffle.foodiehub.ui.splash.SplashMvpView;
 import in.codeshuffle.foodiehub.ui.splash.SplashPresenter;
@@ -51,9 +54,8 @@ public class ActivityModule {
 
     @Provides
     @PerActivity
-    Map<String, String> providerDefaultHeaders(){
-        Map<String, String> apiHeaders = new HashMap<>();
-        apiHeaders.put(AppConstants.Params.USER_KEY, BuildConfig.API_KEY);
-        return apiHeaders;
+    RestaurantDetailMvpPresenter<RestaurantDetailMvpView> provideRestaurantDetailPresenter(
+            RestaurantDetailPresenter<RestaurantDetailMvpView> presenter) {
+        return presenter;
     }
 }

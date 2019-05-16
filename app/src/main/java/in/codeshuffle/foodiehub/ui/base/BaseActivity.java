@@ -42,7 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
         super.onCreate(savedInstanceState);
         mActivityComponent = DaggerActivityComponent.builder()
                 .activityModule(new ActivityModule(this))
-                .applicationComponent(((FoodieHubApp) getApplication()).getComponent())
+                .applicationComponent(((FoodieHubApp) getApplication()).getApplicationComponent())
                 .build();
     }
 

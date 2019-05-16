@@ -13,6 +13,8 @@ public final class AppConstants {
         public static final String LATITUDE = "lat";
         public static final String LONGITUDE = "lon";
         public static final String USER_KEY = "user-key";
+        public static final String QUERY = "query";
+        public static final String RESTAURANT_ID = "res_id";
 
 
         private Params(){
