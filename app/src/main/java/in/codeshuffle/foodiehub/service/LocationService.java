@@ -1,4 +1,4 @@
-package in.codeshuffle.foodiehub;
+package in.codeshuffle.foodiehub.service;
 
 import android.Manifest;
 import android.app.Service;
@@ -50,7 +50,6 @@ public class LocationService extends Service implements
         mLocationRequest.setInterval(AppConstants.LOCATION_INTERVAL);
         mLocationRequest.setFastestInterval(AppConstants.FASTEST_LOCATION_INTERVAL);
 
-
         int priority = LocationRequest.PRIORITY_HIGH_ACCURACY; //by default
         //PRIORITY_BALANCED_POWER_ACCURACY, PRIORITY_LOW_POWER, PRIORITY_NO_POWER are the other priority modes
 
@@ -88,6 +87,7 @@ public class LocationService extends Service implements
 
         if (location != null) {
             sendMessageToUI(location.getLatitude(), location.getLongitude());
+            stopSelf();
         }
     }
 

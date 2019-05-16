@@ -25,10 +25,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import in.codeshuffle.foodiehub.LocationService;
 import in.codeshuffle.foodiehub.R;
 import in.codeshuffle.foodiehub.data.network.model.RestaurantsResponse;
 import in.codeshuffle.foodiehub.data.prefs.PreferencesHelper;
+import in.codeshuffle.foodiehub.service.LocationService;
 import in.codeshuffle.foodiehub.ui.base.BaseActivity;
 import in.codeshuffle.foodiehub.ui.home.restaurantlist.RestaurantAdapter;
 import in.codeshuffle.foodiehub.ui.location.LocationActivity;
@@ -56,6 +56,17 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
     private RestaurantAdapter restaurantsAdapter;
 
     private boolean mAlreadyStartedService = false;
+
+    private BroadcastReceiver locationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Double latitude = intent.getDoubleExtra(Params.LATITUDE, 0.0);
+            Double longitude = intent.getDoubleExtra(Params.LONGITUDE, 0.0);
+            preferencesHelper.setLatitude(latitude);
+            preferencesHelper.setLongitude(longitude);
+            stopLocationService();
+        }
+    };
 
 
     public static Intent getStartIntent(Context context) {
@@ -174,19 +185,20 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
         restaurantsAdapter = new RestaurantAdapter(this, this, new ArrayList<>());
         restaurantList.setLayoutManager(new LinearLayoutManager(this));
         restaurantList.setAdapter(restaurantsAdapter);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         LocalBroadcastManager.getInstance(this).registerReceiver(
-                new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        Double latitude = intent.getDoubleExtra(Params.LATITUDE, 0.0);
-                        Double longitude = intent.getDoubleExtra(Params.LONGITUDE, 0.0);
-                        preferencesHelper.setLatitude(latitude);
-                        preferencesHelper.setLongitude(longitude);
-                        stopLocationService();
-                    }
-                }, new IntentFilter(LocationService.ACTION_LOCATION_BROADCAST)
+                locationReceiver, new IntentFilter(LocationService.ACTION_LOCATION_BROADCAST)
         );
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(locationReceiver);
     }
 
     @Override
@@ -196,6 +208,10 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
         super.onDestroy();
     }
 
+    private void stopLocationService() {
+        mAlreadyStartedService = false;
+    }
+
     @OnClick({R.id.location})
     void onViewClicked(View view){
         switch (view.getId()){
@@ -203,11 +219,6 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
                 startActivity(LocationActivity.getStartIntent(this));
                 break;
         }
-    }
-
-    private void stopLocationService() {
-        stopService(new Intent(this, LocationService.class));
-        mAlreadyStartedService = false;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package in.codeshuffle.foodiehub.ui.home;
 
+import android.util.Log;
+
 import javax.inject.Inject;
 
 import in.codeshuffle.foodiehub.data.network.ApiClient;
@@ -12,6 +14,7 @@ import io.reactivex.disposables.Disposable;
 public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
         implements HomeMvpPresenter<V> {
 
+    public static final String TAG = HomePresenter.class.getSimpleName();
 
     @Inject
     HomePresenter(ApiClient apiClient, ApiHeader apiHeader) {
@@ -59,6 +62,7 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
                         if (!isViewAttached())
                             return;
 
+                        Log.d(TAG, "onError: "+t.getLocalizedMessage());
                         getMvpView().onError("Something went wrong");
                         getMvpView().hideLoading();
                     }

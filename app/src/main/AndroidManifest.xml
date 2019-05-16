@@ -33,7 +33,7 @@
 
         <activity android:name=".ui.restaurantpage.RestaurantDetailActivity" />
 
-        <service android:name=".LocationService"
+        <service android:name=".service.LocationService"
             android:exported="false"/>
 
     </application>
