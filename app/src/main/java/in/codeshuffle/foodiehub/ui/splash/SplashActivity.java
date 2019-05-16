@@ -53,7 +53,7 @@ public class SplashActivity extends BaseActivity implements SplashMvpView {
 
     @Override
     public void openHomeScreen() {
-        Intent toSplash = RestaurantDetailActivity.getStartIntent(this);
+        Intent toSplash = HomeActivity.getStartIntent(this);
         startActivity(toSplash);
         finish();
     }
