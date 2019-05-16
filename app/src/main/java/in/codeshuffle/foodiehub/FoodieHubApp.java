@@ -2,9 +2,12 @@ package in.codeshuffle.foodiehub;
 
 import android.app.Application;
 
+import java.io.File;
+
 import in.codeshuffle.foodiehub.di.component.ApplicationComponent;
 import in.codeshuffle.foodiehub.di.component.DaggerApplicationComponent;
 import in.codeshuffle.foodiehub.di.module.ApplicationModule;
+import in.codeshuffle.foodiehub.di.module.NetworkModule;
 import in.codeshuffle.foodiehub.util.AppLogger;
 
 public class FoodieHubApp extends Application {
@@ -14,9 +17,12 @@ public class FoodieHubApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        //DI
+        File cacheFile = new File(getCacheDir(), "response");
+
+        //App component
         mApplicationComponent = DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(this)).build();
+                .applicationModule(new ApplicationModule(this))
+                .build();
 
         mApplicationComponent.inject(this);
 
@@ -24,12 +30,7 @@ public class FoodieHubApp extends Application {
         AppLogger.init();
     }
 
-    public ApplicationComponent getComponent() {
+    public ApplicationComponent getApplicationComponent() {
         return mApplicationComponent;
-    }
-
-    // Needed to replace the component with a test specific one
-    public void setComponent(ApplicationComponent applicationComponent) {
-        mApplicationComponent = applicationComponent;
     }
 }

@@ -76,6 +76,8 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
         } else {
 
         }
+        mPresenter.fetchRestaurantsNearMe();
+
     }
 
     @Override

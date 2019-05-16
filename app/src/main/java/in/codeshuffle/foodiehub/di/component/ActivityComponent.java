@@ -9,7 +9,8 @@ import in.codeshuffle.foodiehub.ui.splash.SplashActivity;
 
 
 @PerActivity
-@Component(dependencies = ApplicationComponent.class, modules = ActivityModule.class)
+@Component(dependencies = ApplicationComponent.class,
+        modules = ActivityModule.class)
 public interface ActivityComponent {
 
     void inject(SplashActivity splashActivity);

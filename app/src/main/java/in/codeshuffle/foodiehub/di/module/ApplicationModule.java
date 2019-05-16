@@ -8,6 +8,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import in.codeshuffle.foodiehub.BuildConfig;
+import in.codeshuffle.foodiehub.FoodieHubApp;
 import in.codeshuffle.foodiehub.R;
 import in.codeshuffle.foodiehub.data.network.ApiHeader;
 import in.codeshuffle.foodiehub.data.network.ApiHelper;
@@ -22,9 +23,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 @Module
 public class ApplicationModule {
 
-    private final Application mApplication;
+    private final FoodieHubApp mApplication;
 
-    public ApplicationModule(Application application) {
+    public ApplicationModule(FoodieHubApp application) {
         this.mApplication = application;
     }
 
@@ -35,7 +36,7 @@ public class ApplicationModule {
     }
 
     @Provides
-    Application provideApplication() {
+    FoodieHubApp provideApplication() {
         return mApplication;
     }
 
@@ -55,12 +56,6 @@ public class ApplicationModule {
     @PreferenceInfo
     String providePreferenceName() {
         return AppConstants.PREF_NAME;
-    }
-
-    @Provides
-    @Singleton
-    ApiHelper provideApiHelper(AppApiHelper appApiHelper) {
-        return appApiHelper;
     }
 
     @Provides

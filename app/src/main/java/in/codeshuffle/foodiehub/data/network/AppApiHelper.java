@@ -1,21 +1,16 @@
 package in.codeshuffle.foodiehub.data.network;
 
-import android.content.Context;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import in.codeshuffle.foodiehub.BuildConfig;
-import in.codeshuffle.foodiehub.data.network.model.LocationRequest;
 import in.codeshuffle.foodiehub.data.network.model.LocationResponse;
 import in.codeshuffle.foodiehub.data.network.model.RestaurantDetailRequest;
 import in.codeshuffle.foodiehub.data.network.model.RestaurantDetailResponse;
 import in.codeshuffle.foodiehub.data.network.model.RestaurantsRequest;
 import in.codeshuffle.foodiehub.data.network.model.RestaurantsResponse;
 import io.reactivex.Observable;
-import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
 
 
 @Singleton
@@ -46,10 +41,8 @@ public class AppApiHelper implements ApiHelper {
     }
 
     @Override
-    public Observable<LocationResponse> getLocations(LocationRequest locationRequest) {
-        return apiHelper.getLocations(locationRequest);
+    public Observable<LocationResponse> getLocations(Map<String, String> apiKey, Double lat, Double lon) {
+        return apiHelper.getLocations(apiKey, lat, lon);
     }
-
-
 }
 

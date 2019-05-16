@@ -17,7 +17,6 @@ import in.codeshuffle.foodiehub.FoodieHubApp;
 import in.codeshuffle.foodiehub.R;
 import in.codeshuffle.foodiehub.di.component.ActivityComponent;
 import in.codeshuffle.foodiehub.di.component.DaggerActivityComponent;
-import in.codeshuffle.foodiehub.di.component.NetworkComponent;
 import in.codeshuffle.foodiehub.di.module.ActivityModule;
 import in.codeshuffle.foodiehub.util.CommonUtils;
 import in.codeshuffle.foodiehub.util.KeyboardUtils;
@@ -30,8 +29,6 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
     private Unbinder mUnBinder;
 
     private ActivityComponent mActivityComponent;
-
-    private NetworkComponent mNetworkComponent;
 
     private ProgressDialog mProgressDialog;
 
@@ -47,8 +44,6 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
                 .activityModule(new ActivityModule(this))
                 .applicationComponent(((FoodieHubApp) getApplication()).getComponent())
                 .build();
-
-//        mNetworkComponent = DaggerNetworkComponent.
     }
 
     public ActivityComponent getActivityComponent() {
