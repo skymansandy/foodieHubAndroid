@@ -15,7 +15,11 @@ import in.codeshuffle.foodiehub.FoodieHubApp;
 import in.codeshuffle.foodiehub.R;
 import in.codeshuffle.foodiehub.data.network.ApiClient;
 import in.codeshuffle.foodiehub.data.network.ApiHeader;
+import in.codeshuffle.foodiehub.data.prefs.AppPreferencesHelper;
+import in.codeshuffle.foodiehub.data.prefs.PreferencesHelper;
 import in.codeshuffle.foodiehub.di.ApplicationContext;
+import in.codeshuffle.foodiehub.di.PreferenceInfo;
+import in.codeshuffle.foodiehub.util.AppConstants;
 import in.codeshuffle.foodiehub.util.AppConstants.Params;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Cache;
@@ -146,5 +150,18 @@ public class ApplicationModule {
         Map<String, String> protectedHeaders = new HashMap<>();
         protectedHeaders.put(Params.USER_KEY, BuildConfig.API_KEY);
         return new ProtectedApiHeader(protectedHeaders);
+    }
+
+    @Provides
+    @PreferenceInfo
+    String providePreferenceName() {
+        return AppConstants.PREF_NAME;
+    }
+
+
+    @Provides
+    @Singleton
+    PreferencesHelper providePreferencesHelper(AppPreferencesHelper appPreferencesHelper) {
+        return appPreferencesHelper;
     }
 }

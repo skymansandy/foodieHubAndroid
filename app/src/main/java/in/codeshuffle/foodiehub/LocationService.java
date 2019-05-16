@@ -27,10 +27,11 @@ public class LocationService extends Service implements
         LocationListener {
 
     public static final String ACTION_LOCATION_BROADCAST = LocationService.class.getName() + "LocationBroadcast";
+
     private static final String TAG = LocationService.class.getSimpleName();
-    private static final int LOCATION_PERMISSION = 100;
-    GoogleApiClient mLocationClient;
-    LocationRequest mLocationRequest = new LocationRequest();
+
+    private GoogleApiClient mLocationClient;
+    private LocationRequest mLocationRequest = new LocationRequest();
 
     @Nullable
     @Override
@@ -63,13 +64,12 @@ public class LocationService extends Service implements
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+        Log.d(TAG, "Connected to Google API");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(mLocationClient, mLocationRequest, this);
-
-        Log.d(TAG, "Connected to Google API");
     }
 
     @Override
@@ -87,17 +87,12 @@ public class LocationService extends Service implements
         Log.d(TAG, "Location changed");
 
         if (location != null) {
-            Log.d(TAG, "== location != null");
-
-            //Send result to activities
-            sendMessageToUI(String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()));
+            sendMessageToUI(location.getLatitude(), location.getLongitude());
         }
     }
 
-    private void sendMessageToUI(String lat, String lng) {
-
-        Log.d(TAG, "Sending info...");
-
+    private void sendMessageToUI(Double lat, Double lng) {
+        Log.d(TAG, String.format("Sending info and closing service => Latitude: %s. Longitude: %s", lat, lng));
         Intent intent = new Intent(ACTION_LOCATION_BROADCAST);
         intent.putExtra(Params.LATITUDE, lat);
         intent.putExtra(Params.LONGITUDE, lng);

@@ -7,5 +7,5 @@ import in.codeshuffle.foodiehub.ui.base.MvpPresenter;
 @PerActivity
 public interface RestaurantDetailMvpPresenter<V extends RestaurantDetailMvpView> extends MvpPresenter<V> {
 
-    void fetchRestaurantDetails(Long restaurantId);
+    void fetchRestaurantDetails(String restaurantId);
 }

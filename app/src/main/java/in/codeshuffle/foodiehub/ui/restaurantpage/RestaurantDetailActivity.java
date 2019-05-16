@@ -13,6 +13,8 @@ import butterknife.ButterKnife;
 import in.codeshuffle.foodiehub.R;
 import in.codeshuffle.foodiehub.data.network.model.RestaurantDetailResponse;
 import in.codeshuffle.foodiehub.ui.base.BaseActivity;
+import in.codeshuffle.foodiehub.util.AppConstants;
+import in.codeshuffle.foodiehub.util.AppConstants.Params;
 
 public class RestaurantDetailActivity extends BaseActivity implements RestaurantDetailMvpView {
 
@@ -21,9 +23,10 @@ public class RestaurantDetailActivity extends BaseActivity implements Restaurant
     @Inject
     RestaurantDetailMvpPresenter<RestaurantDetailMvpView> mPresenter;
 
-    public static Intent getStartIntent(Context context) {
+    public static Intent getStartIntent(Context context, String restaurantId) {
         Intent intent = new Intent(context, RestaurantDetailActivity.class);
         Bundle extras = new Bundle();
+        extras.putString(Params.RESTAURANT_ID, restaurantId);
         intent.putExtras(extras);
         return intent;
     }
@@ -44,7 +47,14 @@ public class RestaurantDetailActivity extends BaseActivity implements Restaurant
 
     @Override
     protected void setUp() {
-        mPresenter.fetchRestaurantDetails(18627369L);
+        Bundle extras = getIntent().getExtras();
+        if(extras!=null){
+            mPresenter.fetchRestaurantDetails(extras.getString(Params.RESTAURANT_ID));
+        }else{
+            showShortToast(getString(R.string.some_error));
+            finish();
+        }
+
     }
 
     @Override

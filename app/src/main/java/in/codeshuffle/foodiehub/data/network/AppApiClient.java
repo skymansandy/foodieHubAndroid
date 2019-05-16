@@ -31,13 +31,13 @@ public class AppApiClient implements ApiClient {
     }
 
     @Override
-    public Observable<RestaurantsResponse> getRestaurants(RestaurantsRequest restaurantsRequest) {
-        return apiClient.getRestaurants(restaurantsRequest);
+    public Observable<RestaurantsResponse> getRestaurants(Map<String, String> apiKey, Double lat, Double lon) {
+        return apiClient.getRestaurants(apiKey, lat, lon);
     }
 
     @Override
     public Observable<RestaurantDetailResponse> getRestaurantDetail(
-            Map<String, String> apiKey, Long restaurantId) {
+            Map<String, String> apiKey, String restaurantId) {
         return apiClient.getRestaurantDetail(apiKey, restaurantId);
     }
 

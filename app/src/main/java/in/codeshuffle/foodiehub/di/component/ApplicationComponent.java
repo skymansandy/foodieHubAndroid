@@ -10,6 +10,7 @@ import dagger.Component;
 import in.codeshuffle.foodiehub.FoodieHubApp;
 import in.codeshuffle.foodiehub.data.network.ApiClient;
 import in.codeshuffle.foodiehub.data.network.ApiHeader;
+import in.codeshuffle.foodiehub.data.prefs.PreferencesHelper;
 import in.codeshuffle.foodiehub.di.ApplicationContext;
 import in.codeshuffle.foodiehub.di.module.ApplicationModule;
 
@@ -28,4 +29,6 @@ public interface ApplicationComponent {
     ApiClient apiHelper();
 
     ApiHeader apiHeader();
+
+    PreferencesHelper preferenceHelper();
 }

@@ -7,8 +7,17 @@
     android:orientation="vertical"
     tools:context=".ui.splash.SplashActivity">
 
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:gravity="center_vertical"
+        android:hint="Location"
+        android:imeOptions="actionSearch"
+        android:maxLines="1"
+        android:textSize="18sp" />
 
     <include
-        android:id="@+id/restaurants"
+        android:id="@+id/locations"
         layout="@layout/layout_restaurant_list" />
 </LinearLayout>

@@ -6,7 +6,6 @@ import javax.inject.Inject;
 
 import in.codeshuffle.foodiehub.data.network.ApiClient;
 import in.codeshuffle.foodiehub.data.network.ApiHeader;
-import in.codeshuffle.foodiehub.data.network.model.LocationResponse;
 import in.codeshuffle.foodiehub.data.network.model.RestaurantDetailResponse;
 import in.codeshuffle.foodiehub.ui.base.BasePresenter;
 import io.reactivex.Observer;
@@ -36,7 +35,7 @@ public class RestaurantDetailPresenter<V extends RestaurantDetailMvpView> extend
     }
 
     @Override
-    public void fetchRestaurantDetails(Long restaurantId) {
+    public void fetchRestaurantDetails(String restaurantId) {
         Log.d("Location", "Fetching Restaurant detail: " + restaurantId);
 
         getMvpView().showLoading();

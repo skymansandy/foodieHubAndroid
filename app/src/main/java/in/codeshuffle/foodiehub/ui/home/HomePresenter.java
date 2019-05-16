@@ -1,13 +1,10 @@
 package in.codeshuffle.foodiehub.ui.home;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
-import in.codeshuffle.foodiehub.data.db.model.Restaurant;
 import in.codeshuffle.foodiehub.data.network.ApiClient;
 import in.codeshuffle.foodiehub.data.network.ApiHeader;
-import in.codeshuffle.foodiehub.data.network.model.LocationResponse;
+import in.codeshuffle.foodiehub.data.network.model.RestaurantsResponse;
 import in.codeshuffle.foodiehub.ui.base.BasePresenter;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -29,7 +26,7 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
     }
 
     private void checkLocationPermissionsStatus() {
-        getMvpView().checkLocationPermissions();
+        getMvpView().setupLocationService();
     }
 
     @Override
@@ -38,23 +35,22 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
     }
 
     @Override
-    public void fetchRestaurantsNearMe() {
+    public void fetchRestaurantsNearMe(Double lat, Double lon) {
         getMvpView().showLoading();
 
-        getApiClient().getLocations(getApiHeaders(), "",
-                12.814301500000001, 77.6798622)
-                .subscribe(new Observer<LocationResponse>() {
+        getApiClient().getRestaurants(getApiHeaders(), lat, lon)
+                .subscribe(new Observer<RestaurantsResponse>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(LocationResponse locationResponse) {
+                    public void onNext(RestaurantsResponse restaurantsResponse) {
                         if (!isViewAttached())
                             return;
 
-                        getMvpView().onLocationList(locationResponse);
+                        getMvpView().onRestaurantList(restaurantsResponse);
                         getMvpView().hideLoading();
                     }
 
@@ -76,15 +72,5 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
     @Override
     public void handleApiError() {
         super.handleApiError();
-    }
-
-    @Override
-    public void showRestaurantsOnView(List<Restaurant> restaurants) {
-
-    }
-
-    @Override
-    public void showMoreRestaurantsOnView(List<Restaurant> restaurants) {
-
     }
 }

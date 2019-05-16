@@ -13,16 +13,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import in.codeshuffle.foodiehub.R;
-import in.codeshuffle.foodiehub.data.network.model.RestaurantsResponse;
+
+import static in.codeshuffle.foodiehub.data.network.model.RestaurantsResponse.Restaurant;
+import static in.codeshuffle.foodiehub.data.network.model.RestaurantsResponse.Restaurants;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder> {
 
     private final Context context;
-    private final List<RestaurantsResponse.Restaurants> restaurants;
+    private final List<Restaurants> restaurants;
     private final LayoutInflater inflater;
+    private final RestaurantListInterface restaurantListInterface;
 
-    public RestaurantAdapter(Context context, List<RestaurantsResponse.Restaurants> restaurants) {
+    public RestaurantAdapter(Context context, RestaurantListInterface restaurantListInterface, List<Restaurants> restaurants) {
         this.context = context;
+        this.restaurantListInterface = restaurantListInterface;
         this.restaurants = restaurants;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -36,8 +40,13 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
 
     @Override
     public void onBindViewHolder(@NonNull RestaurantViewHolder holder, int position) {
-        RestaurantsResponse.Restaurant restaurant = restaurants.get(position).getRestaurant();
+        Restaurant restaurant = restaurants.get(position).getRestaurant();
         holder.tvTitle.setText(restaurant.getName());
+        holder.root.setOnClickListener(v->{
+            if(restaurantListInterface!=null){
+                restaurantListInterface.onOpenRestaurantDetail(restaurant.getId());
+            }
+        });
     }
 
     @Override
@@ -45,8 +54,15 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         return restaurants.size();
     }
 
+    public void addRestaurants(List<Restaurants> newRestaurantList) {
+        restaurants.addAll(newRestaurantList);
+        notifyDataSetChanged();
+    }
+
     static class RestaurantViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.restaurantRoot)
+        View root;
         @BindView(R.id.title)
         TextView tvTitle;
         @BindView(R.id.rating)
@@ -66,4 +82,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         }
     }
 
+    public interface RestaurantListInterface{
+        void onOpenRestaurantDetail(String restaurantId);
+    }
 }

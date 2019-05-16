@@ -53,13 +53,13 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
-    public Observable<RestaurantsResponse> getRestaurants(RestaurantsRequest restaurantsRequest) {
-        return mApiClient.getRestaurants(restaurantsRequest);
+    public Observable<RestaurantsResponse> getRestaurants(Map<String, String> apiKey, Double lat, Double lon) {
+        return mApiClient.getRestaurants(apiKey, lat, lon);
     }
 
     @Override
     public Observable<RestaurantDetailResponse> getRestaurantDetail(
-            Map<String, String> apiKey, Long restaurantId) {
+            Map<String, String> apiKey, String restaurantId) {
         return mApiClient.getRestaurantDetail(apiKey, restaurantId);
     }
 
@@ -67,5 +67,25 @@ public class AppDataManager implements DataManager {
     public Observable<LocationResponse> getLocations(
             Map<String, String> apiKey, String query, Double lat, Double lon) {
         return mApiClient.getLocations(apiKey, query, lat, lon);
+    }
+
+    @Override
+    public void setLatitude(Double latitude) {
+
+    }
+
+    @Override
+    public void setLongitude(Double longitude) {
+
+    }
+
+    @Override
+    public Double getLatitude() {
+        return null;
+    }
+
+    @Override
+    public Double getLongitude() {
+        return null;
     }
 }

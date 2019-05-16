@@ -1,6 +1,8 @@
 package in.codeshuffle.foodiehub.ui.base;
 
 import androidx.annotation.StringRes;
+import in.codeshuffle.foodiehub.data.network.model.LocationResponse;
+import in.codeshuffle.foodiehub.data.network.model.RestaurantsResponse;
 
 public interface MvpView {
 
