@@ -12,13 +12,13 @@ public class RestaurantsResponse {
     private List<Restaurants> restaurants;
     @Expose
     @SerializedName("results_shown")
-    private int resultsShown;
+    private String resultsShown;
     @Expose
     @SerializedName("results_start")
-    private int resultsStart;
+    private String resultsStart;
     @Expose
     @SerializedName("results_found")
-    private int resultsFound;
+    private String resultsFound;
 
     public List<Restaurants> getRestaurants() {
         return restaurants;
@@ -28,27 +28,27 @@ public class RestaurantsResponse {
         this.restaurants = restaurants;
     }
 
-    public int getResultsShown() {
+    public String getResultsShown() {
         return resultsShown;
     }
 
-    public void setResultsShown(int resultsShown) {
+    public void setResultsShown(String resultsShown) {
         this.resultsShown = resultsShown;
     }
 
-    public int getResultsStart() {
+    public String getResultsStart() {
         return resultsStart;
     }
 
-    public void setResultsStart(int resultsStart) {
+    public void setResultsStart(String resultsStart) {
         this.resultsStart = resultsStart;
     }
 
-    public int getResultsFound() {
+    public String getResultsFound() {
         return resultsFound;
     }
 
-    public void setResultsFound(int resultsFound) {
+    public void setResultsFound(String resultsFound) {
         this.resultsFound = resultsFound;
     }
 
@@ -78,10 +78,10 @@ public class RestaurantsResponse {
         private String bookUrl;
         @Expose
         @SerializedName("has_table_booking")
-        private int hasTableBooking;
+        private String hasTableBooking;
         @Expose
         @SerializedName("is_table_reservation_supported")
-        private int isTableReservationSupported;
+        private String isTableReservationSupported;
         @Expose
         @SerializedName("deeplink")
         private String deeplink;
@@ -90,13 +90,13 @@ public class RestaurantsResponse {
         private boolean includeBogoOffers;
         @Expose
         @SerializedName("is_delivering_now")
-        private int isDeliveringNow;
+        private String isDeliveringNow;
         @Expose
         @SerializedName("has_online_delivery")
-        private int hasOnlineDelivery;
+        private String hasOnlineDelivery;
         @Expose
         @SerializedName("medio_provider")
-        private int medioProvider;
+        private String medioProvider;
         @Expose
         @SerializedName("featured_image")
         private String featuredImage;
@@ -120,16 +120,16 @@ public class RestaurantsResponse {
         private String bookFormWebViewUrl;
         @Expose
         @SerializedName("is_book_form_web_view")
-        private int isBookFormWebView;
+        private String isBookFormWebView;
         @Expose
         @SerializedName("mezzo_provider")
         private String mezzoProvider;
         @Expose
         @SerializedName("is_zomato_book_res")
-        private int isZomatoBookRes;
+        private String isZomatoBookRes;
         @Expose
         @SerializedName("opentable_support")
-        private int opentableSupport;
+        private String opentableSupport;
         @Expose
         @SerializedName("offers")
         private List<String> offers;
@@ -138,16 +138,16 @@ public class RestaurantsResponse {
         private String currency;
         @Expose
         @SerializedName("price_range")
-        private int priceRange;
+        private String priceRange;
         @Expose
         @SerializedName("average_cost_for_two")
-        private int averageCostForTwo;
+        private String averageCostForTwo;
         @Expose
         @SerializedName("cuisines")
         private String cuisines;
         @Expose
         @SerializedName("switch_to_order_menu")
-        private int switchToOrderMenu;
+        private String switchToOrderMenu;
         @Expose
         @SerializedName("location")
         private Location location;
@@ -191,19 +191,19 @@ public class RestaurantsResponse {
             this.bookUrl = bookUrl;
         }
 
-        public int getHasTableBooking() {
+        public String getHasTableBooking() {
             return hasTableBooking;
         }
 
-        public void setHasTableBooking(int hasTableBooking) {
+        public void setHasTableBooking(String hasTableBooking) {
             this.hasTableBooking = hasTableBooking;
         }
 
-        public int getIsTableReservationSupported() {
+        public String getIsTableReservationSupported() {
             return isTableReservationSupported;
         }
 
-        public void setIsTableReservationSupported(int isTableReservationSupported) {
+        public void setIsTableReservationSupported(String isTableReservationSupported) {
             this.isTableReservationSupported = isTableReservationSupported;
         }
 
@@ -223,27 +223,27 @@ public class RestaurantsResponse {
             this.includeBogoOffers = includeBogoOffers;
         }
 
-        public int getIsDeliveringNow() {
+        public String getIsDeliveringNow() {
             return isDeliveringNow;
         }
 
-        public void setIsDeliveringNow(int isDeliveringNow) {
+        public void setIsDeliveringNow(String isDeliveringNow) {
             this.isDeliveringNow = isDeliveringNow;
         }
 
-        public int getHasOnlineDelivery() {
+        public String getHasOnlineDelivery() {
             return hasOnlineDelivery;
         }
 
-        public void setHasOnlineDelivery(int hasOnlineDelivery) {
+        public void setHasOnlineDelivery(String hasOnlineDelivery) {
             this.hasOnlineDelivery = hasOnlineDelivery;
         }
 
-        public int getMedioProvider() {
+        public String getMedioProvider() {
             return medioProvider;
         }
 
-        public void setMedioProvider(int medioProvider) {
+        public void setMedioProvider(String medioProvider) {
             this.medioProvider = medioProvider;
         }
 
@@ -303,11 +303,11 @@ public class RestaurantsResponse {
             this.bookFormWebViewUrl = bookFormWebViewUrl;
         }
 
-        public int getIsBookFormWebView() {
+        public String getIsBookFormWebView() {
             return isBookFormWebView;
         }
 
-        public void setIsBookFormWebView(int isBookFormWebView) {
+        public void setIsBookFormWebView(String isBookFormWebView) {
             this.isBookFormWebView = isBookFormWebView;
         }
 
@@ -319,19 +319,19 @@ public class RestaurantsResponse {
             this.mezzoProvider = mezzoProvider;
         }
 
-        public int getIsZomatoBookRes() {
+        public String getIsZomatoBookRes() {
             return isZomatoBookRes;
         }
 
-        public void setIsZomatoBookRes(int isZomatoBookRes) {
+        public void setIsZomatoBookRes(String isZomatoBookRes) {
             this.isZomatoBookRes = isZomatoBookRes;
         }
 
-        public int getOpentableSupport() {
+        public String getOpentableSupport() {
             return opentableSupport;
         }
 
-        public void setOpentableSupport(int opentableSupport) {
+        public void setOpentableSupport(String opentableSupport) {
             this.opentableSupport = opentableSupport;
         }
 
@@ -351,19 +351,19 @@ public class RestaurantsResponse {
             this.currency = currency;
         }
 
-        public int getPriceRange() {
+        public String getPriceRange() {
             return priceRange;
         }
 
-        public void setPriceRange(int priceRange) {
+        public void setPriceRange(String priceRange) {
             this.priceRange = priceRange;
         }
 
-        public int getAverageCostForTwo() {
+        public String getAverageCostForTwo() {
             return averageCostForTwo;
         }
 
-        public void setAverageCostForTwo(int averageCostForTwo) {
+        public void setAverageCostForTwo(String averageCostForTwo) {
             this.averageCostForTwo = averageCostForTwo;
         }
 
@@ -375,11 +375,11 @@ public class RestaurantsResponse {
             this.cuisines = cuisines;
         }
 
-        public int getSwitchToOrderMenu() {
+        public String getSwitchToOrderMenu() {
             return switchToOrderMenu;
         }
 
-        public void setSwitchToOrderMenu(int switchToOrderMenu) {
+        public void setSwitchToOrderMenu(String switchToOrderMenu) {
             this.switchToOrderMenu = switchToOrderMenu;
         }
 
@@ -485,7 +485,7 @@ public class RestaurantsResponse {
         private String localityVerbose;
         @Expose
         @SerializedName("country_id")
-        private int countryId;
+        private String countryId;
         @Expose
         @SerializedName("zipcode")
         private String zipcode;
@@ -497,7 +497,7 @@ public class RestaurantsResponse {
         private String latitude;
         @Expose
         @SerializedName("city_id")
-        private int cityId;
+        private String cityId;
         @Expose
         @SerializedName("city")
         private String city;
@@ -516,11 +516,11 @@ public class RestaurantsResponse {
             this.localityVerbose = localityVerbose;
         }
 
-        public int getCountryId() {
+        public String getCountryId() {
             return countryId;
         }
 
-        public void setCountryId(int countryId) {
+        public void setCountryId(String countryId) {
             this.countryId = countryId;
         }
 
@@ -548,11 +548,11 @@ public class RestaurantsResponse {
             this.latitude = latitude;
         }
 
-        public int getCityId() {
+        public String getCityId() {
             return cityId;
         }
 
-        public void setCityId(int cityId) {
+        public void setCityId(String cityId) {
             this.cityId = cityId;
         }
 
@@ -584,13 +584,13 @@ public class RestaurantsResponse {
     public static class R {
         @Expose
         @SerializedName("res_id")
-        private int resId;
+        private String resId;
 
-        public int getResId() {
+        public String getResId() {
             return resId;
         }
 
-        public void setResId(int resId) {
+        public void setResId(String resId) {
             this.resId = resId;
         }
     }

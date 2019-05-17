@@ -6,9 +6,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import in.codeshuffle.foodiehub.data.network.model.LocationResponse;
-import in.codeshuffle.foodiehub.data.network.model.RestaurantDetailRequest;
 import in.codeshuffle.foodiehub.data.network.model.RestaurantDetailResponse;
-import in.codeshuffle.foodiehub.data.network.model.RestaurantsRequest;
 import in.codeshuffle.foodiehub.data.network.model.RestaurantsResponse;
 import io.reactivex.Observable;
 
