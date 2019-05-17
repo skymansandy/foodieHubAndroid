@@ -50,6 +50,10 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
 
     @BindView(R.id.restaurantList)
     RecyclerView restaurantList;
+    @BindView(R.id.homeShimmer)
+    View homeShimmer;
+    @BindView(R.id.contentLayout)
+    View contentLayout;
     @BindView(R.id.location)
     View location;
 
@@ -219,6 +223,18 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
                 startActivity(LocationActivity.getStartIntent(this));
                 break;
         }
+    }
+
+    @Override
+    public void showLoading() {
+        contentLayout.setVisibility(View.GONE);
+        homeShimmer.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoading() {
+        contentLayout.setVisibility(View.VISIBLE);
+        homeShimmer.setVisibility(View.GONE);
     }
 
     @Override

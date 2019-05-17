@@ -27,7 +27,6 @@ public class SplashPresenter<V extends SplashMvpView> extends BasePresenter<V>
     @Override
     public void onDetach() {
         super.onDetach();
-
     }
 
     @Override
@@ -36,7 +35,10 @@ public class SplashPresenter<V extends SplashMvpView> extends BasePresenter<V>
     }
 
     private void takeToHomeScreen() {
-        new Handler().postDelayed(()
-                -> getMvpView().openHomeScreen(), SPLASH_DURATION_MILLIS);
+        new Handler().postDelayed(() -> {
+            if (!isViewAttached())
+                return;
+            getMvpView().openHomeScreen();
+        }, SPLASH_DURATION_MILLIS);
     }
 }

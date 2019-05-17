@@ -3,8 +3,11 @@ package in.codeshuffle.foodiehub.ui.home.restaurantlist;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import java.util.List;
@@ -24,9 +27,13 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     private final List<Restaurants> restaurants;
     private final LayoutInflater inflater;
     private final RestaurantListInterface restaurantListInterface;
+    private final Animation pushDownAnim;
+    private final Animation pullUpUpAnim;
 
     public RestaurantAdapter(Context context, RestaurantListInterface restaurantListInterface, List<Restaurants> restaurants) {
         this.context = context;
+        this.pushDownAnim = AnimationUtils.loadAnimation(context, R.anim.press_down);
+        this.pullUpUpAnim = AnimationUtils.loadAnimation(context, R.anim.press_up);
         this.restaurantListInterface = restaurantListInterface;
         this.restaurants = restaurants;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -45,7 +52,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         holder.tvName.setText(restaurant.getName());
         holder.tvCuisine.setText(restaurant.getCuisines());
         holder.tvLocation.setText(restaurant.getLocation().getLocalityVerbose());
-        holder.tvCostForTwo.setText(String.format("%s%s",
+        holder.tvCostForTwo.setText(String.format("%s%s for two people (approx.)",
                 restaurant.getCurrency(), restaurant.getAverageCostForTwo()));
 
         //Rating
@@ -77,10 +84,18 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
             holder.layoutBookTable.setVisibility(View.GONE);
         }
 
-        holder.root.setOnClickListener(v->{
-            if(restaurantListInterface!=null){
-                restaurantListInterface.onOpenRestaurantDetail(restaurant.getId());
+//        Press animation
+        holder.root.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                holder.root.startAnimation(pushDownAnim);
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                holder.root.startAnimation(pullUpUpAnim);
+                holder.root.performClick();
+                if (restaurantListInterface != null) {
+                    restaurantListInterface.onOpenRestaurantDetail(restaurant.getId());
+                }
             }
+            return true;
         });
     }
 

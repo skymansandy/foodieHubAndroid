@@ -2,15 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".ui.splash.SplashActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/restaurantList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:itemCount="4"
-        tools:listitem="@layout/item_restaurant_order" />
+
+
 </LinearLayout>
