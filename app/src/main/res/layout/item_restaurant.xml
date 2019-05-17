@@ -93,7 +93,7 @@
             android:maxLines="1"
             android:textColor="@color/bg_book_a_table"
             android:textSize="16sp"
-            tools:text="Book a table" />
+            android:text="Book a table" />
 
     </LinearLayout>
 
@@ -118,7 +118,7 @@
             android:maxLines="1"
             android:textColor="@color/bg_order_online"
             android:textSize="16sp"
-            tools:text="Order online" />
+            android:text="Order online" />
 
     </LinearLayout>
 

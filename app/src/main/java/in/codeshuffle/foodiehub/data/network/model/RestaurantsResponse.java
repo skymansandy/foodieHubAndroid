@@ -191,7 +191,7 @@ public class RestaurantsResponse {
             this.bookUrl = bookUrl;
         }
 
-        public String getHasTableBooking() {
+        public String hasTableBooking() {
             return hasTableBooking;
         }
 
@@ -199,7 +199,7 @@ public class RestaurantsResponse {
             this.hasTableBooking = hasTableBooking;
         }
 
-        public String getIsTableReservationSupported() {
+        public String isTableReservationSupported() {
             return isTableReservationSupported;
         }
 
@@ -223,7 +223,7 @@ public class RestaurantsResponse {
             this.includeBogoOffers = includeBogoOffers;
         }
 
-        public String getIsDeliveringNow() {
+        public String isDeliveringNow() {
             return isDeliveringNow;
         }
 
@@ -231,7 +231,7 @@ public class RestaurantsResponse {
             this.isDeliveringNow = isDeliveringNow;
         }
 
-        public String getHasOnlineDelivery() {
+        public String hasOnlineDelivery() {
             return hasOnlineDelivery;
         }
 

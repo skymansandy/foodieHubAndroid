@@ -1,6 +1,7 @@
 package in.codeshuffle.foodiehub.ui.home.restaurantlist;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,14 +35,48 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     @NonNull
     @Override
     public RestaurantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_restaurant_order, parent, false);
+        View view = inflater.inflate(R.layout.item_restaurant, parent, false);
         return new RestaurantViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RestaurantViewHolder holder, int position) {
         Restaurant restaurant = restaurants.get(position).getRestaurant();
-        holder.tvTitle.setText(restaurant.getName());
+        holder.tvName.setText(restaurant.getName());
+        holder.tvCuisine.setText(restaurant.getCuisines());
+        holder.tvLocation.setText(restaurant.getLocation().getLocalityVerbose());
+        holder.tvCostForTwo.setText(String.format("%s%s",
+                restaurant.getCurrency(), restaurant.getAverageCostForTwo()));
+
+        //Rating
+        holder.tvRating.setText(restaurant.getUserRating().getAggregateRating());
+        holder.tvRating.setBackgroundColor(
+                Color.parseColor(String.format("#%s", restaurant.getUserRating().getRatingColor())));
+
+        //Online delivery
+        if (restaurant.hasOnlineDelivery().equals("1")) {
+            holder.layoutOrderOnline.setVisibility(View.VISIBLE);
+            if (restaurant.isDeliveringNow().equals("1")) {
+
+            } else {
+
+            }
+        } else {
+            holder.layoutOrderOnline.setVisibility(View.GONE);
+        }
+
+        //Table booking
+        if (restaurant.isTableReservationSupported().equals("1")) {
+            holder.layoutBookTable.setVisibility(View.VISIBLE);
+            if (restaurant.hasTableBooking().equals("1")) {
+
+            } else {
+
+            }
+        } else {
+            holder.layoutBookTable.setVisibility(View.GONE);
+        }
+
         holder.root.setOnClickListener(v->{
             if(restaurantListInterface!=null){
                 restaurantListInterface.onOpenRestaurantDetail(restaurant.getId());
@@ -63,18 +98,28 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
 
         @BindView(R.id.restaurantRoot)
         View root;
-        @BindView(R.id.title)
-        TextView tvTitle;
+        @BindView(R.id.imagesRecycler)
+        RecyclerView rvThumbnailList;
+        @BindView(R.id.name)
+        TextView tvName;
         @BindView(R.id.rating)
         TextView tvRating;
-        @BindView(R.id.description)
-        TextView tvDescription;
-        @BindView(R.id.priceForTwo)
-        TextView tvPriceForTwo;
-        @BindView(R.id.features)
-        TextView tvFeatures;
-        @BindView(R.id.deliveryTime)
-        TextView tvDeliveryTime;
+        @BindView(R.id.cuisine)
+        TextView tvCuisine;
+        @BindView(R.id.location)
+        TextView tvLocation;
+        @BindView(R.id.costForTwo)
+        TextView tvCostForTwo;
+
+        @BindView(R.id.bookTableLayout)
+        View layoutBookTable;
+        @BindView(R.id.bookTable)
+        View tvBookTable;
+
+        @BindView(R.id.orderOnlineLayout)
+        View layoutOrderOnline;
+        @BindView(R.id.orderOnline)
+        View tvOrderOnline;
 
         RestaurantViewHolder(@NonNull View itemView) {
             super(itemView);
