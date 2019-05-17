@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -17,20 +18,26 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import in.codeshuffle.foodiehub.R;
 import in.codeshuffle.foodiehub.ui.home.restaurantlist.RestaurantAdapter.RestaurantListInterface;
+import in.codeshuffle.foodiehub.util.CommonUtils;
+import in.codeshuffle.foodiehub.util.ScreenUtils;
 
 public class ImagePreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int VIEW_TYPE_PREVIEW = 1;
     private static final int VIEW_TYPE_SEE_ALL = 2;
 
+    private static final int NUM_IMAGES = 4;
+
     private final Context context;
     private final List<String> images;
     private final LayoutInflater inflater;
-    private final Long restaurantId;
+    private final String restaurantId;
+    private final int screenWidthAdjuster;
     private final RestaurantListInterface restaurantListInterface;
 
-    public ImagePreviewAdapter(Context context, Long restaurantId, RestaurantListInterface restaurantListInterface, List<String> images) {
+    public ImagePreviewAdapter(Context context, String restaurantId, RestaurantListInterface restaurantListInterface, List<String> images) {
         this.context = context;
+        this.screenWidthAdjuster = ScreenUtils.getScreenWidth(context) / NUM_IMAGES;
         this.restaurantId = restaurantId;
         this.restaurantListInterface = restaurantListInterface;
         this.images = images;
@@ -49,7 +56,13 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             default:
                 view = inflater.inflate(R.layout.item_image_preview_small, parent, false);
         }
+        adjustViewWidth(view);
         return new PreviewHolder(view);
+    }
+
+    private void adjustViewWidth(View view) {
+        view.getLayoutParams().width = screenWidthAdjuster;
+        view.requestLayout();
     }
 
     @Override
@@ -68,7 +81,7 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if (restaurantListInterface != null)
                     restaurantListInterface.onImagePreviewClicked(restaurantId, previewUrl);
             });
-        } else {
+        } else if (holder instanceof SeeAllViewHolder) {
             SeeAllViewHolder seeAllViewHolder = (SeeAllViewHolder) holder;
             Glide.with(context)
                     .load(previewUrl)
@@ -76,7 +89,8 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     .centerCrop()
                     .into(seeAllViewHolder.ivPreview);
 
-            seeAllViewHolder.tvSeeAllCount.setText(images.size() - 3);
+            seeAllViewHolder.tvSeeAllCount.setText(MessageFormat.format("+{0}",
+                    images.size() - 3));
 
             seeAllViewHolder.root.setOnClickListener(v -> {
                 if (restaurantListInterface != null)
@@ -93,8 +107,8 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
-        return position == 3 ?
-                VIEW_TYPE_SEE_ALL : VIEW_TYPE_PREVIEW;
+        return position < 3 ?
+                VIEW_TYPE_PREVIEW : VIEW_TYPE_SEE_ALL;
     }
 
     static class PreviewHolder extends RecyclerView.ViewHolder {

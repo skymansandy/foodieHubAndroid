@@ -61,7 +61,7 @@
         android:textColor="@color/gray"
         tools:text="Electronic city, Bangalore" />
 
-    <include layout="@layout/component_divider" />
+    <include layout="@layout/component_plain_divider" />
 
     <TextView
         android:id="@+id/costForTwo"
@@ -81,7 +81,7 @@
         android:visibility="gone"
         tools:visibility="visible">
 
-        <include layout="@layout/component_divider" />
+        <include layout="@layout/component_plain_divider" />
 
         <TextView
             android:id="@+id/bookTable"
@@ -106,7 +106,7 @@
         android:visibility="gone"
         tools:visibility="visible">
 
-        <include layout="@layout/component_divider" />
+        <include layout="@layout/component_plain_divider" />
 
         <TextView
             android:id="@+id/orderOnline"

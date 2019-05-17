@@ -5,6 +5,9 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="bg_order_online">#17A91C</color>
+    <color name="bg_location_bar">#F7F7F7</color>
+    <color name="bg_activity">#FEFEFE</color>
+    <color name="bg_dash_green">#2E982D</color>
     <color name="bg_book_a_table">#2296F5</color>
     <color name="color_cost_for_two">#9D9D9D</color>
     <color name="color_location">#A5A5A5</color>
@@ -20,7 +23,7 @@
     <color name="white">#ffffff</color>
     <color name="black_effective">#2a2a2a</color>
     <color name="shadow">#d0d8dc</color>
-    <color name="transparent">#00000000</color>
+    <color name="transparent">@android:color/transparent</color>
     <color name="translucent_white">#88ffffff</color>
     <color name="fb">#3b5998</color>
     <color name="google">#d34836</color>

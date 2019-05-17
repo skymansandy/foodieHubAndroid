@@ -248,12 +248,12 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
     }
 
     @Override
-    public void onImagePreviewClicked(Long restaurantId, String imageUrl) {
+    public void onImagePreviewClicked(String restaurantId, String imageUrl) {
         CommonUtils.showShortToast(this, "TODO:Show image fullscreen");
     }
 
     @Override
-    public void onSeeAllPreview(Long restaurantId) {
+    public void onSeeAllPreview(String restaurantId) {
         CommonUtils.showShortToast(this, "TODO:See all images");
     }
 }

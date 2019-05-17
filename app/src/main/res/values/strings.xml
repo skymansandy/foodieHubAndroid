@@ -78,4 +78,5 @@
     <string name="refresh">Refresh</string>
     <string name="proceed">Proceed</string>
     <string name="no_google_play">No Google play</string>
+    <string name="your_location">Your location</string>
 </resources>

@@ -65,7 +65,7 @@
             android:textSize="12sp"
             tools:text="Al-bek" />
 
-        <include layout="@layout/component_divider" />
+        <include layout="@layout/component_plain_divider" />
 
         <TextView
             android:id="@+id/priceForTwo"
@@ -78,7 +78,7 @@
             android:textSize="12sp"
             tools:text="200 per person" />
 
-        <include layout="@layout/component_divider" />
+        <include layout="@layout/component_plain_divider" />
 
         <LinearLayout
             android:layout_width="match_parent"

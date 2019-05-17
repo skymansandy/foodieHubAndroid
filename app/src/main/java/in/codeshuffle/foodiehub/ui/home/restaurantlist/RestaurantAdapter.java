@@ -3,7 +3,6 @@ package in.codeshuffle.foodiehub.ui.home.restaurantlist;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -12,11 +11,15 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import in.codeshuffle.foodiehub.R;
+import in.codeshuffle.foodiehub.util.CommonUtils;
 
 import static in.codeshuffle.foodiehub.data.network.model.RestaurantsResponse.Restaurant;
 import static in.codeshuffle.foodiehub.data.network.model.RestaurantsResponse.Restaurants;
@@ -29,6 +32,9 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     private final RestaurantListInterface restaurantListInterface;
     private final Animation pushDownAnim;
     private final Animation pullUpUpAnim;
+
+    @Inject
+    List<String> thumbImages;
 
     public RestaurantAdapter(Context context, RestaurantListInterface restaurantListInterface, List<Restaurants> restaurants) {
         this.context = context;
@@ -84,8 +90,19 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
             holder.layoutBookTable.setVisibility(View.GONE);
         }
 
+        //Image previes
+        holder.rvThumbnailList.setLayoutManager(new LinearLayoutManager(context));
+        holder.rvThumbnailList.setAdapter(new ImagePreviewAdapter(context,
+                restaurant.getId(), restaurantListInterface,
+                CommonUtils.getRandomImages()));
+        holder.root.setOnClickListener(v -> {
+            if (restaurantListInterface != null) {
+                restaurantListInterface.onOpenRestaurantDetail(restaurant.getId());
+            }
+        });
+
 //        Press animation
-        holder.root.setOnTouchListener((v, event) -> {
+        /*holder.root.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 holder.root.startAnimation(pushDownAnim);
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -96,7 +113,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
                 }
             }
             return true;
-        });
+        });*/
     }
 
     @Override
@@ -145,8 +162,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     public interface RestaurantListInterface{
         void onOpenRestaurantDetail(String restaurantId);
 
-        void onImagePreviewClicked(Long restaurantId, String imageUrl);
+        void onImagePreviewClicked(String restaurantId, String imageUrl);
 
-        void onSeeAllPreview(Long restaurantId);
+        void onSeeAllPreview(String restaurantId);
     }
 }

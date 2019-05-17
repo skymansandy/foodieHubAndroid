@@ -1,12 +1,8 @@
 package in.codeshuffle.foodiehub.di.module;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import androidx.appcompat.app.AppCompatActivity;
 import dagger.Module;
 import dagger.Provides;
-import in.codeshuffle.foodiehub.BuildConfig;
 import in.codeshuffle.foodiehub.di.PerActivity;
 import in.codeshuffle.foodiehub.ui.home.HomeMvpPresenter;
 import in.codeshuffle.foodiehub.ui.home.HomeMvpView;
@@ -20,7 +16,6 @@ import in.codeshuffle.foodiehub.ui.restaurantpage.RestaurantDetailPresenter;
 import in.codeshuffle.foodiehub.ui.splash.SplashMvpPresenter;
 import in.codeshuffle.foodiehub.ui.splash.SplashMvpView;
 import in.codeshuffle.foodiehub.ui.splash.SplashPresenter;
-import in.codeshuffle.foodiehub.util.AppConstants;
 
 @Module
 public class ActivityModule {

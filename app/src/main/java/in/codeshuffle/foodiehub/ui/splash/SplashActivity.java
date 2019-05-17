@@ -11,8 +11,6 @@ import butterknife.ButterKnife;
 import in.codeshuffle.foodiehub.R;
 import in.codeshuffle.foodiehub.ui.base.BaseActivity;
 import in.codeshuffle.foodiehub.ui.home.HomeActivity;
-import in.codeshuffle.foodiehub.ui.location.LocationActivity;
-import in.codeshuffle.foodiehub.ui.restaurantpage.RestaurantDetailActivity;
 
 public class SplashActivity extends BaseActivity implements SplashMvpView {
 

@@ -20,7 +20,6 @@ import butterknife.ButterKnife;
 import in.codeshuffle.foodiehub.R;
 import in.codeshuffle.foodiehub.data.network.model.LocationResponse;
 import in.codeshuffle.foodiehub.ui.base.BaseActivity;
-import in.codeshuffle.foodiehub.ui.home.restaurantlist.RestaurantAdapter;
 import in.codeshuffle.foodiehub.ui.location.locationlist.LocationAdapter;
 import in.codeshuffle.foodiehub.util.CommonUtils;
 

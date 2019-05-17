@@ -2,8 +2,6 @@ package in.codeshuffle.foodiehub.di.component;
 
 import android.content.Context;
 
-import java.util.HashMap;
-
 import javax.inject.Singleton;
 
 import dagger.Component;

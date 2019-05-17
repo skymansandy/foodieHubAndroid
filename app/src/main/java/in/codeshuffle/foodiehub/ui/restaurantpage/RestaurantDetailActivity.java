@@ -3,17 +3,14 @@ package in.codeshuffle.foodiehub.ui.restaurantpage;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
 
 import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import in.codeshuffle.foodiehub.R;
 import in.codeshuffle.foodiehub.data.network.model.RestaurantDetailResponse;
 import in.codeshuffle.foodiehub.ui.base.BaseActivity;
-import in.codeshuffle.foodiehub.util.AppConstants;
 import in.codeshuffle.foodiehub.util.AppConstants.Params;
 
 public class RestaurantDetailActivity extends BaseActivity implements RestaurantDetailMvpView {

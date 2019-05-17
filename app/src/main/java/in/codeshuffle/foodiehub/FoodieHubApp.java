@@ -8,6 +8,7 @@ import in.codeshuffle.foodiehub.di.component.ApplicationComponent;
 import in.codeshuffle.foodiehub.di.component.DaggerApplicationComponent;
 import in.codeshuffle.foodiehub.di.module.ApplicationModule;
 import in.codeshuffle.foodiehub.util.AppLogger;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class FoodieHubApp extends Application {
 
@@ -23,6 +24,13 @@ public class FoodieHubApp extends Application {
                 .applicationModule(new ApplicationModule(this))
                 .build();
         mApplicationComponent.inject(this);
+
+        //Font
+       /* CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("font/bold.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );*/
 
         //Logger
         AppLogger.init();
