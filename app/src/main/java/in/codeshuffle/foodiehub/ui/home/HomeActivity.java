@@ -34,6 +34,7 @@ import in.codeshuffle.foodiehub.data.prefs.PreferencesHelper;
 import in.codeshuffle.foodiehub.service.LocationService;
 import in.codeshuffle.foodiehub.ui.base.BaseActivity;
 import in.codeshuffle.foodiehub.ui.home.restaurantlist.RestaurantAdapter;
+import in.codeshuffle.foodiehub.ui.imageviewer.ImageViewerActivity;
 import in.codeshuffle.foodiehub.ui.location.LocationActivity;
 import in.codeshuffle.foodiehub.ui.restaurantpage.RestaurantDetailActivity;
 import in.codeshuffle.foodiehub.util.AppConstants.Params;
@@ -260,8 +261,11 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
     }
 
     @Override
-    public void onImagePreviewClicked(String restaurantId, String imageUrl) {
-        CommonUtils.showShortToast(this, "TODO:Show image fullscreen");
+    public void onImagePreviewClicked(String restaurantId, String imageUrl, String restaurantName, String restaurantThumb) {
+        startActivity(ImageViewerActivity.getStartIntent(this,
+                imageUrl,
+                restaurantName,
+                restaurantThumb));
     }
 
     @Override

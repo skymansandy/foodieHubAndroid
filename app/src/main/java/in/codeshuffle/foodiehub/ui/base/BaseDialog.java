@@ -120,7 +120,7 @@ public abstract class BaseDialog extends DialogFragment implements DialogMvpView
         if (errorMsg != null) {
             showSnackBar(errorMsg);
         } else {
-            showSnackBar(getString(R.string.some_error));
+            showSnackBar(getString(R.string.something_went_wrong));
         }
     }
 

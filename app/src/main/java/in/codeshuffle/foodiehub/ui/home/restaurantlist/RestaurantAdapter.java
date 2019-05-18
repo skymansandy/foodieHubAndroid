@@ -36,7 +36,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     @Inject
     List<String> thumbImages;
 
-    public RestaurantAdapter(Context context, RestaurantListInterface restaurantListInterface, List<Restaurants> restaurants) {
+    public RestaurantAdapter(Context context, RestaurantListInterface restaurantListInterface,
+                             List<Restaurants> restaurants) {
         this.context = context;
         this.pushDownAnim = AnimationUtils.loadAnimation(context, R.anim.press_down);
         this.pullUpUpAnim = AnimationUtils.loadAnimation(context, R.anim.press_up);
@@ -69,6 +70,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         //Online delivery
         if (restaurant.hasOnlineDelivery().equals("1")) {
             holder.layoutOrderOnline.setVisibility(View.VISIBLE);
+            holder.layoutOrderOnline.setOnClickListener(v
+                    -> CommonUtils.showShortToast(context, context.getString(R.string.online_order)));
             if (restaurant.isDeliveringNow().equals("1")) {
 
             } else {
@@ -81,6 +84,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         //Table booking
         if (restaurant.isTableReservationSupported().equals("1")) {
             holder.layoutBookTable.setVisibility(View.VISIBLE);
+            holder.layoutBookTable.setOnClickListener(v
+                    -> CommonUtils.showShortToast(context, context.getString(R.string.table_booking)));
             if (restaurant.hasTableBooking().equals("1")) {
 
             } else {
@@ -93,7 +98,10 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         //Image previes
         holder.rvThumbnailList.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
         holder.rvThumbnailList.setAdapter(new ImagePreviewAdapter(context,
-                restaurant.getId(), restaurant.getPhotosUrl(), restaurantListInterface,
+                restaurant.getId(), restaurant.getPhotosUrl(),
+                restaurant.getName(),
+                restaurant.getThumb(),
+                restaurantListInterface,
                 CommonUtils.getRandomImages()));
         holder.root.setOnClickListener(v -> {
             if (restaurantListInterface != null) {
@@ -162,7 +170,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     public interface RestaurantListInterface{
         void onOpenRestaurantDetail(String restaurantId);
 
-        void onImagePreviewClicked(String restaurantId, String imageUrl);
+        void onImagePreviewClicked(String restaurantId, String imageUrl, String restaurantName,
+                                   String restaurantThumb);
 
         void onSeeAllPreview(String imagesUrl);
     }

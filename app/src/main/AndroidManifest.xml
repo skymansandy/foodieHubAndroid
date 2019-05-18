@@ -36,6 +36,8 @@
         <activity android:name=".ui.restaurantpage.RestaurantDetailActivity"
             android:theme="@style/AppTheme.TranslucentStatus"/>
 
+        <activity android:name=".ui.imageviewer.ImageViewerActivity"/>
+
         <service android:name=".service.LocationService"
             android:exported="false"/>
 

@@ -23,7 +23,7 @@
     <!--App Message-->
     <string name="api_retry_error">Please retry!</string>
     <string name="api_default_error">Something wrong happened!</string>
-    <string name="some_error">Some Error Occurred!</string>
+    <string name="something_went_wrong">Some Error Occurred!</string>
     <string name="connection_error">Internet connection lost!</string>
 
     <!--Login-->
@@ -106,4 +106,5 @@
     <string name="have_a_sneak_peak_into_the_events_happening_here">Have a sneak peak into the events happening here</string>
     <string name="online_order">Online order</string>
     <string name="table_booking">Table booking</string>
+    <string name="dummy_duration">5 months</string>
 </resources>

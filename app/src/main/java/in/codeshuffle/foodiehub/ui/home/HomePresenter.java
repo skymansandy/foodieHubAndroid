@@ -16,7 +16,7 @@ import io.reactivex.schedulers.Schedulers;
 public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
         implements HomeMvpPresenter<V> {
 
-    public static final String TAG = HomePresenter.class.getSimpleName();
+    private static final String TAG = HomePresenter.class.getSimpleName();
 
     @Inject
     HomePresenter(ApiClient apiClient, ApiHeader apiHeader) {
@@ -66,7 +66,7 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
                         if (!isViewAttached())
                             return;
 
-                        Log.d(TAG, "onError: "+t.getLocalizedMessage());
+                        Log.d(TAG, "onError: " + t.getLocalizedMessage());
                         getMvpView().onError("Something went wrong");
                         getMvpView().hideLoading();
                     }

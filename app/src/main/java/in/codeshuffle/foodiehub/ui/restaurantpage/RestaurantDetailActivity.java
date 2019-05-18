@@ -116,7 +116,7 @@ public class RestaurantDetailActivity extends BaseActivity implements Restaurant
         if (extras != null) {
             mPresenter.fetchRestaurantDetails(extras.getString(Params.RESTAURANT_ID));
         } else {
-            showShortToast(getString(R.string.some_error));
+            showShortToast(getString(R.string.something_went_wrong));
             finish();
         }
     }
