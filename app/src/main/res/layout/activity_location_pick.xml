@@ -19,16 +19,20 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@color/locationSurface"
-            android:paddingLeft="5dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:src="@drawable/ic_arrow_back" />
 
         <include layout="@layout/layout_search" />
 
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/search_view"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/locationsRecycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        tools:itemCount="5"
+        tools:listitem="@layout/item_location" />
+
 
 </LinearLayout>

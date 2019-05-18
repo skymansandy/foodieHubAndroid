@@ -78,6 +78,11 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
     }
 
     @Override
+    public void onActivityRestart() {
+        getMvpView().hideKeyboard();
+    }
+
+    @Override
     public void handleApiError() {
         super.handleApiError();
     }

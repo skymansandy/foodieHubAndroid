@@ -91,7 +91,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         }
 
         //Image previes
-        holder.rvThumbnailList.setLayoutManager(new LinearLayoutManager(context));
+        holder.rvThumbnailList.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
         holder.rvThumbnailList.setAdapter(new ImagePreviewAdapter(context,
                 restaurant.getId(), restaurantListInterface,
                 CommonUtils.getRandomImages()));

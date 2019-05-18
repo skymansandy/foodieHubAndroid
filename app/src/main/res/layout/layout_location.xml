@@ -44,7 +44,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/circular_book"
             android:maxLines="1"
-            tools:text="Home - Phase 1, JP Nagar"
+            android:text="Home - Phase 1, JP Nagar"
             android:textColor="#1C1C1C"
             android:textSize="16sp" />
 
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/circular_book"
             android:maxLines="1"
-            tools:text="975, 3rd floor, Dandi Nilaya, 12A cross, Jp Nagar phase 1"
+            android:text="975, 3rd floor, Dandi Nilaya, 12A cross, Jp Nagar phase 1"
             android:textSize="12sp" />
 
         <View

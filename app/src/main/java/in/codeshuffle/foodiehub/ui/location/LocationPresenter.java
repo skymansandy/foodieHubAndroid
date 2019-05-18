@@ -76,4 +76,10 @@ public class LocationPresenter<V extends LocationMvpView> extends BasePresenter<
                     }
                 });
     }
+
+    @Override
+    public void onBackPressed() {
+        getMvpView().hideKeyboard();
+        getMvpView().onBackPressed();
+    }
 }

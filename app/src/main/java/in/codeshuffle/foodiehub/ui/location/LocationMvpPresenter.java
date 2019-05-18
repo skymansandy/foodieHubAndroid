@@ -8,4 +8,6 @@ import in.codeshuffle.foodiehub.ui.base.MvpPresenter;
 public interface LocationMvpPresenter<V extends LocationMvpView> extends MvpPresenter<V> {
 
     void fetchLocations(String query);
+
+    void onBackPressed();
 }

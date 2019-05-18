@@ -1,47 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fillViewport="true"
+    android:orientation="vertical"
     android:background="@color/bg_activity"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ui.splash.SplashActivity">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/contentLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <!--Shimmer layout TODO-->
         <include
-            android:id="@+id/homeShimmer"
-            layout="@layout/shimmer_home"
-            android:visibility="visible"
-            tools:visibility="gone" />
+            android:id="@+id/location"
+            layout="@layout/layout_location" />
 
-        <!--Content-->
-        <LinearLayout
-            android:id="@+id/contentLayout"
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <!--Search bar TODO-->
+            <!--Shimmer layout TODO-->
             <include
-                android:id="@+id/location"
-                layout="@layout/layout_location"/>
+                android:id="@+id/homeShimmer"
+                layout="@layout/shimmer_home"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-
-            <!--Restaurant list-->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/restaurantList"
+            <!--Content-->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:itemCount="4"
-                tools:listitem="@layout/item_restaurant" />
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <!--Search layout-->
+                <include
+                    android:id="@+id/restaurantSearch"
+                    layout="@layout/layout_search"
+                    android:visibility="visible" />
 
-    </RelativeLayout>
-</androidx.core.widget.NestedScrollView>
+                <!--Restaurant list-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/restaurantList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:itemCount="4"
+                    tools:listitem="@layout/item_restaurant" />
+
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

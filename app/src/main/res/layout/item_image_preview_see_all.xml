@@ -5,6 +5,7 @@
     android:id="@+id/preview_root"
     android:layout_height="match_parent"
     android:layout_margin="3dp"
+    tools:layout_height="80dp"
     android:orientation="vertical">
 
     <ImageView
@@ -18,6 +19,8 @@
         android:id="@+id/seeAllCount"
         android:layout_width="match_parent"
         tools:text="+300"
+        android:layout_centerInParent="true"
+        android:fontFamily="@font/circular_medium"
         android:gravity="center"
         android:textColor="@color/white"
         android:background="@color/bg_see_all_preview"

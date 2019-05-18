@@ -32,7 +32,7 @@ public class LocationActivity extends BaseActivity implements LocationMvpView, L
     @BindView(R.id.locationsRecycler)
     RecyclerView locationsRecycler;
     @BindView(R.id.search_query)
-    EditText searchQuery;
+    EditText etSearchLocations;
 
     private LocationAdapter locationsAdapter;
 
@@ -59,6 +59,8 @@ public class LocationActivity extends BaseActivity implements LocationMvpView, L
 
     @Override
     protected void setUp() {
+        etSearchLocations.setHint(getString(R.string.search_for_locations));
+
         locationsAdapter = new LocationAdapter(this, this, new ArrayList<>());
     }
 
@@ -77,5 +79,14 @@ public class LocationActivity extends BaseActivity implements LocationMvpView, L
     @Override
     public void onLocationSelected(String city, Double latitude, Double longitude) {
         CommonUtils.showShortToast(this, city);
+    }
+
+    @OnClick(R.id.back)
+    void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.back:
+                mPresenter.onBackPressed();
+                break;
+        }
     }
 }

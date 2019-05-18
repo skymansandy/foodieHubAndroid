@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.transition.Visibility;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,6 +36,10 @@ public class RestaurantDetailActivity extends BaseActivity implements Restaurant
     RestaurantDetailMvpPresenter<RestaurantDetailMvpView> mPresenter;
 
 
+    @BindView(R.id.contentLayout)
+    View layoutContent;
+    @BindView(R.id.shimmer_details_page)
+    View layoutLoading;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.toolbar_layout)
@@ -65,12 +68,18 @@ public class RestaurantDetailActivity extends BaseActivity implements Restaurant
     View openInZomato;
     @BindView(R.id.shareRestaurant)
     View shareRestaurant;
-    @BindView(R.id.shimmer_details_page)
-    View searchProgressBar;
     @BindView(R.id.layoutTableBooking)
     View layoutTableBooking;
     @BindView(R.id.tableBookingStatus)
     TextView tableBookingStatus;
+    @BindView(R.id.layoutOnlineOrder)
+    View layoutOnlineOrder;
+    @BindView(R.id.orderAvailable)
+    View layoutOrderAvailable;
+    @BindView(R.id.orderNotAvailable)
+    View layoutOrderNotAvailable;
+    @BindView(R.id.orderFromResName)
+    TextView orderFromResName;
 
     public static Intent getStartIntent(Context context, String restaurantId) {
         Intent intent = new Intent(context, RestaurantDetailActivity.class);
@@ -103,12 +112,23 @@ public class RestaurantDetailActivity extends BaseActivity implements Restaurant
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            searchProgressBar.setVisibility(View.VISIBLE);
             mPresenter.fetchRestaurantDetails(extras.getString(Params.RESTAURANT_ID));
         } else {
             showShortToast(getString(R.string.some_error));
             finish();
         }
+    }
+
+    @Override
+    public void showLoading() {
+        layoutContent.setVisibility(View.GONE);
+        layoutLoading.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoading() {
+        layoutContent.setVisibility(View.VISIBLE);
+        layoutLoading.setVisibility(View.GONE);
     }
 
     @Override
@@ -119,18 +139,19 @@ public class RestaurantDetailActivity extends BaseActivity implements Restaurant
 
     @Override
     public void onRestaurantDetail(RestaurantDetailResponse restaurantDetailResponse) {
-        searchProgressBar.setVisibility(View.GONE);
-
         Glide.with(this)
                 .load(restaurantDetailResponse.getThumb())
+                .placeholder(R.drawable.detail_placeholder)
                 .into(restaurantThumb);
 
         Glide.with(this)
                 .load(restaurantDetailResponse.getFeaturedImage())
+                .placeholder(R.drawable.detail_placeholder)
                 .into(backdropImg);
 
         toolbar.setTitle(restaurantDetailResponse.getName());
         title.setText(restaurantDetailResponse.getName());
+        orderFromResName.setText(restaurantDetailResponse.getName());
         description.setText(restaurantDetailResponse.getCuisines());
         location.setText(restaurantDetailResponse.getLocation().getLocalityVerbose());
         ratings.setText(restaurantDetailResponse.getUserRating().getAggregateRating());
@@ -193,6 +214,17 @@ public class RestaurantDetailActivity extends BaseActivity implements Restaurant
             }
         } else {
             layoutTableBooking.setVisibility(View.GONE);
+        }
+
+        //Online order
+        if (restaurantDetailResponse.getHasOnlineDelivery() == 1) {
+            layoutOnlineOrder.setVisibility(View.VISIBLE);
+
+            boolean isDeliveringNow = restaurantDetailResponse.getIsDeliveringNow() == 1;
+            layoutOrderAvailable.setVisibility(isDeliveringNow ? View.VISIBLE : View.GONE);
+            layoutOrderNotAvailable.setVisibility(isDeliveringNow ? View.GONE : View.VISIBLE);
+        } else {
+            layoutOnlineOrder.setVisibility(View.GONE);
         }
     }
 

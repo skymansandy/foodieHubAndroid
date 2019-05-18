@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -56,6 +57,8 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
     View contentLayout;
     @BindView(R.id.location)
     View location;
+    @BindView(R.id.search_query)
+    EditText etSearchRestaurants;
 
     private RestaurantAdapter restaurantsAdapter;
 
@@ -71,7 +74,6 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
             stopLocationService();
         }
     };
-
 
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, HomeActivity.class);
@@ -186,6 +188,8 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
 
     @Override
     protected void setUp() {
+        etSearchRestaurants.setHint(getString(R.string.search_restaurants));
+
         restaurantsAdapter = new RestaurantAdapter(this, this, new ArrayList<>());
         restaurantList.setLayoutManager(new LinearLayoutManager(this));
         restaurantList.setAdapter(restaurantsAdapter);
@@ -203,6 +207,12 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
     protected void onPause() {
         super.onPause();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(locationReceiver);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        mPresenter.onActivityRestart();
     }
 
     @Override

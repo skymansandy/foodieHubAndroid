@@ -90,9 +90,15 @@
     <string name="search_for_locations">Search for locations...</string>
     <string name="share_using">Share using</string>
     <string name="link_format_zomato_restaurant">http://zoma.to/r/</string>
-    <string name="book_a_table">Book a table</string>
     <string name="get_instant_confirmations">Get instant confirmations</string>
     <string name="closed">Closed</string>
     <string name="enjoy_your_gold_privilege">Enjoy your gold privilege</string>
     <string name="book_now">Book now</string>
+    <string name="looking_for_food_delivery">Looking for food delivery?</string>
+    <string name="order_food_online_from">Order food online from</string>
+    <string name="this_restaurant_is_not_accepting_food_delivery_orders_right_now">This restaurant is not accepting food delivery orders right now</string>
+    <string name="currently_closed_for_delivery">Currently closed for delivery</string>
+    <string name="book_a_table">Book a table</string>
+    <string name="order_online">Order online</string>
+    <string name="search_restaurants">Search restaurants</string>
 </resources>

@@ -1,61 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:layout_marginTop="10dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center">
 
     <LinearLayout
+        android:id="@+id/orderAvailable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:orientation="horizontal"
-        android:padding="10dp">
+        tools:visibility="gone">
 
-        <com.mikhaellopez.circularimageview.CircularImageView
+        <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            tools:src="@tools:sample/avatars" />
+            android:src="@drawable/ic_delivery" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/circular_bold"
-                android:text="@string/enjoy_your_gold_privilege"
-                android:textColor="@color/color_gold" />
+                android:maxLines="1"
+                android:text="@string/looking_for_food_delivery"
+                android:textColor="@color/bg_order_online"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/orderFromResName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/circular_book"
+                android:maxLines="1"
+                android:text="@string/order_food_online_from"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/orderNotAvailable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_no_delivery" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/circular_medium"
-                android:text="@string/get_instant_confirmations"
-                android:textSize="12sp" />
+                android:fontFamily="@font/circular_bold"
+                android:maxLines="1"
+                android:text="@string/currently_closed_for_delivery"
+                android:textColor="@color/dark_gray"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/circular_book"
+                android:maxLines="1"
+                android:text="@string/this_restaurant_is_not_accepting_food_delivery_orders_right_now"
+                android:textSize="14sp" />
+
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tableBookingStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/color_cost_for_two"
-            android:fontFamily="@font/circular_medium"
-            android:paddingStart="10dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="5dp"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            tools:text="@string/closed" />
     </LinearLayout>
 
     <include layout="@layout/component_plain_divider" />
 
 
-</LinearLayout>
+</RelativeLayout>

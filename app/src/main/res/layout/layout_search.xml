@@ -4,7 +4,6 @@
     android:id="@+id/layout_search"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
     android:orientation="vertical"
     android:padding="10dp">
 
@@ -36,7 +35,7 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:fontFamily="@font/circular_book"
-                android:hint="@string/search_for_locations"
+                tools:hint="@string/search_for_locations"
                 android:imeOptions="actionSearch"
                 android:maxLines="1"
                 android:textSize="14sp" />
@@ -44,12 +43,5 @@
         </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/locationsRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:itemCount="5"
-        tools:listitem="@layout/item_location" />
 
 </LinearLayout>

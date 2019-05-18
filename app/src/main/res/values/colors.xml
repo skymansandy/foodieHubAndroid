@@ -14,6 +14,9 @@
     <color name="color_cuisine">#7F7F81</color>
     <color name="color_gold">#C7A05F</color>
     <color name="color_title">#040404</color>
+    <color name="gradient_color_green_1">#51C786</color>
+    <color name="gradient_color_green_2">#4DC275</color>
+    <color name="gradient_color_green_3">#49BA5C</color>
 
     <color name="light_gray">#dbdbdb</color>
     <color name="gray">#7e7e7e</color>
@@ -44,6 +47,6 @@
     <color name="blue_grey_light">#A5B4C8</color>
     <color name="orange">#FFA500</color>
     <color name="yellow">#fff44f</color>
-    <color name="bg_see_all_preview">#E47C6E6E</color>
+    <color name="bg_see_all_preview">#F26B5F5F</color>
     <color name="locationSurface">#F8F8F8</color>
 </resources>

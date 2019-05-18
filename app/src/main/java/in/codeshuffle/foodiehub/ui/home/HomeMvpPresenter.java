@@ -8,4 +8,6 @@ import in.codeshuffle.foodiehub.ui.base.MvpPresenter;
 public interface HomeMvpPresenter<V extends HomeMvpView> extends MvpPresenter<V> {
 
     void fetchRestaurantsNearMe(Double lat, Double lon);
+
+    void onActivityRestart();
 }

@@ -37,4 +37,12 @@ public class ScreenUtils {
         }
         return result;
     }
+
+    public static float dpToPixel(float dp, Context context) {
+        return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+    }
+
+    public static float pixelToDp(float px, Context context) {
+        return px / ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+    }
 }

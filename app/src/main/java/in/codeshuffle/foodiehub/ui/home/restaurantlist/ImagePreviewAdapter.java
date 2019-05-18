@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.text.MessageFormat;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -18,7 +17,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import in.codeshuffle.foodiehub.R;
 import in.codeshuffle.foodiehub.ui.home.restaurantlist.RestaurantAdapter.RestaurantListInterface;
-import in.codeshuffle.foodiehub.util.CommonUtils;
 import in.codeshuffle.foodiehub.util.ScreenUtils;
 
 public class ImagePreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -27,6 +25,7 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int VIEW_TYPE_SEE_ALL = 2;
 
     private static final int NUM_IMAGES = 4;
+    private static final int THUMBNAIL_MARGIN_LEFT_RIGHT_COMBINED = 6;
 
     private final Context context;
     private final List<String> images;
@@ -35,9 +34,10 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int screenWidthAdjuster;
     private final RestaurantListInterface restaurantListInterface;
 
-    public ImagePreviewAdapter(Context context, String restaurantId, RestaurantListInterface restaurantListInterface, List<String> images) {
+    ImagePreviewAdapter(Context context, String restaurantId, RestaurantListInterface restaurantListInterface, List<String> images) {
         this.context = context;
-        this.screenWidthAdjuster = ScreenUtils.getScreenWidth(context) / NUM_IMAGES;
+        this.screenWidthAdjuster = (int) ((ScreenUtils.getScreenWidth(context) -
+                ScreenUtils.dpToPixel(13 + (THUMBNAIL_MARGIN_LEFT_RIGHT_COMBINED * 4), context)) / NUM_IMAGES);
         this.restaurantId = restaurantId;
         this.restaurantListInterface = restaurantListInterface;
         this.images = images;
@@ -89,8 +89,7 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     .centerCrop()
                     .into(seeAllViewHolder.ivPreview);
 
-            seeAllViewHolder.tvSeeAllCount.setText(MessageFormat.format("+{0}",
-                    images.size() - 3));
+            seeAllViewHolder.tvSeeAllCount.setText(String.format("+%d", (images.size() - 3)));
 
             seeAllViewHolder.root.setOnClickListener(v -> {
                 if (restaurantListInterface != null)

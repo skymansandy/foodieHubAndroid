@@ -5,4 +5,6 @@ import in.codeshuffle.foodiehub.ui.base.MvpView;
 
 public interface LocationMvpView extends MvpView {
     void onLocationList(LocationResponse locationResponse);
+
+    void onBackPressed();
 }
