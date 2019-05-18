@@ -31,14 +31,17 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final List<String> images;
     private final LayoutInflater inflater;
     private final String restaurantId;
+    private final String seeAllImagesUrl;
     private final int screenWidthAdjuster;
     private final RestaurantListInterface restaurantListInterface;
 
-    ImagePreviewAdapter(Context context, String restaurantId, RestaurantListInterface restaurantListInterface, List<String> images) {
+    ImagePreviewAdapter(Context context, String restaurantId, String seeAllImagesUrl,
+                        RestaurantListInterface restaurantListInterface, List<String> images) {
         this.context = context;
         this.screenWidthAdjuster = (int) ((ScreenUtils.getScreenWidth(context) -
                 ScreenUtils.dpToPixel(13 + (THUMBNAIL_MARGIN_LEFT_RIGHT_COMBINED * 4), context)) / NUM_IMAGES);
         this.restaurantId = restaurantId;
+        this.seeAllImagesUrl = seeAllImagesUrl;
         this.restaurantListInterface = restaurantListInterface;
         this.images = images;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -95,7 +98,7 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             seeAllViewHolder.root.setOnClickListener(v -> {
                 if (restaurantListInterface != null)
-                    restaurantListInterface.onSeeAllPreview(restaurantId);
+                    restaurantListInterface.onSeeAllPreview(seeAllImagesUrl);
             });
         }
     }

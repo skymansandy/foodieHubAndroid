@@ -101,4 +101,9 @@
     <string name="book_a_table">Book a table</string>
     <string name="order_online">Order online</string>
     <string name="search_restaurants">Search restaurants</string>
+    <string name="app_subtitle">Think food, think us!</string>
+    <string name="see_events_here">See Events here</string>
+    <string name="have_a_sneak_peak_into_the_events_happening_here">Have a sneak peak into the events happening here</string>
+    <string name="online_order">Online order</string>
+    <string name="table_booking">Table booking</string>
 </resources>

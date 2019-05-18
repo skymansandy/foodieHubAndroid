@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_details_sub"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/circular_bold"
+        android:text="@string/app_name"
+        android:textColor="@color/color_think_food_title"
+        android:textSize="30sp"
+        android:textStyle="italic" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/circular_bold"
+        android:text="@string/app_subtitle"
+        android:textColor="@color/color_think_food_desc"
+        android:textSize="14sp"
+        android:textStyle="italic" />
+
+</LinearLayout>

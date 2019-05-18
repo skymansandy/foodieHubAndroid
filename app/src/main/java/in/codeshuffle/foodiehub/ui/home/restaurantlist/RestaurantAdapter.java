@@ -93,7 +93,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         //Image previes
         holder.rvThumbnailList.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
         holder.rvThumbnailList.setAdapter(new ImagePreviewAdapter(context,
-                restaurant.getId(), restaurantListInterface,
+                restaurant.getId(), restaurant.getPhotosUrl(), restaurantListInterface,
                 CommonUtils.getRandomImages()));
         holder.root.setOnClickListener(v -> {
             if (restaurantListInterface != null) {
@@ -164,6 +164,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
 
         void onImagePreviewClicked(String restaurantId, String imageUrl);
 
-        void onSeeAllPreview(String restaurantId);
+        void onSeeAllPreview(String imagesUrl);
     }
 }

@@ -27,7 +27,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.home.HomeActivity"/>
+        <activity
+            android:name=".ui.home.HomeActivity"
+            android:windowSoftInputMode="stateHidden" />
 
         <activity android:name=".ui.location.LocationActivity" />
 

@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +20,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.app.ActivityCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -263,7 +265,8 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
     }
 
     @Override
-    public void onSeeAllPreview(String restaurantId) {
-        CommonUtils.showShortToast(this, "TODO:See all images");
+    public void onSeeAllPreview(String imagesUrl) {
+        CustomTabsIntent customTabsIntent = CommonUtils.getChromeCustomTab(R.color.colorPrimary);
+        customTabsIntent.launchUrl(this, Uri.parse(imagesUrl));
     }
 }

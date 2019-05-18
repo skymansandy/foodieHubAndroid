@@ -17,6 +17,8 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import androidx.annotation.IdRes;
+import androidx.browser.customtabs.CustomTabsIntent;
 import in.codeshuffle.foodiehub.R;
 
 
@@ -90,5 +92,11 @@ public final class CommonUtils {
         images.add("https://img.grouponcdn.com/deal/4J9i4vTe7ZgYddPu6drEmxPpesRF/4J-700x420/v1/c700x420.jpg");
         Collections.shuffle(images);
         return images;
+    }
+
+    public static CustomTabsIntent getChromeCustomTab(@IdRes int colorRes) {
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        builder.setToolbarColor(colorRes);
+        return builder.build();
     }
 }

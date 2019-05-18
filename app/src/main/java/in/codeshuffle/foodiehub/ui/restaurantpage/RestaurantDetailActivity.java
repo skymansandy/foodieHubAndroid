@@ -72,6 +72,8 @@ public class RestaurantDetailActivity extends BaseActivity implements Restaurant
     View layoutTableBooking;
     @BindView(R.id.tableBookingStatus)
     TextView tableBookingStatus;
+    @BindView(R.id.layoutSeeEvents)
+    View layoutSeeEvents;
     @BindView(R.id.layoutOnlineOrder)
     View layoutOnlineOrder;
     @BindView(R.id.orderAvailable)
@@ -96,7 +98,7 @@ public class RestaurantDetailActivity extends BaseActivity implements Restaurant
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
-        setContentView(R.layout.activity_restaurant_detail);
+        setContentView(R.layout.activity_restaurant_details);
         setUnBinder(ButterKnife.bind(this));
         setSupportActionBar(toolbar);
 
@@ -167,8 +169,7 @@ public class RestaurantDetailActivity extends BaseActivity implements Restaurant
         });
 
         menuBtn.setOnClickListener(v -> {
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            CustomTabsIntent customTabsIntent = builder.build();
+            CustomTabsIntent customTabsIntent = CommonUtils.getChromeCustomTab(R.color.colorPrimary);
             customTabsIntent.launchUrl(this, Uri.parse(restaurantDetailResponse.getMenuUrl()));
         });
 
@@ -207,6 +208,8 @@ public class RestaurantDetailActivity extends BaseActivity implements Restaurant
         //Table booking
         if (restaurantDetailResponse.getIsTableReservationSupported() == 1) {
             layoutTableBooking.setVisibility(View.VISIBLE);
+            layoutTableBooking.setOnClickListener(v
+                    -> CommonUtils.showShortToast(this, getString(R.string.table_booking)));
             if (restaurantDetailResponse.getHasTableBooking() == 1) {
                 tableBookingStatus.setVisibility(View.VISIBLE);
             } else {
@@ -223,9 +226,17 @@ public class RestaurantDetailActivity extends BaseActivity implements Restaurant
             boolean isDeliveringNow = restaurantDetailResponse.getIsDeliveringNow() == 1;
             layoutOrderAvailable.setVisibility(isDeliveringNow ? View.VISIBLE : View.GONE);
             layoutOrderNotAvailable.setVisibility(isDeliveringNow ? View.GONE : View.VISIBLE);
+            layoutOnlineOrder.setOnClickListener(v
+                    -> CommonUtils.showShortToast(this, getString(R.string.online_order)));
         } else {
             layoutOnlineOrder.setVisibility(View.GONE);
         }
+
+        //Events
+        layoutSeeEvents.setOnClickListener(v -> {
+            CustomTabsIntent customTabsIntent = CommonUtils.getChromeCustomTab(R.color.colorPrimary);
+            customTabsIntent.launchUrl(this, Uri.parse(restaurantDetailResponse.getEventsUrl()));
+        });
     }
 
 }
