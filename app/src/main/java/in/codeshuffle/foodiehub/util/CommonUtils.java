@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -72,12 +73,22 @@ public final class CommonUtils {
     public static List<String> getRandomImages() {
         List<String> images = new ArrayList<>();
         images.add("https://static-news.moneycontrol.com/static-mcnews/2017/07/food-liquor-restaurant-dine-meal-1280-720-770x433.jpg");
-        images.add("https://static-news.moneycontrol.com/static-mcnews/2017/07/food-liquor-restaurant-dine-meal-1280-720-770x433.jpg");
-        images.add("https://static-news.moneycontrol.com/static-mcnews/2017/07/food-liquor-restaurant-dine-meal-1280-720-770x433.jpg");
-        images.add("https://static-news.moneycontrol.com/static-mcnews/2017/07/food-liquor-restaurant-dine-meal-1280-720-770x433.jpg");
-        images.add("https://static-news.moneycontrol.com/static-mcnews/2017/07/food-liquor-restaurant-dine-meal-1280-720-770x433.jpg");
-        images.add("https://static-news.moneycontrol.com/static-mcnews/2017/07/food-liquor-restaurant-dine-meal-1280-720-770x433.jpg");
-        images.add("https://static-news.moneycontrol.com/static-mcnews/2017/07/food-liquor-restaurant-dine-meal-1280-720-770x433.jpg");
+        images.add("https://comelite-arch.com/wp-content/uploads/2018/04/How-to-Create-a-Successful-Fine-Dining-Restaurant-0-256x256.jpg");
+        images.add("https://comelite-arch.com/wp-content/uploads/2018/04/Eco-friendly-Restaurant-Interior-Design-1-1-256x256.jpg");
+        images.add("https://comelite-arch.com/wp-content/uploads/2018/09/A-Study-of-Fast-Food-Restaurant-Design-0-thegem-post-thumb-large.jpg");
+        images.add("https://supremeinns.co.uk/admin/resources/gallery/10-w256h256.jpg");
+        images.add("https://brunchy.ae/wp-content/uploads/2017/08/Thyme-Restaurant-256x256.jpg");
+        images.add("http://restoranjan.am/storage/xsmall/restaurants/December2018/98u98.jpg");
+        images.add("https://hglightingdesign.com/wp-content/uploads/2013/02/Dassara-074-256x256.jpg");
+        images.add("http://petermanarchitects.com/commercial/zoes/files/image_256_32.jpg");
+        images.add("https://pbs.twimg.com/profile_images/378800000097312368/ac56ba276bf14ab06d3da5b00c88b151.jpeg");
+        images.add("https://www.divagallery.com.my/wp-content/uploads/2016/12/4-Genting-Sky-Avenue-Burger-Lobster-Restaurant.jpg");
+        images.add("https://brunchy.ae/wp-content/uploads/2017/08/Spice-Emporium-Restaurant-256x256.jpg");
+        images.add("https://pbs.twimg.com/profile_images/654843543995879424/gL8EV3-1_400x400.jpg");
+        images.add("https://cdn131.picsart.com/295114887111201.jpg");
+        images.add("https://stylist-assets.imgix.net/app/uploads/2019/02/08151836/riceandnoodles_rt-crop-1549639132-931x931.jpg?w=256&h=256&fit=max&auto=format");
+        images.add("https://img.grouponcdn.com/deal/4J9i4vTe7ZgYddPu6drEmxPpesRF/4J-700x420/v1/c700x420.jpg");
+        Collections.shuffle(images);
         return images;
     }
 }

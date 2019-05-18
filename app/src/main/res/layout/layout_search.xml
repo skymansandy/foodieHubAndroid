@@ -33,12 +33,12 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="0dp"
                 android:layout_weight="1"
+                android:singleLine="true"
                 android:background="@null"
                 android:fontFamily="@font/circular_book"
-                tools:hint="@string/search_for_locations"
                 android:imeOptions="actionSearch"
-                android:maxLines="1"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:hint="@string/search_for_locations" />
 
         </LinearLayout>
 

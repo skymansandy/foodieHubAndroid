@@ -47,6 +47,6 @@
     <color name="blue_grey_light">#A5B4C8</color>
     <color name="orange">#FFA500</color>
     <color name="yellow">#fff44f</color>
-    <color name="bg_see_all_preview">#F26B5F5F</color>
+    <color name="bg_see_all_preview">#F2312E2E</color>
     <color name="locationSurface">#F8F8F8</color>
 </resources>

@@ -223,9 +223,27 @@
 
                 <include layout="@layout/component_dashed_divider" />
 
+                <Button
+                    android:id="@+id/openInZomato"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gradient_green"
+                    android:drawableEnd="@drawable/ic_right_white"
+                    android:fontFamily="@font/circular_bold"
+                    android:gravity="center_vertical"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:text="@string/open_in_zomato_app"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white" />
+
+                <include layout="@layout/component_dashed_divider" />
+
                 <include
                     android:id="@+id/layoutTableBooking"
                     layout="@layout/layout_table_booking" />
+
+                <include layout="@layout/component_dashed_divider" />
 
                 <include
                     android:id="@+id/layoutOnlineOrder"
@@ -233,22 +251,6 @@
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/openInZomato"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="15dp"
-                android:layout_marginBottom="?actionBarSize"
-                android:background="@drawable/gradient_green"
-                android:drawableEnd="@drawable/ic_right_white"
-                android:fontFamily="@font/circular_bold"
-                android:gravity="center_vertical"
-                android:paddingStart="15dp"
-                android:paddingEnd="15dp"
-                android:text="@string/open_in_zomato_app"
-                android:textAllCaps="false"
-                android:textColor="@color/white" />
         </LinearLayout>
 
         <include

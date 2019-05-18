@@ -51,13 +51,14 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         switch (viewType) {
             case VIEW_TYPE_SEE_ALL:
                 view = inflater.inflate(R.layout.item_image_preview_see_all, parent, false);
-                break;
+                adjustViewWidth(view);
+                return new SeeAllViewHolder(view);
             case VIEW_TYPE_PREVIEW:
             default:
                 view = inflater.inflate(R.layout.item_image_preview_small, parent, false);
+                adjustViewWidth(view);
+                return new PreviewHolder(view);
         }
-        adjustViewWidth(view);
-        return new PreviewHolder(view);
     }
 
     private void adjustViewWidth(View view) {
@@ -89,7 +90,8 @@ public class ImagePreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     .centerCrop()
                     .into(seeAllViewHolder.ivPreview);
 
-            seeAllViewHolder.tvSeeAllCount.setText(String.format("+%d", (images.size() - 3)));
+            seeAllViewHolder.tvSeeAllCount
+                    .setText(String.format("+%d", (images.size() - 3)));
 
             seeAllViewHolder.root.setOnClickListener(v -> {
                 if (restaurantListInterface != null)
