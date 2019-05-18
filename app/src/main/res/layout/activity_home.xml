@@ -43,13 +43,20 @@
                     layout="@layout/layout_search"
                     android:visibility="visible" />
 
-                <!--Restaurant list-->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/restaurantList"
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    tools:itemCount="4"
-                    tools:listitem="@layout/item_restaurant" />
+                    android:id="@+id/swipe">
+
+                    <!--Restaurant list-->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/restaurantList"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:itemCount="4"
+                        tools:listitem="@layout/item_restaurant" />
+
+                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             </LinearLayout>
         </RelativeLayout>

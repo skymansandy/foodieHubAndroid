@@ -59,6 +59,10 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
         notifyDataSetChanged();
     }
 
+    public void clearLocations() {
+        locations.clear();
+    }
+
     static class LocationViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.root)

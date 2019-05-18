@@ -25,6 +25,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -41,7 +42,7 @@ import in.codeshuffle.foodiehub.util.AppConstants.Params;
 import in.codeshuffle.foodiehub.util.CommonUtils;
 import in.codeshuffle.foodiehub.util.NetworkUtils;
 
-public class HomeActivity extends BaseActivity implements HomeMvpView, RestaurantAdapter.RestaurantListInterface {
+public class HomeActivity extends BaseActivity implements HomeMvpView, RestaurantAdapter.RestaurantListInterface, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
     private static final int PERMISSION_REQUEST_CODE = 100;
@@ -62,6 +63,8 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
     View location;
     @BindView(R.id.search_query)
     EditText etSearchRestaurants;
+    @BindView(R.id.swipe)
+    SwipeRefreshLayout swipe;
 
     private RestaurantAdapter restaurantsAdapter;
 
@@ -129,15 +132,11 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
     private void internetPrompt() {
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
         builder.setTitle(getString(R.string.no_internet));
-        builder.setMessage(getString(R.string.no_internet));
-        builder.setPositiveButton(getString(R.string.refresh),
-                (dialog, which) -> {
-                    //TODO ask internet
-                });
-        builder.setNegativeButton(getString(R.string.proceed),
-                (dialog, which) -> dialog.dismiss());
+        builder.setMessage(getString(R.string.an_internet_connection_is_required));
+        builder.setNeutralButton(getString(R.string.restart), ((dialog, which) -> {
+            finish();
+        }));
         builder.setCancelable(false);
-
         AlertDialog dialog = builder.create();
         dialog.show();
     }
@@ -193,6 +192,8 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
     protected void setUp() {
         etSearchRestaurants.setHint(getString(R.string.search_restaurants));
 
+        swipe.setOnRefreshListener(this);
+
         restaurantsAdapter = new RestaurantAdapter(this, this, new ArrayList<>());
         restaurantList.setLayoutManager(new LinearLayoutManager(this));
         restaurantList.setAdapter(restaurantsAdapter);
@@ -240,12 +241,14 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
 
     @Override
     public void showLoading() {
+        if(!swipe.isRefreshing()) swipe.setRefreshing(true);
         contentLayout.setVisibility(View.GONE);
         homeShimmer.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
+        if(swipe.isRefreshing()) swipe.setRefreshing(false);
         contentLayout.setVisibility(View.VISIBLE);
         homeShimmer.setVisibility(View.GONE);
     }
@@ -272,5 +275,11 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
     public void onSeeAllPreview(String imagesUrl) {
         CustomTabsIntent customTabsIntent = CommonUtils.getChromeCustomTab(R.color.colorPrimary);
         customTabsIntent.launchUrl(this, Uri.parse(imagesUrl));
+    }
+
+    @Override
+    public void onRefresh() {
+        mPresenter.fetchRestaurantsNearMe(preferencesHelper.getLatitude(),
+                preferencesHelper.getLongitude());
     }
 }

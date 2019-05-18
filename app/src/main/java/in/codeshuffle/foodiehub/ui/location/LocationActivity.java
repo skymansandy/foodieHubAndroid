@@ -3,6 +3,8 @@ package in.codeshuffle.foodiehub.ui.location;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -62,6 +64,22 @@ public class LocationActivity extends BaseActivity implements LocationMvpView, L
         etSearchLocations.setHint(getString(R.string.search_for_locations));
 
         locationsAdapter = new LocationAdapter(this, this, new ArrayList<>());
+        etSearchLocations.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mPresenter.fetchLocations(s.toString());
+            }
+        });
     }
 
     @Override
@@ -73,7 +91,9 @@ public class LocationActivity extends BaseActivity implements LocationMvpView, L
     @Override
     public void onLocationList(LocationResponse locationResponse) {
         Log.d(TAG, "onLocationList: " + locationResponse.toString());
+        locationsAdapter.clearLocations();
         locationsAdapter.addLocation(locationResponse.getLocationSuggestions());
+        locationsAdapter.notifyDataSetChanged();
     }
 
     @Override
