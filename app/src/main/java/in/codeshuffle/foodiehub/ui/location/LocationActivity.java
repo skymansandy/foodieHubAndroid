@@ -3,9 +3,8 @@ package in.codeshuffle.foodiehub.ui.location;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -13,10 +12,10 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import in.codeshuffle.foodiehub.R;
 import in.codeshuffle.foodiehub.data.network.model.LocationResponse;
 import in.codeshuffle.foodiehub.ui.base.BaseActivity;
@@ -30,10 +29,10 @@ public class LocationActivity extends BaseActivity implements LocationMvpView, L
     @Inject
     LocationMvpPresenter<LocationMvpView> mPresenter;
 
-    @BindView(R.id.search)
-    EditText etSearch;
-    @BindView(R.id.locations)
-    RecyclerView locationsList;
+    @BindView(R.id.locationsRecycler)
+    RecyclerView locationsRecycler;
+    @BindView(R.id.search_query)
+    EditText searchQuery;
 
     private LocationAdapter locationsAdapter;
 
@@ -61,26 +60,6 @@ public class LocationActivity extends BaseActivity implements LocationMvpView, L
     @Override
     protected void setUp() {
         locationsAdapter = new LocationAdapter(this, this, new ArrayList<>());
-        locationsList.setLayoutManager(new LinearLayoutManager(this));
-        locationsList.setAdapter(locationsAdapter);
-
-
-        etSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                mPresenter.fetchLocations(s.toString());
-            }
-        });
     }
 
     @Override

@@ -1,20 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.location.LocationActivity">
 
-    <EditText
+    <LinearLayout
+        android:id="@+id/action_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search"
-        android:id="@+id/search"/>
+        android:background="@color/white"
+        android:elevation="3dp"
+        android:orientation="horizontal">
 
-    <androidx.recyclerview.widget.RecyclerView
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/locationSurface"
+            android:paddingLeft="5dp"
+            android:src="@drawable/ic_arrow_back" />
+
+        <include layout="@layout/layout_search" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/search_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/locations"
-        tools:itemCount="3"
-        tools:listitem="@layout/item_location"/>
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

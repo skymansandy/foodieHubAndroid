@@ -82,4 +82,9 @@
     <string name="directions">Directions</string>
     <string name="highlighted_reviews">Highlighted reviews</string>
     <string name="app_description">Your food guide!</string>
+    <string name="reviews">Reviews</string>
+    <string name="menu">Menu</string>
+    <string name="open_in_zomato_app">Open in Zomato app</string>
+    <string name="zomato_app_not_installed">Zomato app not installed</string>
+    <string name="search_for_locations">Search for locations...</string>
 </resources>

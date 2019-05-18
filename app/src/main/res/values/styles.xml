@@ -8,6 +8,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppTheme.TranslucentStatus" parent="AppTheme"/>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:windowActionBarOverlay">true</item>

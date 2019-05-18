@@ -9,6 +9,8 @@ import in.codeshuffle.foodiehub.data.network.model.LocationResponse;
 import in.codeshuffle.foodiehub.data.network.model.RestaurantDetailResponse;
 import in.codeshuffle.foodiehub.data.network.model.RestaurantsResponse;
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
 @Singleton

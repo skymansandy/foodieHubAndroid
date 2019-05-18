@@ -4,228 +4,232 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_activity"
+    android:fillViewport="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ui.restaurantpage.RestaurantDetailActivity"
     tools:showIn="@layout/activity_restaurant_detail">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/restaurantThumb"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginEnd="10dp"
-                tools:src="@tools:sample/avatars" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
+                <ImageView
+                    android:id="@+id/restaurantThumb"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginEnd="10dp"
+                    tools:src="@tools:sample/avatars" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    tools:text="Al-Bek"
-                    android:fontFamily="@font/circular_bold"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/description"
-                    tools:text="Multi - cuisine restaurant"
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/circular_bold"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        tools:text="Al-Bek" />
+
+                    <TextView
+                        android:id="@+id/description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/circular_book"
+                        tools:text="Multi - cuisine restaurant" />
+                </LinearLayout>
+
+                <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/circular_book" />
+                    app:cardCornerRadius="5dp">
+
+                    <TextView
+                        android:id="@+id/ratings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/light_green"
+                        android:fontFamily="@font/circular_bold"
+                        android:paddingStart="7dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="7dp"
+                        android:paddingBottom="3dp"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        tools:text="4.1" />
+                </androidx.cardview.widget.CardView>
+
             </LinearLayout>
+
+            <include layout="@layout/component_dashed_divider" />
 
             <TextView
-                android:id="@+id/ratings"
-                android:layout_width="wrap_content"
+                android:id="@+id/location"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rating_background"
-                android:fontFamily="@font/circular_bold"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                tools:text="4.1" />
+                android:fontFamily="@font/circular_book"
+                android:textColor="@color/gray"
+                tools:text="Bangalore" />
+
+            <include layout="@layout/component_dashed_divider" />
+
+            <LinearLayout
+                android:id="@+id/shortcutsLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <!--Directions-->
+                <LinearLayout
+                    android:id="@+id/directionsBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:contentDescription="@string/directions"
+                        android:src="@drawable/ic_direction" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/circular_book"
+                            android:text="@string/directions"
+                            android:textColor="@color/gray"
+                            android:textSize="14sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="@drawable/dotted_line_green" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--Menu-->
+                <LinearLayout
+                    android:id="@+id/menuBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:contentDescription="@string/menu"
+                        android:src="@drawable/ic_restaurant_menu" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/circular_book"
+                            android:text="@string/menu"
+                            android:textColor="@color/gray"
+                            android:textSize="14sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="@drawable/dotted_line_green" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--Reviews count-->
+                <LinearLayout
+                    android:id="@+id/reviewsBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:contentDescription="@string/reviews"
+                        android:src="@drawable/ic_star" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/reviewsCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/circular_book"
+                            android:text="@string/reviews"
+                            android:textColor="@color/gray"
+                            android:textSize="14sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="@drawable/dotted_line_green" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <include layout="@layout/component_dashed_divider" />
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@android:color/darker_gray" />
-
-        <TextView
-            android:id="@+id/location"
-            tools:text="Bangalore"
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/circular_book"
-            android:textColor="@color/gray" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@android:color/darker_gray" />
-
-        <LinearLayout
-            android:id="@+id/shortcutsLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <!--Directions-->
-            <LinearLayout
-                android:id="@+id/directionsBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_direction" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/circular_book"
-                        android:text="@string/directions"
-                        android:textColor="@color/gray"
-                        android:textSize="14sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="@drawable/dotted_line_green" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <!--Menu-->
-            <LinearLayout
-                android:id="@+id/menuBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_restaurant_menu" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/circular_book"
-                        android:text="@string/directions"
-                        android:textColor="@color/gray"
-                        android:textSize="14sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="@drawable/dotted_line_green" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <!--Reviews count-->
-            <LinearLayout
-                android:id="@+id/reviewsBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_star" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/circular_book"
-                        android:text="@string/directions"
-                        android:textColor="@color/gray"
-                        android:textSize="14sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="@drawable/dotted_line_green" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@android:color/darker_gray" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:fontFamily="@font/circular_medium"
-            android:text="@string/highlighted_reviews"
-            android:textColor="@color/black" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_review"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false" />
-
-    </LinearLayout>
+            android:id="@+id/openInZomato"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="15dp"
+            android:background="@color/light_green"
+            android:fontFamily="@font/circular_bold"
+            android:text="@string/open_in_zomato_app"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+    </RelativeLayout>
 
 </androidx.core.widget.NestedScrollView>

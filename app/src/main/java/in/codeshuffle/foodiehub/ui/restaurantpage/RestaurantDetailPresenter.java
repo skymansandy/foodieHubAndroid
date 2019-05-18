@@ -9,7 +9,9 @@ import in.codeshuffle.foodiehub.data.network.ApiHeader;
 import in.codeshuffle.foodiehub.data.network.model.RestaurantDetailResponse;
 import in.codeshuffle.foodiehub.ui.base.BasePresenter;
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class RestaurantDetailPresenter<V extends RestaurantDetailMvpView> extends BasePresenter<V>
         implements RestaurantDetailMvpPresenter<V> {
@@ -41,6 +43,8 @@ public class RestaurantDetailPresenter<V extends RestaurantDetailMvpView> extend
         getMvpView().showLoading();
 
         getApiClient().getRestaurantDetail(getApiHeaders(), restaurantId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<RestaurantDetailResponse>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -61,6 +65,7 @@ public class RestaurantDetailPresenter<V extends RestaurantDetailMvpView> extend
                         if (!isViewAttached())
                             return;
 
+                        Log.d("Rest", "onError: "+t.getCause().getMessage());
                         getMvpView().onError("Something went wrong");
                         getMvpView().hideLoading();
                     }

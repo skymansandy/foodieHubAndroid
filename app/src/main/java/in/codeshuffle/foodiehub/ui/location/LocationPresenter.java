@@ -9,7 +9,9 @@ import in.codeshuffle.foodiehub.data.network.ApiHeader;
 import in.codeshuffle.foodiehub.data.network.model.LocationResponse;
 import in.codeshuffle.foodiehub.ui.base.BasePresenter;
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class LocationPresenter<V extends LocationMvpView> extends BasePresenter<V>
         implements LocationMvpPresenter<V> {
@@ -43,6 +45,8 @@ public class LocationPresenter<V extends LocationMvpView> extends BasePresenter<
 
         getApiClient().getLocations(getApiHeaders(),
                 query, 12.814301500000001, 77.6798622)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<LocationResponse>() {
                     @Override
                     public void onSubscribe(Disposable d) {

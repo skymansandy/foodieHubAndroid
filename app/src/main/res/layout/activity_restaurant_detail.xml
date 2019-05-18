@@ -11,19 +11,17 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="@android:color/transparent"
-        android:backgroundTint="@android:color/transparent"
         android:fitsSystemWindows="true"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:collapsedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextStyle"
-            app:contentScrim="?attr/colorPrimary"
             app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextStyle"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:statusBarScrim="@android:color/transparent"
@@ -32,7 +30,7 @@
             <ImageView
                 android:id="@+id/backdrop"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="250dp"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/detail_placeholder"

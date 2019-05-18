@@ -44,4 +44,5 @@
     <color name="orange">#FFA500</color>
     <color name="yellow">#fff44f</color>
     <color name="bg_see_all_preview">#E47C6E6E</color>
+    <color name="locationSurface">#F8F8F8</color>
 </resources>

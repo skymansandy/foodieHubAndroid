@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/restaurantRoot"
     android:background="?selectableItemBackground"
@@ -26,26 +27,37 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:maxLines="1"
+            android:fontFamily="@font/circular_bold"
             android:textColor="@color/black"
             android:textSize="18sp"
             tools:text="Bazaar" />
 
-        <TextView
-            android:id="@+id/rating"
+        <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/light_green"
-            android:paddingStart="7dp"
-            android:paddingEnd="7dp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            tools:text="3.9" />
+            app:cardCornerRadius="5dp">
+
+            <TextView
+                android:id="@+id/rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/light_green"
+                android:fontFamily="@font/circular_bold"
+                android:paddingStart="7dp"
+                android:paddingTop="3dp"
+                android:paddingEnd="7dp"
+                android:paddingBottom="3dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                tools:text="3.9" />
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 
     <TextView
         android:id="@+id/cuisine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/circular_black"
         android:layout_marginEnd="20dp"
         android:ellipsize="end"
         android:maxLines="1"
@@ -54,6 +66,7 @@
 
     <TextView
         android:id="@+id/location"
+        android:fontFamily="@font/circular_book"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
@@ -69,6 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:maxLines="1"
+        android:fontFamily="@font/circular_book"
         android:textColor="@color/dark_gray"
         android:textSize="14sp"
         tools:text="₹750 for two people (approx.)" />
@@ -84,6 +98,7 @@
         <include layout="@layout/component_plain_divider" />
 
         <TextView
+            android:fontFamily="@font/circular_medium"
             android:id="@+id/bookTable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -109,6 +124,7 @@
         <include layout="@layout/component_plain_divider" />
 
         <TextView
+            android:fontFamily="@font/circular_medium"
             android:id="@+id/orderOnline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
