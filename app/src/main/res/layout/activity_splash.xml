@@ -30,6 +30,9 @@
         android:layout_below="@id/splashHeader"
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/circular_bold"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="center"
         android:text="@string/app_description"
         android:textColor="@color/white"
         android:textSize="18sp" />

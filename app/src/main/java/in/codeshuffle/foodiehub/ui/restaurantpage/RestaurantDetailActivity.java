@@ -2,14 +2,12 @@ package in.codeshuffle.foodiehub.ui.restaurantpage;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.transition.Visibility;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -23,10 +21,8 @@ import javax.inject.Inject;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.browser.customtabs.CustomTabsIntent;
-import androidx.palette.graphics.Palette;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import in.codeshuffle.foodiehub.R;
 import in.codeshuffle.foodiehub.data.network.model.RestaurantDetailResponse;
 import in.codeshuffle.foodiehub.ui.base.BaseActivity;
@@ -67,8 +63,14 @@ public class RestaurantDetailActivity extends BaseActivity implements Restaurant
     TextView reviewsCount;
     @BindView(R.id.openInZomato)
     View openInZomato;
-    @BindView(R.id.search_progress_bar)
-    ProgressBar searchProgressBar;
+    @BindView(R.id.shareRestaurant)
+    View shareRestaurant;
+    @BindView(R.id.shimmer_details_page)
+    View searchProgressBar;
+    @BindView(R.id.layoutTableBooking)
+    View layoutTableBooking;
+    @BindView(R.id.tableBookingStatus)
+    TextView tableBookingStatus;
 
     public static Intent getStartIntent(Context context, String restaurantId) {
         Intent intent = new Intent(context, RestaurantDetailActivity.class);
@@ -167,6 +169,31 @@ public class RestaurantDetailActivity extends BaseActivity implements Restaurant
                 CommonUtils.showShortToast(this, getString(R.string.zomato_app_not_installed));
             }
         });
+
+        //Share restaurant link
+        shareRestaurant.setOnClickListener(v -> {
+            String shareBody = MessageFormat.format("Find this restaurant on zomato | {0}\n{1}\n{2}",
+                    restaurantDetailResponse.getName(),
+                    restaurantDetailResponse.getLocation().getLocalityVerbose(),
+                    getString(R.string.link_format_zomato_restaurant) + restaurantDetailResponse.getR().getResId());
+            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+            sharingIntent.setType("text/plain");
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+            startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share_using)));
+        });
+
+        //Table booking
+        if (restaurantDetailResponse.getIsTableReservationSupported() == 1) {
+            layoutTableBooking.setVisibility(View.VISIBLE);
+            if (restaurantDetailResponse.getHasTableBooking() == 1) {
+                tableBookingStatus.setVisibility(View.VISIBLE);
+            } else {
+                tableBookingStatus.setVisibility(View.GONE);
+            }
+        } else {
+            layoutTableBooking.setVisibility(View.GONE);
+        }
     }
 
 }

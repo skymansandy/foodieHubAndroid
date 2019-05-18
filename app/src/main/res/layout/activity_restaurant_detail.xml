@@ -49,18 +49,26 @@
                 android:background="@android:color/transparent"
                 android:backgroundTint="@android:color/transparent"
                 app:layout_collapseMode="pin"
-                app:navigationIcon="?attr/homeAsUpIndicator" />
+                app:navigationIcon="?attr/homeAsUpIndicator">
+
+                <ImageView
+                    android:id="@+id/shareRestaurant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:contentDescription="@string/share"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_share" />
+            </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_restaurant_details" />
 
-    <ProgressBar
-        android:id="@+id/search_progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+    <include
+        android:id="@+id/shimmer_details_page"
+        layout="@layout/shimmer_details_page" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
