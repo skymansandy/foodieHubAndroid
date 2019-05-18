@@ -79,4 +79,7 @@
     <string name="proceed">Proceed</string>
     <string name="no_google_play">No Google play</string>
     <string name="your_location">Your location</string>
+    <string name="directions">Directions</string>
+    <string name="highlighted_reviews">Highlighted reviews</string>
+    <string name="app_description">Your food guide!</string>
 </resources>
