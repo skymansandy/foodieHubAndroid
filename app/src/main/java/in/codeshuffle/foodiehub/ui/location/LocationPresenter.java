@@ -4,6 +4,7 @@ import android.util.Log;
 
 import javax.inject.Inject;
 
+import in.codeshuffle.foodiehub.data.DataManager;
 import in.codeshuffle.foodiehub.data.network.ApiClient;
 import in.codeshuffle.foodiehub.data.network.ApiHeader;
 import in.codeshuffle.foodiehub.data.network.model.LocationResponse;
@@ -17,8 +18,8 @@ public class LocationPresenter<V extends LocationMvpView> extends BasePresenter<
         implements LocationMvpPresenter<V> {
 
     @Inject
-    LocationPresenter(ApiClient apiClient, ApiHeader apiHeader) {
-        super(apiClient, apiHeader);
+    LocationPresenter(DataManager dataManager, ApiHeader apiHeader) {
+        super(dataManager, apiHeader);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class LocationPresenter<V extends LocationMvpView> extends BasePresenter<
 
         getMvpView().showLoading();
 
-        getApiClient().getLocations(getApiHeaders(),
+        getDataManager().getLocations(getApiHeaders(),
                 query, 12.814301500000001, 77.6798622)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

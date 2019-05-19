@@ -3,6 +3,8 @@ package in.codeshuffle.foodiehub.di.module;
 import android.content.Context;
 import android.util.Log;
 
+import org.greenrobot.greendao.database.DatabaseOpenHelper;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,11 +15,17 @@ import dagger.Provides;
 import in.codeshuffle.foodiehub.BuildConfig;
 import in.codeshuffle.foodiehub.FoodieHubApp;
 import in.codeshuffle.foodiehub.R;
+import in.codeshuffle.foodiehub.data.AppDataManager;
+import in.codeshuffle.foodiehub.data.DataManager;
+import in.codeshuffle.foodiehub.data.db.AppDbHelper;
+import in.codeshuffle.foodiehub.data.db.DbHelper;
+import in.codeshuffle.foodiehub.data.db.DbOpenHelper;
 import in.codeshuffle.foodiehub.data.network.ApiClient;
 import in.codeshuffle.foodiehub.data.network.ApiHeader;
 import in.codeshuffle.foodiehub.data.prefs.AppPreferencesHelper;
 import in.codeshuffle.foodiehub.data.prefs.PreferencesHelper;
 import in.codeshuffle.foodiehub.di.ApplicationContext;
+import in.codeshuffle.foodiehub.di.DatabaseInfo;
 import in.codeshuffle.foodiehub.di.PreferenceInfo;
 import in.codeshuffle.foodiehub.util.AppConstants;
 import in.codeshuffle.foodiehub.util.AppConstants.Params;
@@ -50,6 +58,12 @@ public class ApplicationModule {
     @ApplicationContext
     Context provideContext() {
         return mApplication;
+    }
+
+    @Provides
+    @DatabaseInfo
+    String provideDatabaseInfo() {
+        return AppConstants.DB_NAME;
     }
 
     @Provides
@@ -118,9 +132,16 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    ApiClient providesApiHelper(
+    ApiClient provideApiClient(
             Retrofit retrofit) {
         return retrofit.create(ApiClient.class);
+    }
+
+    @Provides
+    @Singleton
+    DataManager provideDataManager(
+            @ApplicationContext Context context, DbHelper dbHelper, PreferencesHelper prefHelper, ApiClient apiClient) {
+        return new AppDataManager(context, dbHelper, prefHelper, apiClient);
     }
 
     @Provides
@@ -163,5 +184,11 @@ public class ApplicationModule {
     @Singleton
     PreferencesHelper providePreferencesHelper(AppPreferencesHelper appPreferencesHelper) {
         return appPreferencesHelper;
+    }
+
+    @Provides
+    @Singleton
+    DbHelper provideDbHelper(AppDbHelper appDbHelper) {
+        return appDbHelper;
     }
 }

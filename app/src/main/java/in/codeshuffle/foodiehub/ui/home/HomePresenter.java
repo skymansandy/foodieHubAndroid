@@ -4,7 +4,7 @@ import android.util.Log;
 
 import javax.inject.Inject;
 
-import in.codeshuffle.foodiehub.data.network.ApiClient;
+import in.codeshuffle.foodiehub.data.DataManager;
 import in.codeshuffle.foodiehub.data.network.ApiHeader;
 import in.codeshuffle.foodiehub.data.network.model.RestaurantsResponse;
 import in.codeshuffle.foodiehub.ui.base.BasePresenter;
@@ -19,8 +19,8 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
     private static final String TAG = HomePresenter.class.getSimpleName();
 
     @Inject
-    HomePresenter(ApiClient apiClient, ApiHeader apiHeader) {
-        super(apiClient, apiHeader);
+    HomePresenter(DataManager dataManager, ApiHeader apiHeader) {
+        super(dataManager, apiHeader);
     }
 
     @Override
@@ -40,10 +40,10 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
     }
 
     @Override
-    public void fetchRestaurantsNearMe(Double lat, Double lon) {
+    public void fetchRestaurantsNearMe(String query, Double lat, Double lon) {
         getMvpView().showLoading();
 
-        getApiClient().getRestaurants(getApiHeaders(), lat, lon)
+        getDataManager().getRestaurants(getApiHeaders(), query, lat, lon)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<RestaurantsResponse>() {

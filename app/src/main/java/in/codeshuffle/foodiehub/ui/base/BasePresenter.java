@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import in.codeshuffle.foodiehub.data.DataManager;
 import in.codeshuffle.foodiehub.data.network.ApiClient;
 import in.codeshuffle.foodiehub.data.network.ApiHeader;
 
@@ -11,12 +12,12 @@ public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
 
     private V mMvpView;
 
-    private ApiClient apiClient;
+    private DataManager dataManager;
     private ApiHeader apiHeader;
 
     @Inject
-    public BasePresenter(ApiClient apiClient, ApiHeader apiHeader) {
-        this.apiClient = apiClient;
+    public BasePresenter(DataManager dataManager, ApiHeader apiHeader) {
+        this.dataManager = dataManager;
         this.apiHeader = apiHeader;
     }
 
@@ -24,8 +25,8 @@ public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
         return apiHeader;
     }
 
-    public ApiClient getApiClient() {
-        return apiClient;
+    public DataManager getDataManager() {
+        return dataManager;
     }
 
     @Override

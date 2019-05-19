@@ -15,7 +15,7 @@ public class AppDbHelper implements DbHelper {
     private final DaoSession mDaoSession;
 
     @Inject
-    AppDbHelper(DbOpenHelper dbOpenHelper) {
+    public AppDbHelper(DbOpenHelper dbOpenHelper) {
         mDaoSession = new DaoMaster(dbOpenHelper.getWritableDb()).newSession();
     }
 }

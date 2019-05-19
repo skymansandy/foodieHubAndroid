@@ -17,6 +17,7 @@ public final class AppConstants {
         public static final String USER_KEY = "user-key";
         public static final String QUERY = "query";
         public static final String RESTAURANT_ID = "res_id";
+        public static final String Q = "q";
 
 
         private Params(){

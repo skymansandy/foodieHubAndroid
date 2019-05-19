@@ -19,6 +19,7 @@ public interface ApiClient {
     @GET(ApiEndPoint.API_RESTAURANT_LIST)
     Observable<RestaurantsResponse> getRestaurants(
             @HeaderMap Map<String, String> apiKey,
+            @Query(Params.Q) String query,
             @Query(Params.LATITUDE) Double lat,
             @Query(Params.LONGITUDE) Double lon
     );

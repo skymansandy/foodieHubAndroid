@@ -31,8 +31,8 @@ public class AppApiClient implements ApiClient {
     }
 
     @Override
-    public Observable<RestaurantsResponse> getRestaurants(Map<String, String> apiKey, Double lat, Double lon) {
-        return apiClient.getRestaurants(apiKey, lat, lon);
+    public Observable<RestaurantsResponse> getRestaurants(Map<String, String> apiKey, String query, Double lat, Double lon) {
+        return apiClient.getRestaurants(apiKey, query, lat, lon);
     }
 
     @Override

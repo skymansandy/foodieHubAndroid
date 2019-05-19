@@ -7,7 +7,7 @@ import in.codeshuffle.foodiehub.ui.base.MvpPresenter;
 @PerActivity
 public interface HomeMvpPresenter<V extends HomeMvpView> extends MvpPresenter<V> {
 
-    void fetchRestaurantsNearMe(Double lat, Double lon);
+    void fetchRestaurantsNearMe(String query, Double lat, Double lon);
 
     void onActivityRestart();
 }

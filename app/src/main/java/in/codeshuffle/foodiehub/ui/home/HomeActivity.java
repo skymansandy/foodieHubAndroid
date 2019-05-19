@@ -118,11 +118,12 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
         if (NetworkUtils.isNetworkConnected(HomeActivity.this)) {
             if (NetworkUtils.isLocationPermissionsGiven(HomeActivity.this)) {
                 startLocationService();
-                mPresenter.fetchRestaurantsNearMe(preferencesHelper.getLatitude(),
+                mPresenter.fetchRestaurantsNearMe(etSearchRestaurants.getText().toString(),
+                        preferencesHelper.getLatitude(),
                         preferencesHelper.getLongitude());
             } else {
                 requestLocationPermissions();
-                mPresenter.fetchRestaurantsNearMe(null, null);
+                mPresenter.fetchRestaurantsNearMe("", null, null);
             }
         } else {
             internetPrompt();
@@ -279,7 +280,8 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
 
     @Override
     public void onRefresh() {
-        mPresenter.fetchRestaurantsNearMe(preferencesHelper.getLatitude(),
+        mPresenter.fetchRestaurantsNearMe(etSearchRestaurants.getText().toString(),
+                preferencesHelper.getLatitude(),
                 preferencesHelper.getLongitude());
     }
 }

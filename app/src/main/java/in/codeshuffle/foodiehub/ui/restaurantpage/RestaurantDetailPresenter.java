@@ -4,6 +4,7 @@ import android.util.Log;
 
 import javax.inject.Inject;
 
+import in.codeshuffle.foodiehub.data.DataManager;
 import in.codeshuffle.foodiehub.data.network.ApiClient;
 import in.codeshuffle.foodiehub.data.network.ApiHeader;
 import in.codeshuffle.foodiehub.data.network.model.RestaurantDetailResponse;
@@ -17,8 +18,8 @@ public class RestaurantDetailPresenter<V extends RestaurantDetailMvpView> extend
         implements RestaurantDetailMvpPresenter<V> {
 
     @Inject
-    RestaurantDetailPresenter(ApiClient apiClient, ApiHeader apiHeader) {
-        super(apiClient, apiHeader);
+    RestaurantDetailPresenter(DataManager dataManager, ApiHeader apiHeader) {
+        super(dataManager, apiHeader);
     }
 
     @Override
@@ -42,7 +43,7 @@ public class RestaurantDetailPresenter<V extends RestaurantDetailMvpView> extend
 
         getMvpView().showLoading();
 
-        getApiClient().getRestaurantDetail(getApiHeaders(), restaurantId)
+        getDataManager().getRestaurantDetail(getApiHeaders(), restaurantId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<RestaurantDetailResponse>() {
