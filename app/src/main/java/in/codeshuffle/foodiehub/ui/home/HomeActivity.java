@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -25,7 +26,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -42,7 +42,8 @@ import in.codeshuffle.foodiehub.util.AppConstants.Params;
 import in.codeshuffle.foodiehub.util.CommonUtils;
 import in.codeshuffle.foodiehub.util.NetworkUtils;
 
-public class HomeActivity extends BaseActivity implements HomeMvpView, RestaurantAdapter.RestaurantListInterface, SwipeRefreshLayout.OnRefreshListener {
+public class HomeActivity extends BaseActivity
+        implements HomeMvpView, RestaurantAdapter.RestaurantListInterface {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
     private static final int PERMISSION_REQUEST_CODE = 100;
@@ -59,12 +60,12 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
     View homeShimmer;
     @BindView(R.id.contentLayout)
     View contentLayout;
+    @BindView(R.id.nothingFound)
+    View nothingFound;
     @BindView(R.id.location)
     View location;
     @BindView(R.id.search_query)
     EditText etSearchRestaurants;
-    @BindView(R.id.swipe)
-    SwipeRefreshLayout swipe;
 
     private RestaurantAdapter restaurantsAdapter;
 
@@ -193,7 +194,17 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
     protected void setUp() {
         etSearchRestaurants.setHint(getString(R.string.search_restaurants));
 
-        swipe.setOnRefreshListener(this);
+        etSearchRestaurants.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                mPresenter.fetchRestaurantsNearMe(etSearchRestaurants.getText().toString(),
+                        preferencesHelper.getLatitude(),
+                        preferencesHelper.getLongitude());
+                hideKeyboard();
+                return true;
+            }
+
+            return false;
+        });
 
         restaurantsAdapter = new RestaurantAdapter(this, this, new ArrayList<>());
         restaurantList.setLayoutManager(new LinearLayoutManager(this));
@@ -242,21 +253,40 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
 
     @Override
     public void showLoading() {
-        if (!swipe.isRefreshing()) swipe.setRefreshing(true);
         contentLayout.setVisibility(View.GONE);
         homeShimmer.setVisibility(View.VISIBLE);
+        nothingFound.setVisibility(View.GONE);
     }
 
     @Override
     public void hideLoading() {
-        if (swipe.isRefreshing()) swipe.setRefreshing(false);
-        contentLayout.setVisibility(View.VISIBLE);
         homeShimmer.setVisibility(View.GONE);
+        contentLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onRestaurantList(RestaurantsResponse restaurantsResponse) {
-        restaurantsAdapter.addRestaurants(restaurantsResponse.getRestaurants());
+        restaurantsAdapter.clearRestaurants();
+        if (restaurantsResponse.getRestaurants().size() == 0) {
+            nothingFound.setVisibility(View.VISIBLE);
+            contentLayout.setVisibility(View.GONE);
+        } else {
+            nothingFound.setVisibility(View.GONE);
+            contentLayout.setVisibility(View.VISIBLE);
+            restaurantsAdapter.addRestaurants(restaurantsResponse.getRestaurants());
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!etSearchRestaurants.getText().toString().equals("")) {
+            etSearchRestaurants.setText("");
+            etSearchRestaurants.clearFocus();
+            mPresenter.fetchRestaurantsNearMe("", preferencesHelper.getLatitude(),
+                    preferencesHelper.getLongitude());
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -276,12 +306,5 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
     public void onSeeAllPreview(String imagesUrl) {
         CustomTabsIntent customTabsIntent = CommonUtils.getChromeCustomTab(R.color.colorPrimary);
         customTabsIntent.launchUrl(this, Uri.parse(imagesUrl));
-    }
-
-    @Override
-    public void onRefresh() {
-        mPresenter.fetchRestaurantsNearMe(etSearchRestaurants.getText().toString(),
-                preferencesHelper.getLatitude(),
-                preferencesHelper.getLongitude());
     }
 }

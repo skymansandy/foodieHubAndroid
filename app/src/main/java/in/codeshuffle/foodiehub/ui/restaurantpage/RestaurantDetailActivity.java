@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import in.codeshuffle.foodiehub.R;
@@ -36,7 +37,7 @@ public class RestaurantDetailActivity extends BaseActivity implements Restaurant
     RestaurantDetailMvpPresenter<RestaurantDetailMvpView> mPresenter;
 
 
-    @BindView(R.id.contentLayout)
+    @BindView(R.id.layoutContent)
     View layoutContent;
     @BindView(R.id.shimmer_details_page)
     View layoutLoading;

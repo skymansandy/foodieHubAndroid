@@ -7,40 +7,34 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <LinearLayout
+        android:background="@drawable/search_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/search_background">
+        android:orientation="horizontal"
+        android:padding="10dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/search_icon" />
+
+        <EditText
+            android:id="@+id/search_query"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            android:layout_margin="0dp"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:background="@null"
+            android:fontFamily="@font/circular_book"
+            android:imeOptions="actionSearch"
+            android:textSize="14sp"
+            tools:hint="@string/search_for_locations" />
 
-            <ImageView
-                android:id="@+id/backBtn"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/search_icon" />
-
-            <EditText
-                android:id="@+id/search_query"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="0dp"
-                android:layout_weight="1"
-                android:singleLine="true"
-                android:background="@null"
-                android:fontFamily="@font/circular_book"
-                android:imeOptions="actionSearch"
-                android:textSize="14sp"
-                tools:hint="@string/search_for_locations" />
-
-        </LinearLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
+    </LinearLayout>
 
 </LinearLayout>

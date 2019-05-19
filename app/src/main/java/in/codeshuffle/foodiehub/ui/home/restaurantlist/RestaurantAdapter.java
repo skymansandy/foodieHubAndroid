@@ -134,6 +134,11 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         notifyDataSetChanged();
     }
 
+    public void clearRestaurants() {
+        restaurants.clear();
+        notifyDataSetChanged();
+    }
+
     static class RestaurantViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.restaurantRoot)
