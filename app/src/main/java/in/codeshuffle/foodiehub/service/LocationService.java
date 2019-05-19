@@ -87,6 +87,11 @@ public class LocationService extends Service implements
 
         if (location != null) {
             sendMessageToUI(location.getLatitude(), location.getLongitude());
+            //Stop service once location is fetched
+            LocationServices.FusedLocationApi.removeLocationUpdates(mLocationClient, this);
+            Log.d(TAG, "Disconnected from location updates");
+
+            //Stop service
             stopSelf();
         }
     }

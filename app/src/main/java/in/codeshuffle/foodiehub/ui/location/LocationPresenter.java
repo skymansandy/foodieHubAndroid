@@ -39,13 +39,13 @@ public class LocationPresenter<V extends LocationMvpView> extends BasePresenter<
     }
 
     @Override
-    public void fetchLocations(String query) {
+    public void fetchLocations(String query, Double lat, Double lng) {
         Log.d("Location", "fetchLocations: " + query);
 
         getMvpView().showLoading();
 
         getDataManager().getLocations(getApiHeaders(),
-                query, 12.814301500000001, 77.6798622)
+                query, lat, lng)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<LocationResponse>() {

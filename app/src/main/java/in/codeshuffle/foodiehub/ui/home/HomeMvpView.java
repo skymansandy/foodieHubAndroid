@@ -7,4 +7,6 @@ public interface HomeMvpView extends MvpView {
     void setupLocationService();
 
     void onRestaurantList(RestaurantsResponse restaurantsResponse);
+
+    void showUpdatedLocationInfo();
 }

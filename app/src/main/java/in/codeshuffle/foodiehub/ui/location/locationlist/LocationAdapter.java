@@ -43,7 +43,10 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
         holder.root.setOnClickListener(v->{
             if(locationListInterface !=null){
                 locationListInterface.onLocationSelected(
-                        location.getCityName(), location.getLatitude(), location.getLongitude());
+                        location.getTitle(),
+                        location.getCityName(),
+                        location.getLatitude(),
+                        location.getLongitude());
             }
         });
     }
@@ -53,14 +56,14 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
         return locations.size();
     }
 
-    public void addLocation(List<LocationSuggestion> newLocations) {
-        locations.clear();
+    public void addLocations(List<LocationSuggestion> newLocations) {
         locations.addAll(newLocations);
         notifyDataSetChanged();
     }
 
     public void clearLocations() {
         locations.clear();
+        notifyDataSetChanged();
     }
 
     static class LocationViewHolder extends RecyclerView.ViewHolder {
@@ -77,6 +80,6 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
     }
 
     public interface LocationListInterface{
-        void onLocationSelected(String city, Double latitude, Double longitude);
+        void onLocationSelected(String city, String locality, Double latitude, Double longitude);
     }
 }

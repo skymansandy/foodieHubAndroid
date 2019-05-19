@@ -68,22 +68,42 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
-    public void setLatitude(Double latitude) {
-
+    public String getLocality() {
+        return mPreferencesHelper.getLocality();
     }
 
     @Override
-    public void setLongitude(Double longitude) {
-
+    public void setLocality(String locality) {
+        mPreferencesHelper.setLocality(locality);
     }
 
     @Override
     public Double getLatitude() {
-        return null;
+        return mPreferencesHelper.getLatitude();
+    }
+
+    @Override
+    public void setLatitude(Double latitude) {
+        mPreferencesHelper.setLatitude(latitude);
     }
 
     @Override
     public Double getLongitude() {
-        return null;
+        return mPreferencesHelper.getLongitude();
+    }
+
+    @Override
+    public void setLongitude(Double longitude) {
+        mPreferencesHelper.setLongitude(longitude);
+    }
+
+    @Override
+    public String getCity() {
+        return mPreferencesHelper.getCity();
+    }
+
+    @Override
+    public void setCity(String city) {
+        mPreferencesHelper.setCity(city);
     }
 }

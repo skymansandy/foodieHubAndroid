@@ -79,6 +79,7 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
 
     @Override
     public void onActivityRestart() {
+        getMvpView().showUpdatedLocationInfo();
         getMvpView().hideKeyboard();
     }
 

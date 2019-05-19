@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -64,6 +65,10 @@ public class HomeActivity extends BaseActivity
     View nothingFound;
     @BindView(R.id.location)
     View location;
+    @BindView(R.id.addressHeader)
+    TextView addressHeader;
+    @BindView(R.id.addressSubHeader)
+    TextView addressSubHeader;
     @BindView(R.id.search_query)
     EditText etSearchRestaurants;
 
@@ -275,6 +280,15 @@ public class HomeActivity extends BaseActivity
             contentLayout.setVisibility(View.VISIBLE);
             restaurantsAdapter.addRestaurants(restaurantsResponse.getRestaurants());
         }
+    }
+
+    @Override
+    public void showUpdatedLocationInfo() {
+        addressHeader.setText(preferencesHelper.getCity());
+        addressSubHeader.setText(preferencesHelper.getLocality());
+        mPresenter.fetchRestaurantsNearMe(etSearchRestaurants.getText().toString(),
+                preferencesHelper.getLatitude(),
+                preferencesHelper.getLongitude());
     }
 
     @Override

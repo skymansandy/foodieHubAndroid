@@ -7,7 +7,7 @@ import in.codeshuffle.foodiehub.ui.base.MvpPresenter;
 @PerActivity
 public interface LocationMvpPresenter<V extends LocationMvpView> extends MvpPresenter<V> {
 
-    void fetchLocations(String query);
+    void fetchLocations(String query, Double lat, Double lng);
 
     void onBackPressed();
 }

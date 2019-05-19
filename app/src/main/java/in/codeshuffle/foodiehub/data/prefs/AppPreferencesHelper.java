@@ -15,6 +15,8 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     private static final String LATITUDE = "latitude";
     private static final String LONGITUDE = "longitude";
+    private static final String CITY = "city";
+    private static final String LOCALITY = "locality";
 
     private SharedPreferences mPrefs;
     private SharedPreferences.Editor mEditor;
@@ -42,9 +44,33 @@ public class AppPreferencesHelper implements PreferencesHelper {
     }
 
     @Override
+    public String getCity() {
+        return mPrefs.getString(CITY, "");
+    }
+
+    @Override
+    public void setCity(String city) {
+        mEditor = mPrefs.edit();
+        mEditor.putString(CITY, city);
+        mEditor.apply();
+    }
+
+    @Override
     public void setLongitude(Double longitude) {
         mEditor = mPrefs.edit();
         mEditor.putFloat(LONGITUDE, longitude.floatValue());
+        mEditor.apply();
+    }
+
+    @Override
+    public String getLocality() {
+        return mPrefs.getString(LOCALITY, "");
+    }
+
+    @Override
+    public void setLocality(String locality) {
+        mEditor = mPrefs.edit();
+        mEditor.putString(LOCALITY, locality);
         mEditor.apply();
     }
 }
