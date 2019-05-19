@@ -69,8 +69,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
 
         //Online delivery
         if (restaurant.hasOnlineDelivery().equals("1")) {
-            holder.layoutOrderOnline.setVisibility(View.VISIBLE);
-            holder.layoutOrderOnline.setOnClickListener(v
+            holder.tvOrderOnline.setVisibility(View.VISIBLE);
+            holder.tvOrderOnline.setOnClickListener(v
                     -> CommonUtils.showShortToast(context, context.getString(R.string.online_order)));
             if (restaurant.isDeliveringNow().equals("1")) {
 
@@ -78,13 +78,13 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
 
             }
         } else {
-            holder.layoutOrderOnline.setVisibility(View.GONE);
+            holder.tvOrderOnline.setVisibility(View.GONE);
         }
 
         //Table booking
         if (restaurant.isTableReservationSupported().equals("1")) {
-            holder.layoutBookTable.setVisibility(View.VISIBLE);
-            holder.layoutBookTable.setOnClickListener(v
+            holder.tvBookTable.setVisibility(View.VISIBLE);
+            holder.tvBookTable.setOnClickListener(v
                     -> CommonUtils.showShortToast(context, context.getString(R.string.table_booking)));
             if (restaurant.hasTableBooking().equals("1")) {
 
@@ -92,7 +92,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
 
             }
         } else {
-            holder.layoutBookTable.setVisibility(View.GONE);
+            holder.tvBookTable.setVisibility(View.GONE);
         }
 
         //Image previes
@@ -151,13 +151,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         @BindView(R.id.costForTwo)
         TextView tvCostForTwo;
 
-        @BindView(R.id.bookTableLayout)
-        View layoutBookTable;
         @BindView(R.id.bookTable)
         View tvBookTable;
-
-        @BindView(R.id.orderOnlineLayout)
-        View layoutOrderOnline;
         @BindView(R.id.orderOnline)
         View tvOrderOnline;
 

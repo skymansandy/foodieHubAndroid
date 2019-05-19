@@ -206,11 +206,11 @@ public class RestaurantDetailActivity extends BaseActivity implements Restaurant
         });
 
         //Table booking
-        if (restaurantDetailResponse.getIsTableReservationSupported() == 1) {
+        if (restaurantDetailResponse.getIsTableReservationSupported().equals("1")) {
             layoutTableBooking.setVisibility(View.VISIBLE);
             layoutTableBooking.setOnClickListener(v
                     -> CommonUtils.showShortToast(this, getString(R.string.table_booking)));
-            if (restaurantDetailResponse.getHasTableBooking() == 1) {
+            if (restaurantDetailResponse.getHasTableBooking().equals("1")) {
                 tableBookingStatus.setVisibility(View.VISIBLE);
             } else {
                 tableBookingStatus.setVisibility(View.GONE);
@@ -220,10 +220,10 @@ public class RestaurantDetailActivity extends BaseActivity implements Restaurant
         }
 
         //Online order
-        if (restaurantDetailResponse.getHasOnlineDelivery() == 1) {
+        if (restaurantDetailResponse.getHasOnlineDelivery().equals("1")) {
             layoutOnlineOrder.setVisibility(View.VISIBLE);
 
-            boolean isDeliveringNow = restaurantDetailResponse.getIsDeliveringNow() == 1;
+            boolean isDeliveringNow = restaurantDetailResponse.getIsDeliveringNow().equals("1");
             layoutOrderAvailable.setVisibility(isDeliveringNow ? View.VISIBLE : View.GONE);
             layoutOrderNotAvailable.setVisibility(isDeliveringNow ? View.GONE : View.VISIBLE);
             layoutOnlineOrder.setOnClickListener(v

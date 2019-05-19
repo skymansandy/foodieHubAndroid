@@ -3,6 +3,7 @@ package in.codeshuffle.foodiehub.ui.splash;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import javax.inject.Inject;
 
@@ -27,6 +28,10 @@ public class SplashActivity extends BaseActivity implements SplashMvpView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+
         setContentView(R.layout.activity_splash);
 
         setUnBinder(ButterKnife.bind(this));

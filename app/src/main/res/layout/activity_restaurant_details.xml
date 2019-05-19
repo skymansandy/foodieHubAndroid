@@ -19,7 +19,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="250dp"
             android:fitsSystemWindows="true"
             app:collapsedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextStyle"
             app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextStyle"
@@ -30,7 +30,7 @@
             <ImageView
                 android:id="@+id/backdrop"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/detail_placeholder"
@@ -65,6 +65,5 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_restaurant_details" />
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:fitsSystemWindows="false"
     android:orientation="vertical"
     tools:context=".ui.splash.SplashActivity">
 
@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="120dp"
         android:fontFamily="@font/circular_bold"
         android:text="@string/app_name"
         android:textColor="@color/white"

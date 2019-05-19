@@ -231,8 +231,8 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
     }
 
     @OnClick({R.id.location})
-    void onViewClicked(View view){
-        switch (view.getId()){
+    void onViewClicked(View view) {
+        switch (view.getId()) {
             case R.id.location:
                 startActivity(LocationActivity.getStartIntent(this));
                 break;
@@ -241,14 +241,14 @@ public class HomeActivity extends BaseActivity implements HomeMvpView, Restauran
 
     @Override
     public void showLoading() {
-        if(!swipe.isRefreshing()) swipe.setRefreshing(true);
+        if (!swipe.isRefreshing()) swipe.setRefreshing(true);
         contentLayout.setVisibility(View.GONE);
         homeShimmer.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
-        if(swipe.isRefreshing()) swipe.setRefreshing(false);
+        if (swipe.isRefreshing()) swipe.setRefreshing(false);
         contentLayout.setVisibility(View.VISIBLE);
         homeShimmer.setVisibility(View.GONE);
     }

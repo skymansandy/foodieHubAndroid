@@ -12,7 +12,7 @@ public class RestaurantDetailResponse {
     @SerializedName("apikey")
     private String mApikey;
     @SerializedName("average_cost_for_two")
-    private Long mAverageCostForTwo;
+    private String mAverageCostForTwo;
     @SerializedName("book_again_url")
     private String mBookAgainUrl;
     @SerializedName("book_form_web_view_url")
@@ -30,25 +30,25 @@ public class RestaurantDetailResponse {
     @SerializedName("featured_image")
     private String mFeaturedImage;
     @SerializedName("has_online_delivery")
-    private Long mHasOnlineDelivery;
+    private String mHasOnlineDelivery;
     @SerializedName("has_table_booking")
-    private Long mHasTableBooking;
+    private String mHasTableBooking;
     @SerializedName("id")
     private String mId;
     @SerializedName("include_bogo_offers")
     private Boolean mIncludeBogoOffers;
     @SerializedName("is_book_form_web_view")
-    private Long mIsBookFormWebView;
+    private String mIsBookFormWebView;
     @SerializedName("is_delivering_now")
-    private Long mIsDeliveringNow;
+    private String mIsDeliveringNow;
     @SerializedName("is_table_reservation_supported")
-    private Long mIsTableReservationSupported;
+    private String mIsTableReservationSupported;
     @SerializedName("is_zomato_book_res")
-    private Long mIsZomatoBookRes;
+    private String mIsZomatoBookRes;
     @SerializedName("location")
     private Location mLocation;
     @SerializedName("medio_provider")
-    private Long mMedioProvider;
+    private String mMedioProvider;
     @SerializedName("menu_url")
     private String mMenuUrl;
     @SerializedName("mezzo_provider")
@@ -58,15 +58,15 @@ public class RestaurantDetailResponse {
     @SerializedName("offers")
     private List<Object> mOffers;
     @SerializedName("opentable_support")
-    private Long mOpentableSupport;
+    private String mOpentableSupport;
     @SerializedName("photos_url")
     private String mPhotosUrl;
     @SerializedName("price_range")
-    private Long mPriceRange;
+    private String mPriceRange;
     @SerializedName("R")
     private R mR;
     @SerializedName("switch_to_order_menu")
-    private Long mSwitchToOrderMenu;
+    private String mSwitchToOrderMenu;
     @SerializedName("thumb")
     private String mThumb;
     @SerializedName("url")
@@ -82,11 +82,11 @@ public class RestaurantDetailResponse {
         mApikey = apikey;
     }
 
-    public Long getAverageCostForTwo() {
+    public String getAverageCostForTwo() {
         return mAverageCostForTwo;
     }
 
-    public void setAverageCostForTwo(Long averageCostForTwo) {
+    public void setAverageCostForTwo(String averageCostForTwo) {
         mAverageCostForTwo = averageCostForTwo;
     }
 
@@ -154,19 +154,19 @@ public class RestaurantDetailResponse {
         mFeaturedImage = featuredImage;
     }
 
-    public Long getHasOnlineDelivery() {
+    public String getHasOnlineDelivery() {
         return mHasOnlineDelivery;
     }
 
-    public void setHasOnlineDelivery(Long hasOnlineDelivery) {
+    public void setHasOnlineDelivery(String hasOnlineDelivery) {
         mHasOnlineDelivery = hasOnlineDelivery;
     }
 
-    public Long getHasTableBooking() {
+    public String getHasTableBooking() {
         return mHasTableBooking;
     }
 
-    public void setHasTableBooking(Long hasTableBooking) {
+    public void setHasTableBooking(String hasTableBooking) {
         mHasTableBooking = hasTableBooking;
     }
 
@@ -186,35 +186,35 @@ public class RestaurantDetailResponse {
         mIncludeBogoOffers = includeBogoOffers;
     }
 
-    public Long getIsBookFormWebView() {
+    public String getIsBookFormWebView() {
         return mIsBookFormWebView;
     }
 
-    public void setIsBookFormWebView(Long isBookFormWebView) {
+    public void setIsBookFormWebView(String isBookFormWebView) {
         mIsBookFormWebView = isBookFormWebView;
     }
 
-    public Long getIsDeliveringNow() {
+    public String getIsDeliveringNow() {
         return mIsDeliveringNow;
     }
 
-    public void setIsDeliveringNow(Long isDeliveringNow) {
+    public void setIsDeliveringNow(String isDeliveringNow) {
         mIsDeliveringNow = isDeliveringNow;
     }
 
-    public Long getIsTableReservationSupported() {
+    public String getIsTableReservationSupported() {
         return mIsTableReservationSupported;
     }
 
-    public void setIsTableReservationSupported(Long isTableReservationSupported) {
+    public void setIsTableReservationSupported(String isTableReservationSupported) {
         mIsTableReservationSupported = isTableReservationSupported;
     }
 
-    public Long getIsZomatoBookRes() {
+    public String getIsZomatoBookRes() {
         return mIsZomatoBookRes;
     }
 
-    public void setIsZomatoBookRes(Long isZomatoBookRes) {
+    public void setIsZomatoBookRes(String isZomatoBookRes) {
         mIsZomatoBookRes = isZomatoBookRes;
     }
 
@@ -226,11 +226,11 @@ public class RestaurantDetailResponse {
         mLocation = location;
     }
 
-    public Long getMedioProvider() {
+    public String getMedioProvider() {
         return mMedioProvider;
     }
 
-    public void setMedioProvider(Long medioProvider) {
+    public void setMedioProvider(String medioProvider) {
         mMedioProvider = medioProvider;
     }
 
@@ -266,11 +266,11 @@ public class RestaurantDetailResponse {
         mOffers = offers;
     }
 
-    public Long getOpentableSupport() {
+    public String getOpentableSupport() {
         return mOpentableSupport;
     }
 
-    public void setOpentableSupport(Long opentableSupport) {
+    public void setOpentableSupport(String opentableSupport) {
         mOpentableSupport = opentableSupport;
     }
 
@@ -282,11 +282,11 @@ public class RestaurantDetailResponse {
         mPhotosUrl = photosUrl;
     }
 
-    public Long getPriceRange() {
+    public String getPriceRange() {
         return mPriceRange;
     }
 
-    public void setPriceRange(Long priceRange) {
+    public void setPriceRange(String priceRange) {
         mPriceRange = priceRange;
     }
 
@@ -298,11 +298,11 @@ public class RestaurantDetailResponse {
         mR = r;
     }
 
-    public Long getSwitchToOrderMenu() {
+    public String getSwitchToOrderMenu() {
         return mSwitchToOrderMenu;
     }
 
-    public void setSwitchToOrderMenu(Long switchToOrderMenu) {
+    public void setSwitchToOrderMenu(String switchToOrderMenu) {
         mSwitchToOrderMenu = switchToOrderMenu;
     }
 
@@ -333,13 +333,13 @@ public class RestaurantDetailResponse {
     public static class R {
 
         @SerializedName("res_id")
-        private Long mResId;
+        private String mResId;
 
-        public Long getResId() {
+        public String getResId() {
             return mResId;
         }
 
-        public void setResId(Long resId) {
+        public void setResId(String resId) {
             mResId = resId;
         }
 
@@ -397,9 +397,9 @@ public class RestaurantDetailResponse {
         @SerializedName("city")
         private String mCity;
         @SerializedName("city_id")
-        private Long mCityId;
+        private String mCityId;
         @SerializedName("country_id")
-        private Long mCountryId;
+        private String mCountryId;
         @SerializedName("latitude")
         private String mLatitude;
         @SerializedName("locality")
@@ -427,19 +427,19 @@ public class RestaurantDetailResponse {
             mCity = city;
         }
 
-        public Long getCityId() {
+        public String getCityId() {
             return mCityId;
         }
 
-        public void setCityId(Long cityId) {
+        public void setCityId(String cityId) {
             mCityId = cityId;
         }
 
-        public Long getCountryId() {
+        public String getCountryId() {
             return mCountryId;
         }
 
-        public void setCountryId(Long countryId) {
+        public void setCountryId(String countryId) {
             mCountryId = countryId;
         }
 

@@ -56,8 +56,7 @@
                             <TextView
                                 android:id="@+id/title"
                                 android:layout_width="wrap_content"
-                                android:layout_height="0dp"
-                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
                                 android:fontFamily="@font/circular_bold"
                                 android:textColor="@color/black"
                                 android:textSize="20sp"
@@ -300,6 +299,8 @@
         </LinearLayout>
 
         <include
+            android:visibility="gone"
+            tools:visibility="gone"
             android:id="@+id/shimmer_details_page"
             layout="@layout/shimmer_details_page" />
     </RelativeLayout>

@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:ellipsize="end"
-            android:fontFamily="@font/circular_black"
+            android:fontFamily="@font/circular_book"
             android:maxLines="1"
             android:textColor="@color/dark_gray"
             tools:text="Casual Dining - North Indian" />
@@ -93,41 +93,12 @@
             android:textSize="14sp"
             tools:text="₹750 for two people (approx.)" />
 
-        <LinearLayout
-            android:id="@+id/bookTableLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <include layout="@layout/component_plain_divider" />
-
-            <TextView
-                android:id="@+id/bookTable"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:drawableEnd="@drawable/ic_book_table"
-                android:drawablePadding="7dp"
-                android:fontFamily="@font/circular_medium"
-                android:maxLines="1"
-                android:text="@string/book_a_table"
-                android:textColor="@color/bg_book_a_table"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
+        <include layout="@layout/component_plain_divider" />
 
         <LinearLayout
-            android:id="@+id/orderOnlineLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <include layout="@layout/component_plain_divider" />
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/orderOnline"
@@ -140,6 +111,19 @@
                 android:maxLines="1"
                 android:text="@string/order_online"
                 android:textColor="@color/bg_order_online"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/bookTable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:drawableEnd="@drawable/ic_book_table"
+                android:drawablePadding="7dp"
+                android:fontFamily="@font/circular_medium"
+                android:maxLines="1"
+                android:text="@string/book_a_table"
+                android:textColor="@color/bg_book_a_table"
                 android:textSize="14sp" />
 
         </LinearLayout>
