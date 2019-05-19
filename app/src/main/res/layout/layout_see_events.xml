@@ -45,7 +45,4 @@
 
     </LinearLayout>
 
-    <include layout="@layout/component_plain_divider" />
-
-
 </LinearLayout>

@@ -274,24 +274,15 @@
                         layout="@layout/layout_table_booking" />
 
                     <include
-                        layout="@layout/component_dashed_divider"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp" />
-
-                    <include
                         android:id="@+id/layoutOnlineOrder"
                         layout="@layout/layout_online_order" />
-
-                    <include
-                        layout="@layout/component_dashed_divider"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp" />
 
                     <include
                         android:id="@+id/layoutSeeEvents"
                         layout="@layout/layout_see_events" />
 
                 </LinearLayout>
+
             </LinearLayout>
 
             <include layout="@layout/layout_think_food_think_us" />
