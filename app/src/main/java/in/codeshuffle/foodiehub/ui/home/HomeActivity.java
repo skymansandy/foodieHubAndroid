@@ -39,8 +39,6 @@ import static in.codeshuffle.foodiehub.service.LocationService.ACTION_LOCATION_B
 public class HomeActivity extends BaseActivity
         implements HomeMvpView, RestaurantAdapter.RestaurantListInterface {
 
-    private static final String TAG = HomeActivity.class.getSimpleName();
-
     @Inject
     HomeMvpPresenter<HomeMvpView> mPresenter;
 

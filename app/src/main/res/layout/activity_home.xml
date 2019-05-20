@@ -22,7 +22,6 @@
 
         <!--Search layout-->
         <include
-            android:id="@+id/restaurantSearch"
             layout="@layout/layout_search"
             android:visibility="visible" />
 

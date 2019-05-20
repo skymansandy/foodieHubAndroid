@@ -13,11 +13,6 @@
 
     <style name="AppTheme.TranslucentStatusNavigation" parent="AppTheme" />
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="windowActionBarOverlay">true</item>
-    </style>
-
 
     <style name="CollapsingToolbarLayoutExpandedTextStyle" parent="AppTheme">
         <item name="android:textColor">@android:color/transparent</item>

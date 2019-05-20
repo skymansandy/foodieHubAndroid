@@ -1,12 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_location"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/locationSurface"
     android:orientation="horizontal">
 
     <LinearLayout
-        android:id="@+id/address_linear_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -66,7 +64,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/image_bookmark"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"
