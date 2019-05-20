@@ -3,9 +3,6 @@ package in.codeshuffle.foodiehub.ui.base;
 import androidx.annotation.StringRes;
 
 public interface MvpView {
-
-    void setupLocationService();
-
     void showLoading();
 
     void hideLoading();
@@ -29,4 +26,6 @@ public interface MvpView {
     boolean isNetWorkConnected();
 
     void hideKeyboard();
+
+    void setupLocationService();
 }

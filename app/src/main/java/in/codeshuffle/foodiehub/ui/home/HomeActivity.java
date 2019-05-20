@@ -76,7 +76,8 @@ public class HomeActivity extends BaseActivity
                     intent.getDoubleExtra(Params.LONGITUDE, 0.0f),
                     intent.getStringExtra(Params.CITY),
                     intent.getStringExtra(Params.STREET));
-            showUpdatedLocationInfo();
+            showRestaurants();
+
             //Stop service and broadcast
             stopLocationService();
             LocalBroadcastManager.getInstance(HomeActivity.this).unregisterReceiver(this);
@@ -114,7 +115,32 @@ public class HomeActivity extends BaseActivity
     }
 
     @Override
-    public void fetchRestaurants() {
+    public void startLocationBroadcastReceiver() {
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+                locationReceiver, new IntentFilter(ACTION_LOCATION_BROADCAST)
+        );
+    }
+
+    @Override
+    public void stopLocationBroadcastReceiver() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(locationReceiver);
+    }
+
+    @Override
+    public void locationPermissionGranted() {
+        CommonUtils.showShortToast(this, getString(R.string.showing_restaurants_around_you));
+        startLocationService();
+    }
+
+    @Override
+    public void locationPermissionNotGranted() {
+        mPresenter.clearLocationPreference();
+        CommonUtils.showShortToast(this, getString(R.string.showing_restaurants_over_the_world));
+        showRestaurants();
+    }
+
+    @Override
+    public void showRestaurants() {
         locationType.setText(getString(preferencesHelper.isPreferenceMyLocation() ?
                 R.string.your_location : R.string.custom_location));
 
@@ -139,7 +165,7 @@ public class HomeActivity extends BaseActivity
         etSearchRestaurants.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 hideKeyboard();
-                fetchRestaurants();
+                showRestaurants();
                 return true;
             }
 
@@ -151,37 +177,29 @@ public class HomeActivity extends BaseActivity
         restaurantList.setAdapter(restaurantsAdapter);
 
         if (preferencesHelper.isPreferenceMyLocation()) {
-            setupLocationService();
+            fetchCurrentLocation();
         } else {
-            fetchRestaurants();
+            showRestaurants();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-                locationReceiver, new IntentFilter(ACTION_LOCATION_BROADCAST)
-        );
+        startLocationBroadcastReceiver();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(locationReceiver);
+        stopLocationBroadcastReceiver();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        mPresenter.onActivityRestart();
-    }
-
-    @Override
-    protected void onDestroy() {
-        mPresenter.onDetach();
-        stopLocationService();
-        super.onDestroy();
+        hideKeyboard();
+        showRestaurants();
     }
 
 
@@ -193,6 +211,26 @@ public class HomeActivity extends BaseActivity
                 break;
         }
     }
+
+    @Override
+    public void onOpenRestaurantDetail(String restaurantId) {
+        startActivity(RestaurantDetailActivity.getStartIntent(this, restaurantId));
+    }
+
+    @Override
+    public void onImagePreviewClicked(String restaurantId, String imageUrl, String restaurantName, String restaurantThumb) {
+        startActivity(ImageViewerActivity.getStartIntent(this,
+                imageUrl,
+                restaurantName,
+                restaurantThumb));
+    }
+
+    @Override
+    public void onSeeAllPreview(String imagesUrl) {
+        CustomTabsIntent customTabsIntent = CommonUtils.getChromeCustomTab(R.color.colorPrimary);
+        customTabsIntent.launchUrl(this, Uri.parse(imagesUrl));
+    }
+
 
     @Override
     public void showLoading() {
@@ -221,11 +259,6 @@ public class HomeActivity extends BaseActivity
     }
 
     @Override
-    public void showUpdatedLocationInfo() {
-        fetchRestaurants();
-    }
-
-    @Override
     public void onBackPressed() {
         if (!etSearchRestaurants.getText().toString().equals("")) {
             etSearchRestaurants.setText("");
@@ -238,21 +271,9 @@ public class HomeActivity extends BaseActivity
     }
 
     @Override
-    public void onOpenRestaurantDetail(String restaurantId) {
-        startActivity(RestaurantDetailActivity.getStartIntent(this, restaurantId));
-    }
-
-    @Override
-    public void onImagePreviewClicked(String restaurantId, String imageUrl, String restaurantName, String restaurantThumb) {
-        startActivity(ImageViewerActivity.getStartIntent(this,
-                imageUrl,
-                restaurantName,
-                restaurantThumb));
-    }
-
-    @Override
-    public void onSeeAllPreview(String imagesUrl) {
-        CustomTabsIntent customTabsIntent = CommonUtils.getChromeCustomTab(R.color.colorPrimary);
-        customTabsIntent.launchUrl(this, Uri.parse(imagesUrl));
+    protected void onDestroy() {
+        mPresenter.onDetach();
+        stopLocationService();
+        super.onDestroy();
     }
 }

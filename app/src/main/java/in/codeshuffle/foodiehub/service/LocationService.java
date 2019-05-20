@@ -46,12 +46,17 @@ public class LocationService extends Service implements
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public void onCreate() {
+        super.onCreate();
         mLocationClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
 
         mLocationRequest.setInterval(AppConstants.LOCATION_INTERVAL);
         mLocationRequest.setFastestInterval(AppConstants.FASTEST_LOCATION_INTERVAL);

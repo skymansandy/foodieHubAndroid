@@ -29,6 +29,7 @@ import in.codeshuffle.foodiehub.ui.base.BaseActivity;
 import in.codeshuffle.foodiehub.ui.location.locationlist.LocationAdapter;
 import in.codeshuffle.foodiehub.util.AppConstants;
 import in.codeshuffle.foodiehub.util.CommonUtils;
+import in.codeshuffle.foodiehub.util.NetworkUtils;
 
 import static in.codeshuffle.foodiehub.service.LocationService.ACTION_LOCATION_BROADCAST;
 
@@ -50,6 +51,25 @@ public class LocationActivity extends BaseActivity implements LocationMvpView, L
     TextView useMyLocation;
 
     private LocationAdapter locationsAdapter;
+
+    BroadcastReceiver locationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            mPresenter.saveLocationInfo(true,
+                    intent.getDoubleExtra(AppConstants.Params.LATITUDE, 0.0f),
+                    intent.getDoubleExtra(AppConstants.Params.LONGITUDE, 0.0f),
+                    intent.getStringExtra(AppConstants.Params.CITY),
+                    intent.getStringExtra(AppConstants.Params.STREET));
+
+            //Stop service and broadcast
+            stopLocationService();
+            LocalBroadcastManager.getInstance(LocationActivity.this).unregisterReceiver(this);
+
+            finish();
+        }
+    };
+
 
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, LocationActivity.class);
@@ -129,33 +149,39 @@ public class LocationActivity extends BaseActivity implements LocationMvpView, L
 
     @OnClick(R.id.useMyLocation)
     void onUseCurrentLocation() {
-        /*if(isLocationPermissionGranted()){
-            startLocationService();
-            useMyLocation.setText(getString(R.string.detecting_location));
-            BroadcastReceiver locationReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
+        if (NetworkUtils.isLocationPermissionsGiven(this)) {
+            getAndStoreCurrentLocation();
+        } else {
+            requestLocationPermissionsWithRationale();
+        }
+    }
 
-                    mPresenter.saveLocationInfo(true,
-                            intent.getDoubleExtra(AppConstants.Params.LATITUDE, 0.0f),
-                            intent.getDoubleExtra(AppConstants.Params.LONGITUDE, 0.0f),
-                            intent.getStringExtra(AppConstants.Params.CITY),
-                            intent.getStringExtra(AppConstants.Params.STREET));
+    @Override
+    public void locationPermissionGranted() {
+        getAndStoreCurrentLocation();
+    }
 
-                    //Stop service and broadcast
-                    stopLocationService();
-                    LocalBroadcastManager.getInstance(LocationActivity.this).unregisterReceiver(this);
+    @Override
+    public void startLocationBroadcastReceiver() {
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+                locationReceiver, new IntentFilter(ACTION_LOCATION_BROADCAST)
+        );
+    }
 
-                    finish();
-                }
-            };
+    @Override
+    public void stopLocationBroadcastReceiver() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(
+                locationReceiver);
+    }
 
-            LocalBroadcastManager.getInstance(this).registerReceiver(
-                    locationReceiver, new IntentFilter(ACTION_LOCATION_BROADCAST)
-            );
-        }else{
-            showLocationPermissionDialog();
-        }*/
+    @Override
+    public void locationPermissionNotGranted() {
+        CommonUtils.showShortToast(this, getString(R.string.cant_access_current_location_without_perm));
+    }
+
+    private void getAndStoreCurrentLocation() {
+        startLocationService();
+        useMyLocation.setText(getString(R.string.detecting_location));
     }
 
     @OnClick(R.id.back)

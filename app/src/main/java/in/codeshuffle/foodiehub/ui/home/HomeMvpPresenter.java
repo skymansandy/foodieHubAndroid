@@ -9,7 +9,7 @@ public interface HomeMvpPresenter<V extends HomeMvpView> extends MvpPresenter<V>
 
     void fetchRestaurants(String query, Double lat, Double lon);
 
-    void onActivityRestart();
-
     void saveMyLocation(double lat, double lng, String city, String street);
+
+    void clearLocationPreference();
 }

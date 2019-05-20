@@ -27,7 +27,9 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
     public void onAttach(V mvpView) {
         super.onAttach(mvpView);
 
-        checkLocationPermissionsStatus();
+        if (getDataManager().isPreferenceMyLocation()) {
+            checkLocationPermissionsStatus();
+        }
     }
 
     private void checkLocationPermissionsStatus() {
@@ -78,14 +80,13 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
     }
 
     @Override
-    public void onActivityRestart() {
-        getMvpView().showUpdatedLocationInfo();
-        getMvpView().hideKeyboard();
+    public void saveMyLocation(double lat, double lng, String city, String street) {
+        getDataManager().saveLocationInfo(true, lat, lng, city, street);
     }
 
     @Override
-    public void saveMyLocation(double lat, double lng, String city, String street) {
-        getDataManager().saveLocationInfo(true, lat, lng, city, street);
+    public void clearLocationPreference() {
+        getDataManager().saveLocationInfo(false, 0d, 0d, "", "");
     }
 
     @Override

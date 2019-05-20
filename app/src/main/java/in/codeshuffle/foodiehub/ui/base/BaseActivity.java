@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -41,8 +40,6 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
 
     private ProgressDialog mProgressDialog;
 
-    private boolean mAlreadyStartedService = false;
-
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -59,10 +56,13 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
 
     @Override
     public void setupLocationService() {
-        checkPermissionAndShowRestaurants();
+        fetchCurrentLocation();
     }
 
-    public void checkPermissionAndShowRestaurants() {
+    public void showRestaurants() {
+    }
+
+    public void fetchCurrentLocation() {
         if (NetworkUtils.isNetworkConnected(this)) {
             if (NetworkUtils.isLocationPermissionsGiven(this)) {
                 startLocationService();
@@ -72,9 +72,6 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
         } else {
             showNoInternetPrompt();
         }
-    }
-
-    public void fetchRestaurants() {
     }
 
     private void showNoInternetPrompt() {
@@ -96,7 +93,7 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
     }
 
 
-    private void requestLocationPermissionsWithRationale() {
+    public void requestLocationPermissionsWithRationale() {
         boolean shouldProvideRationale =
                 ActivityCompat.shouldShowRequestPermissionRationale(this,
                         android.Manifest.permission.ACCESS_FINE_LOCATION);
@@ -122,23 +119,29 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            for (int i = 0; i < permissions.length; i++) {
-                String permission = permissions[i];
-                if (permission.equals(Manifest.permission.ACCESS_FINE_LOCATION)
-                        || permission.equals(Manifest.permission.ACCESS_COARSE_LOCATION)
-                        && grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                }
-            }
-            fetchRestaurants();
+        if (NetworkUtils.isLocationPermissionsGiven(this)) {
+            locationPermissionGranted();
+        } else {
+            locationPermissionNotGranted();
         }
+    }
+
+    public void locationPermissionNotGranted() {
+    }
+
+    public void locationPermissionGranted() {
     }
 
     private void showLocationRationale() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.location_permission_needed_title));
         builder.setMessage(getString(R.string.location_permission_needed));
-        builder.setPositiveButton(getString(R.string.grant), ((dialog, which) -> requestLocationPermissions()));
+        builder.setPositiveButton(getString(R.string.grant), ((dialog, which)
+                -> requestLocationPermissions()));
+        builder.setNegativeButton(getString(R.string.cancel), ((dialog, which) -> {
+            locationPermissionNotGranted();
+            dialog.dismiss();
+        }));
         builder.setCancelable(false);
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -245,15 +248,21 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
     }
 
     public void startLocationService() {
-        if (!mAlreadyStartedService) {
-            Intent intent = new Intent(this, LocationService.class);
-            startService(intent);
-            mAlreadyStartedService = true;
-        }
+        startLocationBroadcastReceiver();
+        Intent intent = new Intent(this, LocationService.class);
+        startService(intent);
+    }
+
+    public void startLocationBroadcastReceiver() {
+
+    }
+
+    public void stopLocationBroadcastReceiver() {
+
     }
 
     public void stopLocationService() {
-        mAlreadyStartedService = false;
+        stopLocationBroadcastReceiver();
         stopService(new Intent(this, LocationService.class));
     }
 
