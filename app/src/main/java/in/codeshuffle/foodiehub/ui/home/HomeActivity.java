@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -47,8 +48,8 @@ public class HomeActivity extends BaseActivity
 
     @BindView(R.id.restaurantList)
     RecyclerView restaurantList;
-    @BindView(R.id.homeShimmer)
-    View homeShimmer;
+    @BindView(R.id.shimmer)
+    View shimmer;
     @BindView(R.id.contentLayout)
     View contentLayout;
     @BindView(R.id.nothingFound)
@@ -63,6 +64,8 @@ public class HomeActivity extends BaseActivity
     TextView addressSubHeader;
     @BindView(R.id.search_query)
     EditText etSearchRestaurants;
+    @BindView(R.id.button_return_to_top)
+    View returnToTop;
 
     private RestaurantAdapter restaurantsAdapter;
 
@@ -79,6 +82,19 @@ public class HomeActivity extends BaseActivity
             //Stop service and broadcast
             stopLocationService();
             LocalBroadcastManager.getInstance(HomeActivity.this).unregisterReceiver(this);
+        }
+    };
+    private RecyclerView.OnScrollListener restaurantListScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+            if (linearLayoutManager == null) return;
+            if (linearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0) {
+                returnToTop.setVisibility(View.GONE);
+            } else if (linearLayoutManager.findFirstVisibleItemPosition() > 2) {
+                returnToTop.setVisibility(View.VISIBLE);
+            }
         }
     };
 
@@ -175,10 +191,16 @@ public class HomeActivity extends BaseActivity
         restaurantList.setAdapter(restaurantsAdapter);
 
         if (preferencesHelper.isPreferenceMyLocation()) {
-            fetchCurrentLocation();
+            showRestaurantsNearMe();
         } else {
             showRestaurants();
         }
+
+        returnToTop.setVisibility(View.GONE);
+        returnToTop.setOnClickListener(v -> {
+            restaurantList.smoothScrollToPosition(0);
+            returnToTop.setVisibility(View.GONE);
+        });
     }
 
     @Override
@@ -233,13 +255,13 @@ public class HomeActivity extends BaseActivity
     @Override
     public void showLoading() {
         contentLayout.setVisibility(View.GONE);
-        homeShimmer.setVisibility(View.VISIBLE);
+        shimmer.setVisibility(View.VISIBLE);
         nothingFound.setVisibility(View.GONE);
     }
 
     @Override
     public void hideLoading() {
-        homeShimmer.setVisibility(View.GONE);
+        shimmer.setVisibility(View.GONE);
         contentLayout.setVisibility(View.VISIBLE);
     }
 
@@ -254,6 +276,8 @@ public class HomeActivity extends BaseActivity
             contentLayout.setVisibility(View.VISIBLE);
             restaurantsAdapter.addRestaurants(restaurantsResponse.getRestaurants());
         }
+
+        restaurantList.addOnScrollListener(restaurantListScrollListener);
     }
 
     @Override

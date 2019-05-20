@@ -62,7 +62,7 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
     public void showRestaurants() {
     }
 
-    public void fetchCurrentLocation() {
+    public void showRestaurantsNearMe() {
         if (NetworkUtils.isNetworkConnected(this)) {
             if (NetworkUtils.isLocationPermissionsGiven(this)) {
                 startLocationService();

@@ -31,13 +31,13 @@
 
             <!--Shimmer layout TODO-->
             <include
-                android:id="@+id/homeShimmer"
-                layout="@layout/shimmer_home"
+                android:id="@+id/shimmer"
+                layout="@layout/shimmer_home_page"
                 android:visibility="visible"
                 tools:visibility="gone" />
 
             <!--Content-->
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/contentLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -53,7 +53,35 @@
                         tools:listitem="@layout/item_restaurant" />
 
 
-            </LinearLayout>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/button_return_to_top"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="20dp"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="@color/colorPrimary"
+                    app:cardCornerRadius="10dp"
+                    tools:visibility="visible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:drawableStart="@drawable/ic_up_arrow"
+                        android:drawablePadding="8dp"
+                        android:gravity="center"
+                        android:paddingStart="16dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/return_to_top"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/nothingFound"

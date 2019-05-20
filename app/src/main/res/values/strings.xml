@@ -70,4 +70,5 @@
     <string name="cancel">Cancel</string>
     <string name="showing_restaurants_over_the_world">Showing restaurants around the world</string>
     <string name="showing_restaurants_around_you">Showing restaurants around you</string>
+    <string name="return_to_top">Return to top</string>
 </resources>
