@@ -17,6 +17,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.IdRes;
 import androidx.browser.customtabs.CustomTabsIntent;
 import in.codeshuffle.foodiehub.R;
@@ -94,7 +95,7 @@ public final class CommonUtils {
         return images;
     }
 
-    public static CustomTabsIntent getChromeCustomTab(@IdRes int colorRes) {
+    public static CustomTabsIntent getChromeCustomTab(@ColorRes int colorRes) {
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         builder.setToolbarColor(colorRes);
         return builder.build();
