@@ -111,7 +111,6 @@
     <string name="an_internet_connection_is_required">An Internet connection is required for this app to run.</string>
     <string name="restart">Restart app</string>
     <string name="its_empty_here">Its empty here</string>
-    <string name="location_pref_change">Location: </string>
     <string name="use_current_location">Use current location</string>
     <string name="detecting_location">Detecting location…</string>
     <string name="fetching_location">Fetching location…</string>

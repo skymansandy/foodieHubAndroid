@@ -142,8 +142,7 @@ public class LocationActivity extends BaseActivity implements LocationMvpView, L
     @Override
     public void onLocationSelected(String city, String locality, Double latitude, Double longitude) {
         mPresenter.saveLocationInfo(false, latitude, longitude, city, locality);
-        CommonUtils.showShortToast(this, String.format("%s%s",
-                getString(R.string.location_pref_change), city));
+        CommonUtils.showShortToast(this, String.format("%s", city));
         finish();
     }
 

@@ -26,10 +26,6 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
     @Override
     public void onAttach(V mvpView) {
         super.onAttach(mvpView);
-
-        if (getDataManager().isPreferenceMyLocation()) {
-            checkLocationPermissionsStatus();
-        }
     }
 
     private void checkLocationPermissionsStatus() {

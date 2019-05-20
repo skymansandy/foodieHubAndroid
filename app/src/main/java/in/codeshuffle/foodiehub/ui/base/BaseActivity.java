@@ -56,7 +56,7 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
 
     @Override
     public void setupLocationService() {
-        fetchCurrentLocation();
+
     }
 
     public void showRestaurants() {
