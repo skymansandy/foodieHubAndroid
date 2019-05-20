@@ -28,20 +28,18 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
         super.onAttach(mvpView);
     }
 
-    private void checkLocationPermissionsStatus() {
-        getMvpView().setupLocationService();
-    }
-
     @Override
     public void onDetach() {
         super.onDetach();
     }
 
     @Override
-    public void fetchRestaurants(String query, Double lat, Double lon) {
-        getMvpView().showLoading();
+    public void fetchRestaurants(String query, Double lat, Double lon, int skip) {
 
-        getDataManager().getRestaurants(getApiHeaders(), query, lat, lon)
+        if (skip == 0)
+            getMvpView().showLoading();
+
+        getDataManager().getRestaurants(getApiHeaders(), query, lat, lon, skip)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<RestaurantsResponse>() {
@@ -55,8 +53,12 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
                         if (!isViewAttached())
                             return;
 
-                        getMvpView().onRestaurantList(restaurantsResponse);
-                        getMvpView().hideLoading();
+                        if (skip == 0) {
+                            getMvpView().onRestaurantResponse(restaurantsResponse);
+                            getMvpView().hideLoading();
+                        } else {
+                            getMvpView().onMoreRestaurantResponse(restaurantsResponse);
+                        }
                     }
 
                     @Override

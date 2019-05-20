@@ -5,6 +5,7 @@ import in.codeshuffle.foodiehub.ui.base.MvpView;
 
 public interface HomeMvpView extends MvpView {
 
-    void onRestaurantList(RestaurantsResponse restaurantsResponse);
+    void onRestaurantResponse(RestaurantsResponse restaurantsResponse);
 
+    void onMoreRestaurantResponse(RestaurantsResponse restaurantsResponse);
 }

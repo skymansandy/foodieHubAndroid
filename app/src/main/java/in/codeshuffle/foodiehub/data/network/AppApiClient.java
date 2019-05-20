@@ -9,8 +9,6 @@ import in.codeshuffle.foodiehub.data.network.model.LocationResponse;
 import in.codeshuffle.foodiehub.data.network.model.RestaurantDetailResponse;
 import in.codeshuffle.foodiehub.data.network.model.RestaurantsResponse;
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 
 @Singleton
@@ -31,8 +29,8 @@ public class AppApiClient implements ApiClient {
     }
 
     @Override
-    public Observable<RestaurantsResponse> getRestaurants(Map<String, String> apiKey, String query, Double lat, Double lon) {
-        return apiClient.getRestaurants(apiKey, query, lat, lon);
+    public Observable<RestaurantsResponse> getRestaurants(Map<String, String> apiKey, String query, Double lat, Double lon, int skip) {
+        return apiClient.getRestaurants(apiKey, query, lat, lon, skip);
     }
 
     @Override

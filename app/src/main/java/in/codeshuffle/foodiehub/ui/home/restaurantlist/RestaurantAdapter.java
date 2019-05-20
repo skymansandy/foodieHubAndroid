@@ -24,7 +24,10 @@ import in.codeshuffle.foodiehub.util.CommonUtils;
 import static in.codeshuffle.foodiehub.data.network.model.RestaurantsResponse.Restaurant;
 import static in.codeshuffle.foodiehub.data.network.model.RestaurantsResponse.Restaurants;
 
-public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder> {
+public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final int VIEW_TYPE_RESTAURANT = 1;
+    private static final int VIEW_TYPE_LOADING = 2;
 
     private final Context context;
     private final List<Restaurants> restaurants;
@@ -32,6 +35,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     private final RestaurantListInterface restaurantListInterface;
     private final Animation pushDownAnim;
     private final Animation pullUpUpAnim;
+    private boolean isLoadingMoreRestaurants = false;
 
     @Inject
     List<String> thumbImages;
@@ -48,80 +52,89 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
 
     @NonNull
     @Override
-    public RestaurantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_restaurant, parent, false);
-        return new RestaurantViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_RESTAURANT) {
+            View view = inflater.inflate(R.layout.item_restaurant, parent, false);
+            return new RestaurantViewHolder(view);
+        } else {
+            View view = inflater.inflate(R.layout.item_restaurant_loading, parent, false);
+            return new LoadingViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RestaurantViewHolder holder, int position) {
-        Restaurant restaurant = restaurants.get(position).getRestaurant();
-        holder.tvName.setText(restaurant.getName());
-        holder.tvCuisine.setText(restaurant.getCuisines());
-        holder.tvLocation.setText(restaurant.getLocation().getLocalityVerbose());
-        holder.tvCostForTwo.setText(String.format("%s%s for two people (approx.)",
-                restaurant.getCurrency(), restaurant.getAverageCostForTwo()));
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof RestaurantViewHolder) {
+            Restaurant restaurant = restaurants.get(position).getRestaurant();
+            RestaurantViewHolder restaurantHolder = (RestaurantViewHolder) holder;
 
-        //Rating
-        holder.tvRating.setText(restaurant.getUserRating().getAggregateRating());
-        holder.tvRating.setBackgroundColor(
-                Color.parseColor(String.format("#%s", restaurant.getUserRating().getRatingColor())));
+            restaurantHolder.tvName.setText(restaurant.getName());
+            restaurantHolder.tvCuisine.setText(restaurant.getCuisines());
+            restaurantHolder.tvLocation.setText(restaurant.getLocation().getLocalityVerbose());
+            restaurantHolder.tvCostForTwo.setText(String.format("%s%s for two people (approx.)",
+                    restaurant.getCurrency(), restaurant.getAverageCostForTwo()));
 
-        //Online delivery
-        if (restaurant.hasOnlineDelivery().equals("1")) {
-            holder.tvOrderOnline.setVisibility(View.VISIBLE);
-            holder.tvOrderOnline.setOnClickListener(v
-                    -> CommonUtils.showShortToast(context, context.getString(R.string.online_order)));
-            if (restaurant.isDeliveringNow().equals("1")) {
+            //Rating
+            restaurantHolder.tvRating.setText(restaurant.getUserRating().getAggregateRating());
+            restaurantHolder.tvRating.setBackgroundColor(
+                    Color.parseColor(String.format("#%s", restaurant.getUserRating().getRatingColor())));
 
+            //Online delivery
+            if (restaurant.hasOnlineDelivery().equals("1")) {
+                restaurantHolder.tvOrderOnline.setVisibility(View.VISIBLE);
+                restaurantHolder.tvOrderOnline.setOnClickListener(v
+                        -> CommonUtils.showShortToast(context, context.getString(R.string.online_order)));
+                if (restaurant.isDeliveringNow().equals("1")) {
+
+                } else {
+
+                }
             } else {
-
+                restaurantHolder.tvOrderOnline.setVisibility(View.GONE);
             }
-        } else {
-            holder.tvOrderOnline.setVisibility(View.GONE);
-        }
 
-        //Table booking
-        if (restaurant.isTableReservationSupported().equals("1")) {
-            holder.tvBookTable.setVisibility(View.VISIBLE);
-            holder.tvBookTable.setOnClickListener(v
-                    -> CommonUtils.showShortToast(context, context.getString(R.string.table_booking)));
-            if (restaurant.hasTableBooking().equals("1")) {
+            //Table booking
+            if (restaurant.isTableReservationSupported().equals("1")) {
+                restaurantHolder.tvBookTable.setVisibility(View.VISIBLE);
+                restaurantHolder.tvBookTable.setOnClickListener(v
+                        -> CommonUtils.showShortToast(context, context.getString(R.string.table_booking)));
+                if (restaurant.hasTableBooking().equals("1")) {
 
+                } else {
+
+                }
             } else {
-
+                restaurantHolder.tvBookTable.setVisibility(View.GONE);
             }
-        } else {
-            holder.tvBookTable.setVisibility(View.GONE);
-        }
 
-        //Image previes
-        holder.rvThumbnailList.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
-        holder.rvThumbnailList.setAdapter(new ImagePreviewAdapter(context,
-                restaurant.getId(), restaurant.getPhotosUrl(),
-                restaurant.getName(),
-                restaurant.getThumb(),
-                restaurantListInterface,
-                CommonUtils.getRandomImages()));
-        holder.root.setOnClickListener(v -> {
-            if (restaurantListInterface != null) {
-                restaurantListInterface.onOpenRestaurantDetail(restaurant.getId());
-            }
-        });
+            //Image previes
+            restaurantHolder.rvThumbnailList.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
+            restaurantHolder.rvThumbnailList.setAdapter(new ImagePreviewAdapter(context,
+                    restaurant.getId(), restaurant.getPhotosUrl(),
+                    restaurant.getName(),
+                    restaurant.getThumb(),
+                    restaurantListInterface,
+                    CommonUtils.getRandomImages()));
+            restaurantHolder.root.setOnClickListener(v -> {
+                if (restaurantListInterface != null) {
+                    restaurantListInterface.onOpenRestaurantDetail(restaurant.getId());
+                }
+            });
 
 //        Press animation
-        /*holder.root.setOnTouchListener((v, event) -> {
+        /*restaurantHolder.root.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                holder.root.startAnimation(pushDownAnim);
+                restaurantHolder.root.startAnimation(pushDownAnim);
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                holder.root.startAnimation(pullUpUpAnim);
-                holder.root.performClick();
+                restaurantHolder.root.startAnimation(pullUpUpAnim);
+                restaurantHolder.root.performClick();
                 if (restaurantListInterface != null) {
                     restaurantListInterface.onOpenRestaurantDetail(restaurant.getId());
                 }
             }
             return true;
         });*/
+        }
     }
 
     @Override
@@ -129,14 +142,42 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         return restaurants.size();
     }
 
-    public void addRestaurants(List<Restaurants> newRestaurantList) {
-        restaurants.addAll(newRestaurantList);
-        notifyDataSetChanged();
+    public void loadMoreRestaurants() {
+        if (!isLoadingMoreRestaurants) {
+            isLoadingMoreRestaurants = true;
+            restaurants.add(null);
+            notifyItemChanged(restaurants.size());
+
+            if (restaurantListInterface != null)
+                restaurantListInterface.onLoadMoreRestaurants(restaurants.size());
+        }
     }
 
     public void clearRestaurants() {
         restaurants.clear();
         notifyDataSetChanged();
+    }
+
+    public void addRestaurants(List<Restaurants> newRestaurantList) {
+        restaurants.addAll(newRestaurantList);
+        notifyDataSetChanged();
+    }
+
+    public void addMoreRestaurants(List<Restaurants> newRestaurants) {
+        restaurants.remove(restaurants.size() - 1);
+        notifyDataSetChanged();
+
+        if(newRestaurants == null) return;
+
+        restaurants.addAll(newRestaurants);
+        isLoadingMoreRestaurants = false;
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return restaurants.get(position) == null ?
+                VIEW_TYPE_LOADING : VIEW_TYPE_RESTAURANT;
     }
 
     static class RestaurantViewHolder extends RecyclerView.ViewHolder {
@@ -174,5 +215,15 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
                                    String restaurantThumb);
 
         void onSeeAllPreview(String imagesUrl);
+
+        void onLoadMoreRestaurants(int skip);
+    }
+
+    static class LoadingViewHolder extends RecyclerView.ViewHolder {
+
+        LoadingViewHolder(@NonNull View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
     }
 }

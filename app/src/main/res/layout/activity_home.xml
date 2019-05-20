@@ -49,6 +49,8 @@
                         android:id="@+id/restaurantList"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:paddingBottom="50dp"
+                        android:clipToPadding="false"
                         tools:itemCount="4"
                         tools:listitem="@layout/item_restaurant" />
 

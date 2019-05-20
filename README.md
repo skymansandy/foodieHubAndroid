@@ -16,4 +16,4 @@ Following modules are covered:
 
 ## Architecture:
 
-MVP + Retrofit + RxAndroid
+MVP + Retrofit + RxAndroid + Dagger

@@ -21,8 +21,8 @@ public interface ApiClient {
             @HeaderMap Map<String, String> apiKey,
             @Query(Params.Q) String query,
             @Query(Params.LATITUDE) Double lat,
-            @Query(Params.LONGITUDE) Double lon
-    );
+            @Query(Params.LONGITUDE) Double lon,
+            @Query(Params.START) int skip);
 
     @GET(ApiEndPoint.API_RESTAURANT_DETAIL)
     Observable<RestaurantDetailResponse> getRestaurantDetail(

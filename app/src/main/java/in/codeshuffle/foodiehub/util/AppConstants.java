@@ -21,6 +21,7 @@ public final class AppConstants {
         public static final String CITY = "city";
         public static final String STREET = "street";
         public static final String COUNT = "count";
+        public static final String START = "start";
 
 
         private Params(){

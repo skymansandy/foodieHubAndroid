@@ -40,6 +40,8 @@ import static in.codeshuffle.foodiehub.service.LocationService.ACTION_LOCATION_B
 public class HomeActivity extends BaseActivity
         implements HomeMvpView, RestaurantAdapter.RestaurantListInterface {
 
+    private static final String TAG = HomeActivity.class.getSimpleName();
+
     @Inject
     HomeMvpPresenter<HomeMvpView> mPresenter;
 
@@ -54,8 +56,6 @@ public class HomeActivity extends BaseActivity
     View contentLayout;
     @BindView(R.id.nothingFound)
     View nothingFound;
-    @BindView(R.id.location)
-    View location;
     @BindView(R.id.addressHeader)
     TextView addressHeader;
     @BindView(R.id.locationType)
@@ -84,16 +84,24 @@ public class HomeActivity extends BaseActivity
             LocalBroadcastManager.getInstance(HomeActivity.this).unregisterReceiver(this);
         }
     };
+
+    //Scroll listener
     private RecyclerView.OnScrollListener restaurantListScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
             LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
             if (linearLayoutManager == null) return;
+
             if (linearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0) {
                 returnToTop.setVisibility(View.GONE);
             } else if (linearLayoutManager.findFirstVisibleItemPosition() > 2) {
                 returnToTop.setVisibility(View.VISIBLE);
+            }
+
+            //Skip take
+            if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == restaurantsAdapter.getItemCount() - 1) {
+                restaurantsAdapter.loadMoreRestaurants();
             }
         }
     };
@@ -163,12 +171,12 @@ public class HomeActivity extends BaseActivity
             addressSubHeader.setText(preferencesHelper.getLocality());
             mPresenter.fetchRestaurants(etSearchRestaurants.getText().toString(),
                     preferencesHelper.getLatitude(),
-                    preferencesHelper.getLongitude());
+                    preferencesHelper.getLongitude(), 0);
         } else {
             addressHeader.setText(getString(R.string.choose_location));
             addressSubHeader.setText(getString(R.string.choose_location_for_handpicked_restaurants));
             mPresenter.fetchRestaurants(etSearchRestaurants.getText().toString(),
-                    null, null);
+                    null, null, 0);
         }
     }
 
@@ -190,6 +198,7 @@ public class HomeActivity extends BaseActivity
         restaurantList.setLayoutManager(new LinearLayoutManager(this));
         restaurantList.setAdapter(restaurantsAdapter);
 
+        //API call
         if (preferencesHelper.isPreferenceMyLocation()) {
             showRestaurantsNearMe();
         } else {
@@ -251,9 +260,32 @@ public class HomeActivity extends BaseActivity
         customTabsIntent.launchUrl(this, Uri.parse(imagesUrl));
     }
 
+    @Override
+    public void onLoadMoreRestaurants(int skip) {
+        mPresenter.fetchRestaurants(etSearchRestaurants.getText().toString(),
+                preferencesHelper.getLatitude(),
+                preferencesHelper.getLongitude(),
+                skip);
+    }
+
+
+    @Override
+    public void onRestaurantResponse(RestaurantsResponse restaurantsResponse) {
+        restaurantsAdapter.clearRestaurants();
+        if (restaurantsResponse.getRestaurants().size() == 0) {
+            nothingFound.setVisibility(View.VISIBLE);
+            contentLayout.setVisibility(View.GONE);
+        } else {
+            nothingFound.setVisibility(View.GONE);
+            contentLayout.setVisibility(View.VISIBLE);
+            restaurantsAdapter.addRestaurants(restaurantsResponse.getRestaurants());
+        }
+    }
 
     @Override
     public void showLoading() {
+        restaurantsAdapter.clearRestaurants();
+        restaurantList.addOnScrollListener(restaurantListScrollListener);
         contentLayout.setVisibility(View.GONE);
         shimmer.setVisibility(View.VISIBLE);
         nothingFound.setVisibility(View.GONE);
@@ -266,18 +298,14 @@ public class HomeActivity extends BaseActivity
     }
 
     @Override
-    public void onRestaurantList(RestaurantsResponse restaurantsResponse) {
-        restaurantsAdapter.clearRestaurants();
+    public void onMoreRestaurantResponse(RestaurantsResponse restaurantsResponse) {
         if (restaurantsResponse.getRestaurants().size() == 0) {
-            nothingFound.setVisibility(View.VISIBLE);
-            contentLayout.setVisibility(View.GONE);
+            restaurantList.removeOnScrollListener(restaurantListScrollListener);
+            restaurantsAdapter.addMoreRestaurants(null);
         } else {
-            nothingFound.setVisibility(View.GONE);
-            contentLayout.setVisibility(View.VISIBLE);
-            restaurantsAdapter.addRestaurants(restaurantsResponse.getRestaurants());
+            restaurantsAdapter.addMoreRestaurants(restaurantsResponse.getRestaurants());
+            restaurantsAdapter.notifyDataSetChanged();
         }
-
-        restaurantList.addOnScrollListener(restaurantListScrollListener);
     }
 
     @Override
@@ -286,7 +314,7 @@ public class HomeActivity extends BaseActivity
             etSearchRestaurants.setText("");
             etSearchRestaurants.clearFocus();
             mPresenter.fetchRestaurants("", preferencesHelper.getLatitude(),
-                    preferencesHelper.getLongitude());
+                    preferencesHelper.getLongitude(), 0);
         } else {
             super.onBackPressed();
         }
