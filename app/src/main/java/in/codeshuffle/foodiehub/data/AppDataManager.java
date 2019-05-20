@@ -63,8 +63,8 @@ public class AppDataManager implements DataManager {
 
     @Override
     public Observable<LocationResponse> getLocations(
-            Map<String, String> apiKey, String query, Double lat, Double lon) {
-        return mApiClient.getLocations(apiKey, query, lat, lon);
+            Map<String, String> apiKey, String query, Double lat, Double lon, int count) {
+        return mApiClient.getLocations(apiKey, query, lat, lon, count);
     }
 
     @Override
@@ -105,5 +105,21 @@ public class AppDataManager implements DataManager {
     @Override
     public void setCity(String city) {
         mPreferencesHelper.setCity(city);
+    }
+
+    @Override
+    public boolean isPreferenceMyLocation() {
+        return mPreferencesHelper.isPreferenceMyLocation();
+    }
+
+    @Override
+    public void setPreferenceMyLocation(boolean isMyLocation) {
+        mPreferencesHelper.setPreferenceMyLocation(isMyLocation);
+    }
+
+    @Override
+    public void saveLocationInfo(boolean isMyLocation, Double latitude, Double longitude, String city, String locality) {
+        mPreferencesHelper.saveLocationInfo(isMyLocation, latitude,
+                longitude, city, locality);
     }
 }

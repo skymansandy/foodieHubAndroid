@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Service;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -15,12 +17,16 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import in.codeshuffle.foodiehub.ui.home.HomeActivity;
 import in.codeshuffle.foodiehub.util.AppConstants;
-import in.codeshuffle.foodiehub.util.AppConstants.Params;
 
 public class LocationService extends Service implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
@@ -86,7 +92,9 @@ public class LocationService extends Service implements
         Log.d(TAG, "Location changed");
 
         if (location != null) {
+            //Send broadcast
             sendMessageToUI(location.getLatitude(), location.getLongitude());
+
             //Stop service once location is fetched
             LocationServices.FusedLocationApi.removeLocationUpdates(mLocationClient, this);
             Log.d(TAG, "Disconnected from location updates");
@@ -96,11 +104,25 @@ public class LocationService extends Service implements
         }
     }
 
+    /**
+     * Send location update broadcast
+     *
+     * @param lat
+     * @param lng
+     */
     private void sendMessageToUI(Double lat, Double lng) {
         Log.d(TAG, String.format("Sending info and closing service => Latitude: %s. Longitude: %s", lat, lng));
-        Intent intent = new Intent(ACTION_LOCATION_BROADCAST);
-        intent.putExtra(Params.LATITUDE, lat);
-        intent.putExtra(Params.LONGITUDE, lng);
+        String cityName = "";
+        String streetName = "";
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+            cityName = addresses.get(0).getLocality();
+            streetName = addresses.get(0).getSubLocality();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Intent intent = HomeActivity.getLocationBroadcastIntent(lat, lng, cityName, streetName);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 }

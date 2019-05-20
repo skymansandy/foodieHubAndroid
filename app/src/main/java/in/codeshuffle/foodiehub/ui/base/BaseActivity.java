@@ -1,16 +1,22 @@
 package in.codeshuffle.foodiehub.ui.base;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import butterknife.Unbinder;
 import in.codeshuffle.foodiehub.FoodieHubApp;
@@ -18,6 +24,7 @@ import in.codeshuffle.foodiehub.R;
 import in.codeshuffle.foodiehub.di.component.ActivityComponent;
 import in.codeshuffle.foodiehub.di.component.DaggerActivityComponent;
 import in.codeshuffle.foodiehub.di.module.ActivityModule;
+import in.codeshuffle.foodiehub.service.LocationService;
 import in.codeshuffle.foodiehub.util.CommonUtils;
 import in.codeshuffle.foodiehub.util.KeyboardUtils;
 import in.codeshuffle.foodiehub.util.NetworkUtils;
@@ -26,11 +33,15 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public abstract class BaseActivity extends AppCompatActivity implements MvpView,
         BaseFragment.Callback {
 
+    private static final int PERMISSION_REQUEST_CODE = 100;
+
     private Unbinder mUnBinder;
 
     private ActivityComponent mActivityComponent;
 
     private ProgressDialog mProgressDialog;
+
+    private boolean mAlreadyStartedService = false;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -44,6 +55,93 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
                 .activityModule(new ActivityModule(this))
                 .applicationComponent(((FoodieHubApp) getApplication()).getApplicationComponent())
                 .build();
+    }
+
+    @Override
+    public void setupLocationService() {
+        checkPermissionAndShowRestaurants();
+    }
+
+    public void checkPermissionAndShowRestaurants() {
+        if (NetworkUtils.isNetworkConnected(this)) {
+            if (NetworkUtils.isLocationPermissionsGiven(this)) {
+                startLocationService();
+            } else {
+                requestLocationPermissionsWithRationale();
+            }
+        } else {
+            showNoInternetPrompt();
+        }
+    }
+
+    public void fetchRestaurants() {
+    }
+
+    private void showNoInternetPrompt() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.no_internet));
+        builder.setMessage(getString(R.string.an_internet_connection_is_required));
+        builder.setPositiveButton(getString(R.string.restart), ((dialog, which) -> {
+            try {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.setClassName("com.android.phone", "com.android.phone.NetworkSetting");
+                startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }));
+        builder.setCancelable(false);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
+    private void requestLocationPermissionsWithRationale() {
+        boolean shouldProvideRationale =
+                ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        android.Manifest.permission.ACCESS_FINE_LOCATION);
+
+        boolean shouldProvideRationale2 =
+                ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION);
+
+        if (shouldProvideRationale || shouldProvideRationale2) {
+            showLocationRationale();
+        } else {
+            requestLocationPermissions();
+        }
+    }
+
+    public void requestLocationPermissions(){
+        ActivityCompat.requestPermissions(this,
+                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                PERMISSION_REQUEST_CODE);
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            for (int i = 0; i < permissions.length; i++) {
+                String permission = permissions[i];
+                if (permission.equals(Manifest.permission.ACCESS_FINE_LOCATION)
+                        || permission.equals(Manifest.permission.ACCESS_COARSE_LOCATION)
+                        && grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                }
+            }
+            fetchRestaurants();
+        }
+    }
+
+    private void showLocationRationale() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.location_permission_needed_title));
+        builder.setMessage(getString(R.string.location_permission_needed));
+        builder.setPositiveButton(getString(R.string.grant), ((dialog, which) -> requestLocationPermissions()));
+        builder.setCancelable(false);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     public ActivityComponent getActivityComponent() {
@@ -144,6 +242,19 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView,
             mUnBinder.unbind();
         }
         super.onDestroy();
+    }
+
+    public void startLocationService() {
+        if (!mAlreadyStartedService) {
+            Intent intent = new Intent(this, LocationService.class);
+            startService(intent);
+            mAlreadyStartedService = true;
+        }
+    }
+
+    public void stopLocationService() {
+        mAlreadyStartedService = false;
+        stopService(new Intent(this, LocationService.class));
     }
 
     protected abstract void setUp();

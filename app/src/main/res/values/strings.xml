@@ -112,4 +112,13 @@
     <string name="restart">Restart app</string>
     <string name="its_empty_here">Its empty here</string>
     <string name="location_pref_change">Locations preference changed to:</string>
+    <string name="use_current_location">Use current location</string>
+    <string name="detecting_location">Detecting location…</string>
+    <string name="fetching_location">Fetching location…</string>
+    <string name="custom_location">Custom location</string>
+    <string name="location_permission_needed">To show you the best restaurants around you, We need location permission access.</string>
+    <string name="location_permission_needed_title">Missing location access</string>
+    <string name="grant">Grant access!</string>
+    <string name="choose_location">Choose location</string>
+    <string name="choose_location_for_handpicked_restaurants">For showing the best around you!</string>
 </resources>

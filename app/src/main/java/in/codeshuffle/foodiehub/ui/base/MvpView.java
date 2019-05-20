@@ -4,6 +4,8 @@ import androidx.annotation.StringRes;
 
 public interface MvpView {
 
+    void setupLocationService();
+
     void showLoading();
 
     void hideLoading();

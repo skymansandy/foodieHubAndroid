@@ -20,5 +20,9 @@ public interface PreferencesHelper {
 
     void setCity(String city);
 
+    boolean isPreferenceMyLocation();
 
+    void setPreferenceMyLocation(boolean isMyLocation);
+
+    void saveLocationInfo(boolean isMyLocation, Double latitude, Double longitude, String city, String locality);
 }

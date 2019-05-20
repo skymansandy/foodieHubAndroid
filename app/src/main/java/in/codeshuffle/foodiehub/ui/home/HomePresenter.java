@@ -40,7 +40,7 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
     }
 
     @Override
-    public void fetchRestaurantsNearMe(String query, Double lat, Double lon) {
+    public void fetchRestaurants(String query, Double lat, Double lon) {
         getMvpView().showLoading();
 
         getDataManager().getRestaurants(getApiHeaders(), query, lat, lon)
@@ -81,6 +81,11 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
     public void onActivityRestart() {
         getMvpView().showUpdatedLocationInfo();
         getMvpView().hideKeyboard();
+    }
+
+    @Override
+    public void saveMyLocation(double lat, double lng, String city, String street) {
+        getDataManager().saveLocationInfo(true, lat, lng, city, street);
     }
 
     @Override

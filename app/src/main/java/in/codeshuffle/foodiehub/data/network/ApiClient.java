@@ -35,5 +35,6 @@ public interface ApiClient {
             @HeaderMap Map<String, String> apiKey,
             @Query(Params.QUERY) String query,
             @Query(Params.LATITUDE) Double lat,
-            @Query(Params.LONGITUDE) Double lon);
+            @Query(Params.LONGITUDE) Double lon,
+            @Query(Params.COUNT) int count);
 }

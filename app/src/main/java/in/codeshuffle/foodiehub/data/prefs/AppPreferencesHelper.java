@@ -17,6 +17,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String LONGITUDE = "longitude";
     private static final String CITY = "city";
     private static final String LOCALITY = "locality";
+    private static final String IS_PREF_MY_LOCATION = "is_my_location";
 
     private SharedPreferences mPrefs;
     private SharedPreferences.Editor mEditor;
@@ -53,6 +54,27 @@ public class AppPreferencesHelper implements PreferencesHelper {
         mEditor = mPrefs.edit();
         mEditor.putString(CITY, city);
         mEditor.apply();
+    }
+
+    @Override
+    public boolean isPreferenceMyLocation() {
+        return mPrefs.getBoolean(IS_PREF_MY_LOCATION, true);
+    }
+
+    @Override
+    public void setPreferenceMyLocation(boolean isMyLocation) {
+        mEditor = mPrefs.edit();
+        mEditor.putBoolean(IS_PREF_MY_LOCATION, isMyLocation);
+        mEditor.apply();
+    }
+
+    @Override
+    public void saveLocationInfo(boolean isMyLocation, Double latitude, Double longitude, String city, String locality) {
+        setPreferenceMyLocation(isMyLocation);
+        setLatitude(latitude);
+        setLongitude(longitude);
+        setLocality(locality);
+        setCity(city);
     }
 
     @Override

@@ -10,4 +10,6 @@ public interface LocationMvpPresenter<V extends LocationMvpView> extends MvpPres
     void fetchLocations(String query, Double lat, Double lng);
 
     void onBackPressed();
+
+    void saveLocationInfo(boolean isMyLocation, Double latitude, Double longitude, String city, String locality);
 }

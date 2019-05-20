@@ -1,29 +1,22 @@
 package in.codeshuffle.foodiehub.ui.home;
 
-import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.browser.customtabs.CustomTabsIntent;
-import androidx.core.app.ActivityCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,7 +26,6 @@ import butterknife.OnClick;
 import in.codeshuffle.foodiehub.R;
 import in.codeshuffle.foodiehub.data.network.model.RestaurantsResponse;
 import in.codeshuffle.foodiehub.data.prefs.PreferencesHelper;
-import in.codeshuffle.foodiehub.service.LocationService;
 import in.codeshuffle.foodiehub.ui.base.BaseActivity;
 import in.codeshuffle.foodiehub.ui.home.restaurantlist.RestaurantAdapter;
 import in.codeshuffle.foodiehub.ui.imageviewer.ImageViewerActivity;
@@ -41,13 +33,13 @@ import in.codeshuffle.foodiehub.ui.location.LocationActivity;
 import in.codeshuffle.foodiehub.ui.restaurantpage.RestaurantDetailActivity;
 import in.codeshuffle.foodiehub.util.AppConstants.Params;
 import in.codeshuffle.foodiehub.util.CommonUtils;
-import in.codeshuffle.foodiehub.util.NetworkUtils;
+
+import static in.codeshuffle.foodiehub.service.LocationService.ACTION_LOCATION_BROADCAST;
 
 public class HomeActivity extends BaseActivity
         implements HomeMvpView, RestaurantAdapter.RestaurantListInterface {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
-    private static final int PERMISSION_REQUEST_CODE = 100;
 
     @Inject
     HomeMvpPresenter<HomeMvpView> mPresenter;
@@ -67,6 +59,8 @@ public class HomeActivity extends BaseActivity
     View location;
     @BindView(R.id.addressHeader)
     TextView addressHeader;
+    @BindView(R.id.locationType)
+    TextView locationType;
     @BindView(R.id.addressSubHeader)
     TextView addressSubHeader;
     @BindView(R.id.search_query)
@@ -74,16 +68,18 @@ public class HomeActivity extends BaseActivity
 
     private RestaurantAdapter restaurantsAdapter;
 
-    private boolean mAlreadyStartedService = false;
-
     private BroadcastReceiver locationReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Double latitude = intent.getDoubleExtra(Params.LATITUDE, 0.0);
-            Double longitude = intent.getDoubleExtra(Params.LONGITUDE, 0.0);
-            preferencesHelper.setLatitude(latitude);
-            preferencesHelper.setLongitude(longitude);
+
+            mPresenter.saveMyLocation(intent.getDoubleExtra(Params.LATITUDE, 0.0f),
+                    intent.getDoubleExtra(Params.LONGITUDE, 0.0f),
+                    intent.getStringExtra(Params.CITY),
+                    intent.getStringExtra(Params.STREET));
+            showUpdatedLocationInfo();
+            //Stop service and broadcast
             stopLocationService();
+            LocalBroadcastManager.getInstance(HomeActivity.this).unregisterReceiver(this);
         }
     };
 
@@ -91,6 +87,15 @@ public class HomeActivity extends BaseActivity
         Intent intent = new Intent(context, HomeActivity.class);
         Bundle extras = new Bundle();
         intent.putExtras(extras);
+        return intent;
+    }
+
+    public static Intent getLocationBroadcastIntent(Double lat, Double lng, String cityName, String streetName) {
+        Intent intent = new Intent(ACTION_LOCATION_BROADCAST);
+        intent.putExtra(Params.CITY, cityName);
+        intent.putExtra(Params.STREET, streetName);
+        intent.putExtra(Params.LATITUDE, lat);
+        intent.putExtra(Params.LONGITUDE, lng);
         return intent;
     }
 
@@ -109,89 +114,21 @@ public class HomeActivity extends BaseActivity
     }
 
     @Override
-    public void setupLocationService() {
-        if (isGooglePlayServicesAvailable()) {
-            checkPermissionAndStartService();
+    public void fetchRestaurants() {
+        locationType.setText(getString(preferencesHelper.isPreferenceMyLocation() ?
+                R.string.your_location : R.string.custom_location));
+
+        if (preferencesHelper.getLatitude() != 0 && preferencesHelper.getLongitude() != 0) {
+            addressHeader.setText(preferencesHelper.getCity());
+            addressSubHeader.setText(preferencesHelper.getLocality());
+            mPresenter.fetchRestaurants(etSearchRestaurants.getText().toString(),
+                    preferencesHelper.getLatitude(),
+                    preferencesHelper.getLongitude());
         } else {
-            CommonUtils.showShortToast(this, getString(R.string.no_google_play));
-        }
-    }
-
-    /**
-     * Show A Dialog with button to refresh the internet state.
-     */
-    private void checkPermissionAndStartService() {
-        if (NetworkUtils.isNetworkConnected(HomeActivity.this)) {
-            if (NetworkUtils.isLocationPermissionsGiven(HomeActivity.this)) {
-                startLocationService();
-                mPresenter.fetchRestaurantsNearMe(etSearchRestaurants.getText().toString(),
-                        preferencesHelper.getLatitude(),
-                        preferencesHelper.getLongitude());
-            } else {
-                requestLocationPermissions();
-                mPresenter.fetchRestaurantsNearMe("", null, null);
-            }
-        } else {
-            internetPrompt();
-        }
-    }
-
-    private void internetPrompt() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-        builder.setTitle(getString(R.string.no_internet));
-        builder.setMessage(getString(R.string.an_internet_connection_is_required));
-        builder.setNeutralButton(getString(R.string.restart), ((dialog, which) -> {
-            finish();
-        }));
-        builder.setCancelable(false);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-    /**
-     * Step 3: Start the Location Monitor Service
-     */
-    private void startLocationService() {
-        if (!mAlreadyStartedService) {
-            Intent intent = new Intent(this, LocationService.class);
-            startService(intent);
-            mAlreadyStartedService = true;
-        }
-    }
-
-    /**
-     * Return the availability of GooglePlayServices
-     */
-    public boolean isGooglePlayServicesAvailable() {
-        GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
-        int status = googleApiAvailability.isGooglePlayServicesAvailable(this);
-        if (status != ConnectionResult.SUCCESS) {
-            if (googleApiAvailability.isUserResolvableError(status)) {
-                googleApiAvailability.getErrorDialog(this, status, 2404).show();
-            }
-            return false;
-        }
-        return true;
-    }
-
-
-    private void requestLocationPermissions() {
-        boolean shouldProvideRationale =
-                ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        android.Manifest.permission.ACCESS_FINE_LOCATION);
-
-        boolean shouldProvideRationale2 =
-                ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.ACCESS_COARSE_LOCATION);
-
-        if (shouldProvideRationale || shouldProvideRationale2) {
-            Log.i(TAG, "Displaying permission rationale to provide additional context.");
-            showSnackBar("Need location permission");
-        } else {
-            Log.i(TAG, "Requesting permission");
-            ActivityCompat.requestPermissions(HomeActivity.this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                    PERMISSION_REQUEST_CODE);
+            addressHeader.setText(getString(R.string.choose_location));
+            addressSubHeader.setText(getString(R.string.choose_location_for_handpicked_restaurants));
+            mPresenter.fetchRestaurants(etSearchRestaurants.getText().toString(),
+                    null, null);
         }
     }
 
@@ -201,10 +138,8 @@ public class HomeActivity extends BaseActivity
 
         etSearchRestaurants.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                mPresenter.fetchRestaurantsNearMe(etSearchRestaurants.getText().toString(),
-                        preferencesHelper.getLatitude(),
-                        preferencesHelper.getLongitude());
                 hideKeyboard();
+                fetchRestaurants();
                 return true;
             }
 
@@ -214,13 +149,19 @@ public class HomeActivity extends BaseActivity
         restaurantsAdapter = new RestaurantAdapter(this, this, new ArrayList<>());
         restaurantList.setLayoutManager(new LinearLayoutManager(this));
         restaurantList.setAdapter(restaurantsAdapter);
+
+        if (preferencesHelper.isPreferenceMyLocation()) {
+            setupLocationService();
+        } else {
+            fetchRestaurants();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         LocalBroadcastManager.getInstance(this).registerReceiver(
-                locationReceiver, new IntentFilter(LocationService.ACTION_LOCATION_BROADCAST)
+                locationReceiver, new IntentFilter(ACTION_LOCATION_BROADCAST)
         );
     }
 
@@ -243,9 +184,6 @@ public class HomeActivity extends BaseActivity
         super.onDestroy();
     }
 
-    private void stopLocationService() {
-        mAlreadyStartedService = false;
-    }
 
     @OnClick({R.id.location})
     void onViewClicked(View view) {
@@ -284,11 +222,7 @@ public class HomeActivity extends BaseActivity
 
     @Override
     public void showUpdatedLocationInfo() {
-        addressHeader.setText(preferencesHelper.getCity());
-        addressSubHeader.setText(preferencesHelper.getLocality());
-        mPresenter.fetchRestaurantsNearMe(etSearchRestaurants.getText().toString(),
-                preferencesHelper.getLatitude(),
-                preferencesHelper.getLongitude());
+        fetchRestaurants();
     }
 
     @Override
@@ -296,7 +230,7 @@ public class HomeActivity extends BaseActivity
         if (!etSearchRestaurants.getText().toString().equals("")) {
             etSearchRestaurants.setText("");
             etSearchRestaurants.clearFocus();
-            mPresenter.fetchRestaurantsNearMe("", preferencesHelper.getLatitude(),
+            mPresenter.fetchRestaurants("", preferencesHelper.getLatitude(),
                     preferencesHelper.getLongitude());
         } else {
             super.onBackPressed();

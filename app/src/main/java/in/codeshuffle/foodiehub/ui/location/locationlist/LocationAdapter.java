@@ -39,7 +39,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
     @Override
     public void onBindViewHolder(@NonNull LocationViewHolder holder, int position) {
         LocationSuggestion location = locations.get(position);
-        holder.tvName.setText(location.getCityName());
+        holder.tvName.setText(location.getTitle());
         holder.root.setOnClickListener(v->{
             if(locationListInterface !=null){
                 locationListInterface.onLocationSelected(

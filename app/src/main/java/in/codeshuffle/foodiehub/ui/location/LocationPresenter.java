@@ -17,6 +17,8 @@ import io.reactivex.schedulers.Schedulers;
 public class LocationPresenter<V extends LocationMvpView> extends BasePresenter<V>
         implements LocationMvpPresenter<V> {
 
+    private static final int NUM_COUNT_OF_LOCATIONS = 10;
+
     @Inject
     LocationPresenter(DataManager dataManager, ApiHeader apiHeader) {
         super(dataManager, apiHeader);
@@ -45,7 +47,7 @@ public class LocationPresenter<V extends LocationMvpView> extends BasePresenter<
         getMvpView().showLoading();
 
         getDataManager().getLocations(getApiHeaders(),
-                query, lat, lng)
+                query, lat, lng, NUM_COUNT_OF_LOCATIONS)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<LocationResponse>() {
@@ -82,5 +84,10 @@ public class LocationPresenter<V extends LocationMvpView> extends BasePresenter<
     public void onBackPressed() {
         getMvpView().hideKeyboard();
         getMvpView().onBackPressed();
+    }
+
+    @Override
+    public void saveLocationInfo(boolean isMyLocation, Double latitude, Double longitude, String city, String locality) {
+        getDataManager().saveLocationInfo(isMyLocation, latitude, longitude, city, locality);
     }
 }

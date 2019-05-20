@@ -18,6 +18,9 @@ public final class AppConstants {
         public static final String QUERY = "query";
         public static final String RESTAURANT_ID = "res_id";
         public static final String Q = "q";
+        public static final String CITY = "city";
+        public static final String STREET = "street";
+        public static final String COUNT = "count";
 
 
         private Params(){

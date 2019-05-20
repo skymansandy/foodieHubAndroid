@@ -1,18 +1,22 @@
 package in.codeshuffle.foodiehub.ui.location;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -23,7 +27,10 @@ import in.codeshuffle.foodiehub.data.network.model.LocationResponse;
 import in.codeshuffle.foodiehub.data.prefs.PreferencesHelper;
 import in.codeshuffle.foodiehub.ui.base.BaseActivity;
 import in.codeshuffle.foodiehub.ui.location.locationlist.LocationAdapter;
+import in.codeshuffle.foodiehub.util.AppConstants;
 import in.codeshuffle.foodiehub.util.CommonUtils;
+
+import static in.codeshuffle.foodiehub.service.LocationService.ACTION_LOCATION_BROADCAST;
 
 public class LocationActivity extends BaseActivity implements LocationMvpView, LocationAdapter.LocationListInterface {
 
@@ -39,6 +46,8 @@ public class LocationActivity extends BaseActivity implements LocationMvpView, L
     RecyclerView locationsRecycler;
     @BindView(R.id.search_query)
     EditText etSearchLocations;
+    @BindView(R.id.useMyLocation)
+    TextView useMyLocation;
 
     private LocationAdapter locationsAdapter;
 
@@ -112,13 +121,41 @@ public class LocationActivity extends BaseActivity implements LocationMvpView, L
 
     @Override
     public void onLocationSelected(String city, String locality, Double latitude, Double longitude) {
-        preferencesHelper.setLatitude(latitude);
-        preferencesHelper.setLongitude(longitude);
-        preferencesHelper.setCity(city);
-        preferencesHelper.setLocality(locality);
+        mPresenter.saveLocationInfo(false, latitude, longitude, city, locality);
         CommonUtils.showShortToast(this, String.format("%s%s",
                 getString(R.string.location_pref_change), city));
         finish();
+    }
+
+    @OnClick(R.id.useMyLocation)
+    void onUseCurrentLocation() {
+        /*if(isLocationPermissionGranted()){
+            startLocationService();
+            useMyLocation.setText(getString(R.string.detecting_location));
+            BroadcastReceiver locationReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+
+                    mPresenter.saveLocationInfo(true,
+                            intent.getDoubleExtra(AppConstants.Params.LATITUDE, 0.0f),
+                            intent.getDoubleExtra(AppConstants.Params.LONGITUDE, 0.0f),
+                            intent.getStringExtra(AppConstants.Params.CITY),
+                            intent.getStringExtra(AppConstants.Params.STREET));
+
+                    //Stop service and broadcast
+                    stopLocationService();
+                    LocalBroadcastManager.getInstance(LocationActivity.this).unregisterReceiver(this);
+
+                    finish();
+                }
+            };
+
+            LocalBroadcastManager.getInstance(this).registerReceiver(
+                    locationReceiver, new IntentFilter(ACTION_LOCATION_BROADCAST)
+            );
+        }else{
+            showLocationPermissionDialog();
+        }*/
     }
 
     @OnClick(R.id.back)
