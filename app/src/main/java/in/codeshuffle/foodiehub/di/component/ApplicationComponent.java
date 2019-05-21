@@ -11,6 +11,7 @@ import in.codeshuffle.foodiehub.data.db.DbHelper;
 import in.codeshuffle.foodiehub.data.network.ApiClient;
 import in.codeshuffle.foodiehub.data.network.ApiHeader;
 import in.codeshuffle.foodiehub.data.prefs.PreferencesHelper;
+import in.codeshuffle.foodiehub.di.ActivityContext;
 import in.codeshuffle.foodiehub.di.ApplicationContext;
 import in.codeshuffle.foodiehub.di.module.ApplicationModule;
 
@@ -22,7 +23,7 @@ public interface ApplicationComponent {
     void inject(FoodieHubApp app);
 
     @ApplicationContext
-    Context context();
+    Context applicationContext();
 
     FoodieHubApp application();
 

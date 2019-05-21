@@ -1,12 +1,16 @@
 package in.codeshuffle.foodiehub.di.module;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import dagger.Module;
 import dagger.Provides;
 import in.codeshuffle.foodiehub.di.PerActivity;
 import in.codeshuffle.foodiehub.ui.home.HomeMvpPresenter;
 import in.codeshuffle.foodiehub.ui.home.HomeMvpView;
 import in.codeshuffle.foodiehub.ui.home.HomePresenter;
+import in.codeshuffle.foodiehub.ui.home.restaurantlist.RestaurantAdapter;
+import in.codeshuffle.foodiehub.ui.home.restaurantlist.RestaurantListInterface;
 import in.codeshuffle.foodiehub.ui.imageviewer.ImageViewerMvpPresenter;
 import in.codeshuffle.foodiehub.ui.imageviewer.ImageViewerMvpView;
 import in.codeshuffle.foodiehub.ui.imageviewer.ImageViewerPresenter;
@@ -62,5 +66,24 @@ public class ActivityModule {
     ImageViewerMvpPresenter<ImageViewerMvpView> provideImageViewerPresenter(
             ImageViewerPresenter<ImageViewerMvpView> presenter) {
         return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    RestaurantAdapter provideRestaurantAdapter(RestaurantListInterface restaurantListInterface) {
+        return new RestaurantAdapter(mActivity, restaurantListInterface);
+    }
+
+    @Provides
+    LinearLayoutManager providesLinearLayoutManager() {
+        return new LinearLayoutManager(mActivity);
+    }
+
+    @Provides
+    @PerActivity
+    RestaurantListInterface providerRestaurantListInterface() {
+        if (mActivity instanceof RestaurantListInterface)
+            return (RestaurantListInterface) mActivity;
+        return null;
     }
 }

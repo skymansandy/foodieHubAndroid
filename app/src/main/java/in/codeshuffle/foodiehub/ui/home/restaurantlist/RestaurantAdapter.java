@@ -5,19 +5,14 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.TextView;
-
-import java.util.List;
-
-import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import in.codeshuffle.foodiehub.R;
 import in.codeshuffle.foodiehub.util.CommonUtils;
 
@@ -30,34 +25,24 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final int VIEW_TYPE_LOADING = 2;
 
     private final Context context;
-    private final List<Restaurants> restaurants;
-    private final LayoutInflater inflater;
     private final RestaurantListInterface restaurantListInterface;
-    private final Animation pushDownAnim;
-    private final Animation pullUpUpAnim;
+    private final List<Restaurants> restaurants;
     private boolean isLoadingMoreRestaurants = false;
 
-    @Inject
-    List<String> thumbImages;
-
-    public RestaurantAdapter(Context context, RestaurantListInterface restaurantListInterface,
-                             List<Restaurants> restaurants) {
+    public RestaurantAdapter(Context context, RestaurantListInterface restaurantListInterface) {
         this.context = context;
-        this.pushDownAnim = AnimationUtils.loadAnimation(context, R.anim.press_down);
-        this.pullUpUpAnim = AnimationUtils.loadAnimation(context, R.anim.press_up);
+        this.restaurants = new ArrayList<>();
         this.restaurantListInterface = restaurantListInterface;
-        this.restaurants = restaurants;
-        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_RESTAURANT) {
-            View view = inflater.inflate(R.layout.item_restaurant, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_restaurant, parent, false);
             return new RestaurantViewHolder(view);
         } else {
-            View view = inflater.inflate(R.layout.item_restaurant_loading, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_restaurant_loading, parent, false);
             return new LoadingViewHolder(view);
         }
     }
@@ -120,20 +105,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     restaurantListInterface.onOpenRestaurantDetail(restaurant.getId());
                 }
             });
-
-//        Press animation
-        /*restaurantHolder.root.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                restaurantHolder.root.startAnimation(pushDownAnim);
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                restaurantHolder.root.startAnimation(pullUpUpAnim);
-                restaurantHolder.root.performClick();
-                if (restaurantListInterface != null) {
-                    restaurantListInterface.onOpenRestaurantDetail(restaurant.getId());
-                }
-            }
-            return true;
-        });*/
         }
     }
 
@@ -178,52 +149,5 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public int getItemViewType(int position) {
         return restaurants.get(position) == null ?
                 VIEW_TYPE_LOADING : VIEW_TYPE_RESTAURANT;
-    }
-
-    static class RestaurantViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.restaurantRoot)
-        View root;
-        @BindView(R.id.imagesRecycler)
-        RecyclerView rvThumbnailList;
-        @BindView(R.id.name)
-        TextView tvName;
-        @BindView(R.id.rating)
-        TextView tvRating;
-        @BindView(R.id.cuisine)
-        TextView tvCuisine;
-        @BindView(R.id.location)
-        TextView tvLocation;
-        @BindView(R.id.costForTwo)
-        TextView tvCostForTwo;
-
-        @BindView(R.id.bookTable)
-        View tvBookTable;
-        @BindView(R.id.orderOnline)
-        View tvOrderOnline;
-
-        RestaurantViewHolder(@NonNull View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-    }
-
-    public interface RestaurantListInterface{
-        void onOpenRestaurantDetail(String restaurantId);
-
-        void onImagePreviewClicked(String restaurantId, String imageUrl, String restaurantName,
-                                   String restaurantThumb);
-
-        void onSeeAllPreview(String imagesUrl);
-
-        void onLoadMoreRestaurants(int skip);
-    }
-
-    static class LoadingViewHolder extends RecyclerView.ViewHolder {
-
-        LoadingViewHolder(@NonNull View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
     }
 }

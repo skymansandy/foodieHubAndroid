@@ -11,8 +11,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
@@ -29,6 +27,7 @@ import in.codeshuffle.foodiehub.data.network.model.RestaurantsResponse;
 import in.codeshuffle.foodiehub.data.prefs.PreferencesHelper;
 import in.codeshuffle.foodiehub.ui.base.BaseActivity;
 import in.codeshuffle.foodiehub.ui.home.restaurantlist.RestaurantAdapter;
+import in.codeshuffle.foodiehub.ui.home.restaurantlist.RestaurantListInterface;
 import in.codeshuffle.foodiehub.ui.imageviewer.ImageViewerActivity;
 import in.codeshuffle.foodiehub.ui.location.LocationActivity;
 import in.codeshuffle.foodiehub.ui.restaurantpage.RestaurantDetailActivity;
@@ -38,15 +37,9 @@ import in.codeshuffle.foodiehub.util.CommonUtils;
 import static in.codeshuffle.foodiehub.service.LocationService.ACTION_LOCATION_BROADCAST;
 
 public class HomeActivity extends BaseActivity
-        implements HomeMvpView, RestaurantAdapter.RestaurantListInterface {
+        implements HomeMvpView, RestaurantListInterface {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
-
-    @Inject
-    HomeMvpPresenter<HomeMvpView> mPresenter;
-
-    @Inject
-    PreferencesHelper preferencesHelper;
 
     @BindView(R.id.restaurantList)
     RecyclerView restaurantList;
@@ -67,7 +60,16 @@ public class HomeActivity extends BaseActivity
     @BindView(R.id.button_return_to_top)
     View returnToTop;
 
-    private RestaurantAdapter restaurantsAdapter;
+    @Inject
+    HomeMvpPresenter<HomeMvpView> mPresenter;
+
+    @Inject
+    PreferencesHelper preferencesHelper;
+
+    @Inject
+    RestaurantAdapter restaurantsAdapter;
+    @Inject
+    LinearLayoutManager restaurantLayoutManager;
 
     private BroadcastReceiver locationReceiver = new BroadcastReceiver() {
         @Override
@@ -194,8 +196,7 @@ public class HomeActivity extends BaseActivity
             return false;
         });
 
-        restaurantsAdapter = new RestaurantAdapter(this, this, new ArrayList<>());
-        restaurantList.setLayoutManager(new LinearLayoutManager(this));
+        restaurantList.setLayoutManager(restaurantLayoutManager);
         restaurantList.setAdapter(restaurantsAdapter);
 
         //API call

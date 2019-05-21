@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import in.codeshuffle.foodiehub.R;
-import in.codeshuffle.foodiehub.ui.home.restaurantlist.RestaurantAdapter.RestaurantListInterface;
 import in.codeshuffle.foodiehub.util.ScreenUtils;
 
 public class ImagePreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
