@@ -1,7 +1,5 @@
 # FoodieHub Android app
 
-[![Build Status](https://travis-ci.org/skymansandy/foodieHubAndroid.svg?branch=master)](https://travis-ci.org/skymansandy/foodieHubAndroid)
-
 This is a sample restaurant finder app supported by zomato API.
 
 Following modules are covered:
