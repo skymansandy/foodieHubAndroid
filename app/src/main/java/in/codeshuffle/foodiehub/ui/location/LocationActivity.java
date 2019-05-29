@@ -11,14 +11,18 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
-import javax.inject.Inject;
-
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.jakewharton.rxbinding.widget.RxTextView;
+
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -30,6 +34,7 @@ import in.codeshuffle.foodiehub.ui.location.locationlist.LocationAdapter;
 import in.codeshuffle.foodiehub.util.AppConstants;
 import in.codeshuffle.foodiehub.util.CommonUtils;
 import in.codeshuffle.foodiehub.util.NetworkUtils;
+import rx.android.schedulers.AndroidSchedulers;
 
 import static in.codeshuffle.foodiehub.service.LocationService.ACTION_LOCATION_BROADCAST;
 
@@ -95,18 +100,15 @@ public class LocationActivity extends BaseActivity implements LocationMvpView, L
     @Override
     protected void setUp() {
         etSearchLocations.setHint(getString(R.string.search_for_locations));
-
-        etSearchLocations.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                mPresenter.fetchLocations(etSearchLocations.getText().toString(),
+        //Debounce search
+        RxTextView.textChanges(etSearchLocations)
+                .filter(charSequence -> charSequence.length() > 3)
+                .debounce(300, TimeUnit.MILLISECONDS)
+                .map(CharSequence::toString)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(query -> mPresenter.fetchLocations(query,
                         preferencesHelper.getLatitude(),
-                        preferencesHelper.getLongitude());
-                hideKeyboard();
-                return true;
-            }
-
-            return false;
-        });
+                        preferencesHelper.getLongitude()));
 
         locationsAdapter = new LocationAdapter(this, this, new ArrayList<>());
         locationsRecycler.setLayoutManager(new LinearLayoutManager(this));

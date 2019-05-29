@@ -7,11 +7,8 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +16,13 @@ import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.jakewharton.rxbinding.widget.RxTextView;
+
+import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -33,6 +37,7 @@ import in.codeshuffle.foodiehub.ui.location.LocationActivity;
 import in.codeshuffle.foodiehub.ui.restaurantpage.RestaurantDetailActivity;
 import in.codeshuffle.foodiehub.util.AppConstants.Params;
 import in.codeshuffle.foodiehub.util.CommonUtils;
+import rx.android.schedulers.AndroidSchedulers;
 
 import static in.codeshuffle.foodiehub.service.LocationService.ACTION_LOCATION_BROADCAST;
 
@@ -185,16 +190,13 @@ public class HomeActivity extends BaseActivity
     @Override
     protected void setUp() {
         etSearchRestaurants.setHint(getString(R.string.search_restaurants));
-
-        etSearchRestaurants.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                hideKeyboard();
-                showRestaurants();
-                return true;
-            }
-
-            return false;
-        });
+        //Debounce search
+        RxTextView.textChanges(etSearchRestaurants)
+                .filter(charSequence -> charSequence.length() > 3)
+                .debounce(1, TimeUnit.SECONDS)
+                .map(CharSequence::toString)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s -> showRestaurants());
 
         restaurantList.setLayoutManager(restaurantLayoutManager);
         restaurantList.setAdapter(restaurantsAdapter);
